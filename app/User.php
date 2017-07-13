@@ -26,4 +26,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function setPasswordAttribute($value) {
+        if(!empty($value))
+            $this->attributes['password'] = \Hash::make($value);
+    }
+
+    public function state() {
+        return $this->hasOne('App\State', 'id', 'state_id');
+    }
+
+    public function city() {
+        return $this->hasOne('App\City', 'id', 'city_id');
+    }
 }
