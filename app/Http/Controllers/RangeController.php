@@ -4,16 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Range; 
+use App\Range;
 
-class RangeController extends Controller
-{
+class RangeController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+        $toastr   = $request->session()->pull('toastr', null);
+        $ranges = Range::where('id', '<>', '1')->get();
+
+        return view('range.index', [
+            'ranges' => $ranges,
+            'toastr' => $toastr
+        ]);
     }
 
     /**
@@ -21,9 +27,8 @@ class RangeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        return view('range.create');
     }
 
     /**
@@ -32,20 +37,20 @@ class RangeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function store(Request $request){
+        try {
+            $range = Range::create($request->all());
+            if($request->ajax()) {
+            }
+            else {
+                $request->session()->flash('toastr', ['status' => true, 'message' => 'Rango registrado exitosamente', 'class' => 'success']);
+                return redirect()->route('ranges');
+            }
+        }
+        catch(\Exception $e) {
+            $request->session()->flash('toastr', ['status' => false, 'message' => 'Hubo un error en el servidor', 'class' => 'error']);
+            return redirect()->route('ranges');
+        }
     }
 
     /**
@@ -54,9 +59,12 @@ class RangeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id) {
+        $range = Range::find($id);
+
+        return view('range.edit', [
+            'range' => $range
+        ]);
     }
 
     /**
@@ -66,9 +74,22 @@ class RangeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id){
+        try {
+            $range = Range::find($id);
+
+            foreach($request->except(['_method', '_token', '___']) as $key => $value) {
+                $range->{$key} = $value;
+            }
+
+            $range->save();
+            $request->session()->flash('toastr', ['status' => true, 'message' => 'Rango editado exitosamente', 'class' => 'success']);
+            return redirect()->route('ranges');
+        }
+        catch(\Exception $e) {
+            $request->session()->flash('toastr', ['status' => false, 'message' => 'Hubo un error en el servidor', 'class' => 'error']);
+            return redirect()->route('ranges');
+        }
     }
 
     /**
@@ -77,8 +98,21 @@ class RangeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+        try {
+            Range::destroy($id);
+            return response()->json([
+                'status'    => true,
+                'message'   => 'Rango eliminado correctamente',
+                'class'     => 'success'
+            ]);
+        }
+        catch(\Exception $e) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Hubo un error en el servidor',
+                'class'     => 'error'
+            ]);
+        }
     }
 }
