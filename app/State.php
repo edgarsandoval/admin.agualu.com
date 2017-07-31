@@ -10,4 +10,8 @@ class State extends Model {
     public function cities() {
         return $this->hasMany('App\City', 'state_id', 'id');
     }
+
+    public function users() {
+        return $this->hasMany('App\User', 'state_id', 'id');
+    }
 }

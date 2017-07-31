@@ -2,7 +2,7 @@
 
 {{-- Page title --}}
 @section('title')
-    Editar Usuario
+    Crear Usuario
     @parent
 @stop
 {{-- page level styles --}}
@@ -22,7 +22,7 @@
                 <div class="col-lg-6">
                     <h4 class="nav_top_align skin_txt">
                         <i class="fa fa-pencil"></i>
-                        Editar Usuario
+                        Crear Usuario
                     </h4>
                 </div>
                 <div class="col-lg-6">
@@ -35,7 +35,7 @@
                         <li class="breadcrumb-item">
                             <a href="#">Usuarios</a>
                         </li>
-                        <li class="breadcrumb-item active">Editar Usuario</li>
+                        <li class="breadcrumb-item active">Crear Usuario</li>
                     </ol>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                     <div>
                         <h4>Información Personal</h4>
                     </div>
-                    {!! Form::model($user, ['route' => ['update_user', $user->id], 'method' => 'PUT', 'id' => 'tryitForm', 'class' => 'form-horizontal login_validator'])!!}
+                    {!! Form::open(['route' => 'store_user', 'method' => 'POST', 'id' => 'tryitForm', 'class' => 'form-horizontal login_validator'])!!}
                         @include('partials.user-form')
                     {!! Form::close() !!}
                 </div>

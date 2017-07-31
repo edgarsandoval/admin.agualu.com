@@ -51,11 +51,11 @@
                     Usuarios Registrados
                 </div>
                 <div class="card-block m-t-35" id="user_body">
-                    <div class="table-toolbar">
+                    {{-- <div class="table-toolbar">
                         <div class="btn-group float-right users_grid_tools">
                             <div class="tools"></div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div>
                         <div>
                             <table class="table  table-striped table-bordered table-hover dataTable no-footer" id="editable_table" role="grid">
@@ -102,8 +102,8 @@
     </div>
     <!-- /.outer -->
 
-    {{-- {!! Form::open(['route' => ['delete_user', ':USER_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!} --}}
-    {{-- {!! Form::close() !!} --}}
+    {!! Form::open(['route' => ['delete_user', ':USER_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
+    {!! Form::close() !!}
 @stop
 {{-- page level scripts --}}
 @section('scripts')
@@ -121,16 +121,21 @@
 
     			var row 	= $(this).parents('tr');
     			var id 		= row.data('id');
-    			// var form 	= $('#form-delete');
+    			var form 	= $('#form-delete');
 
-    			// var url 	= form.attr('action').replace(':USER_ID', id);
-    			// var data 	= form.serialize();
+                if(id == '3') {
+                    alert('No te puedes eliminar a ti mismo');
+                    return;
+                }
+
+    			var url 	= form.attr('action').replace(':USER_ID', id);
+    			var data 	= form.serialize();
 
     			row.fadeOut();
 
-    			// $.post(url, data, function(response) {
-                //     console.log(response);
-    			// });
+    			$.post(url, data, function(response) {
+                    toastr[response.class](response.message, response.status ? '¡Exito!' : '¡Error!');
+    			});
     		});
     	});
     </script>
@@ -148,4 +153,9 @@
     <!--Page level scripts-->
     <script type="text/javascript" src="{{asset('assets/js/pages/users.js')}}"></script>
     <!-- end page level scripts -->
+    @if(isset($toastr))
+    <script type="text/javascript">
+        toastr.{{ $toastr['class'] }}('{{ $toastr['message']}}', '{{ $toastr['status'] ? '¡Exito!' : '¡Error!'}}');
+    </script>
+    @endif
 @stop

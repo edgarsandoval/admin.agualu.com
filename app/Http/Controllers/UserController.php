@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\State;
+use App\Range;
 
 class UserController extends Controller {
     /**
@@ -12,10 +14,12 @@ class UserController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        $users = User::with('city')->get();
+    public function index(Request $request) {
+        $toastr   = $request->session()->pull('toastr', null);
+        $users      = User::with('city')->get();
         return view('user.index', [
-            'users' => $users
+            'users' => $users,
+            'toastr' => $toastr
         ]);
     }
 
@@ -24,9 +28,18 @@ class UserController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        $states = State::pluck('name', 'id');
+        $cities = State::find(1)->cities->pluck('name','id');
+        $ranges = Range::pluck('name', 'id');
+        $status = User::getPossibleEnumValues('status');
+
+        return view('user.create', [
+            'states' => $states,
+            'cities' => $cities,
+            'ranges' => $ranges,
+            'status' => $status
+        ]);
     }
 
     /**
@@ -35,9 +48,22 @@ class UserController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        try {
+            $user = User::create($request->all());
+            $user->member_code = $user->state->acronym . '-' . str_pad(count(State::find($user->state->id)->users), 4, "0", STR_PAD_LEFT);
+            $user->save();
+            if($request->ajax()) {
+            }
+            else {
+                $request->session()->flash('toastr', ['status' => true, 'message' => 'Usuario registrado exitosamente', 'class' => 'success']);
+                return redirect()->route('users');
+            }
+        }
+        catch(\Exception $e) {
+            $request->session()->flash('toastr', ['status' => false, 'message' => 'Hubo un error en el servidor', 'class' => 'error']);
+            return redirect()->route('users');
+        }
     }
 
     /**
@@ -64,7 +90,19 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        return redirect()->route('view_user', $id);
+        $states = State::pluck('name', 'id');
+        $ranges = Range::pluck('name', 'id');
+        $status = User::getPossibleEnumValues('status');
+        $user   = User::find($id);
+        $cities = State::find($user->state_id)->cities->pluck('name','id');
+
+        return view('user.edit', [
+            'states' => $states,
+            'cities' => $cities,
+            'ranges' => $ranges,
+            'status' => $status,
+            'user'   => $user
+        ]);
     }
 
     /**
@@ -75,7 +113,23 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        try {
+            $user = User::find($id);
+
+            foreach($request->except(['_method', '_token', '___', 'confirmpassword', 'gender']) as $key => $value) {
+                if($key == 'password' && $value == null)
+                    $user->password = $value;
+                $user->{$key} = $value;
+            }
+
+            $user->save();
+            $request->session()->flash('toastr', ['status' => true, 'message' => 'Usuario editadi exitosamente', 'class' => 'success']);
+            return redirect()->route('users');
+        }
+        catch(\Exception $e) {
+            $request->session()->flash('toastr', ['status' => false, 'message' => 'Hubo un error en el servidor', 'class' => 'error']);
+            return redirect()->route('users');
+        }
     }
 
     /**
@@ -85,11 +139,19 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        // User::destroy($id)
-        if(Request::is_ajax()) {
+        try {
+            User::destroy($id);
             return response()->json([
                 'status'    => true,
                 'message'   => 'Usuario eliminado correctamente',
+                'class'     => 'success'
+            ]);
+        }
+        catch(\Exception $e) {
+            return response()->json([
+                'status'    => false,
+                'message'   => 'Hubo un error en el servidor',
+                'class'     => 'error'
             ]);
         }
     }

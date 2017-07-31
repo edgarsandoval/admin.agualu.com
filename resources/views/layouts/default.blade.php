@@ -11,11 +11,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- <link rel="shortcut icon" href="{{asset('assets/img/logo1.ico')}}"/> --}}
+    <link rel="shortcut icon" href="{{asset('favicon.ico')}}"/>
     <!-- global styles-->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/components.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/custom.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="assets/css/skins/mint_black_skin.css" id="skin_change">
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/components.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/custom.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/skins/mint_black_skin.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/patch.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/vendors/toastr/css/toastr.min.css') }}"/>
     <!-- end of global styles-->
     @yield('styles')
     <style media="screen">
@@ -107,27 +109,50 @@ z-index: 999999">
                     <span class="link-title">&nbsp;Dashboard</span>
                 </a>
             </li>
-            <li {!! (Request::is('users')|| Request::is('add_user') || Request::is('view_user')|| Request::is('delete_user')? 'class="active"':"")!!}>
+            <li {!! (Request::is('users')|| Request::is('add_user') ? 'class="active"':"")!!}>
             <a href="#">
                     <i class="fa fa-user"></i>
                     <span class="link-title">&nbsp; Usuarios</span>
                     <span class="fa arrow"></span>
                 </a>
                 <ul>
-                    <li {!! (Request::is('users')? 'class="active"':"") !!}>
+                    <li {!! (Request::is('usuarios')? 'class="active"':"") !!}>
                         <a href="{{ route('users')}} ">
                             <i class="fa fa-angle-right"></i>
                             &nbsp; Mostrar Usuarios
                         </a>
                     </li>
-                    {{-- <li {!! (Request::is('add_user')? 'class="active"':"") !!}>
+                    <li {!! (Request::is('usuarios/añadir')? 'class="active"':"") !!}>
                         <a href="{{ route('add_user')}} ">
                             <i class="fa fa-angle-right"></i>
                             &nbsp; Añadir Usuario
                         </a>
-                    </li> --}}
+                    </li>
                 </ul>
             </li>
+
+            <li {!! (Request::is('ranges')|| Request::is('add_range') ? 'class="active"':"")!!}>
+            <a href="#">
+                    <i class="fa fa-bar-chart"></i>
+                    <span class="link-title">&nbsp; Rangos</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul>
+                    <li {!! (Request::is('rangos')? 'class="active"':"") !!}>
+                        <a href="{{ route('ranges')}} ">
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp; Mostrar Usuarios
+                        </a>
+                    </li>
+                    <li {!! (Request::is('rangos/añadir')? 'class="active"':"") !!}>
+                        <a href="{{ route('add_range')}} ">
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp; Añadir Usuario
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
 
         </ul>
                 </div>
@@ -140,7 +165,6 @@ z-index: 999999">
         <!-- Content end -->
     </div>
 
-
 </div>
 <!-- # right side -->
 </div>
@@ -148,6 +172,8 @@ z-index: 999999">
 <!-- global scripts-->
 <script type="text/javascript" src="{{asset('assets/js/components.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/custom.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/vendors/toastr/js/toastr.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/js/core.js')}}"></script>
 <!-- end of global scripts-->
 <!-- page level js -->
 @yield('scripts')
