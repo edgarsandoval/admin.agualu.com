@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\User;
 use App\State;
@@ -33,12 +34,14 @@ class UserController extends Controller {
         $cities = State::find(1)->cities->pluck('name','id');
         $ranges = Range::pluck('name', 'id');
         $status = User::getPossibleEnumValues('status');
+        $users  = User::all()->pluck('full_name', 'id');
 
         return view('user.create', [
             'states' => $states,
             'cities' => $cities,
             'ranges' => $ranges,
-            'status' => $status
+            'status' => $status,
+            'users'  => $users
         ]);
     }
 
@@ -154,5 +157,17 @@ class UserController extends Controller {
                 'class'     => 'error'
             ]);
         }
+    }
+
+    public function profile() {
+        $user = Auth::user();
+
+        return view('user.show', [
+            'user' => $user
+        ]);
+    }
+
+    public function budget() {
+        return view('user.budget');
     }
 }

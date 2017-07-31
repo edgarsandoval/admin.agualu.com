@@ -24,6 +24,9 @@ Route::group(['prefix' => 'usuarios'], function() {
     Route::get('editar/{id}', 'UserController@edit')->name('edit_user');
     Route::put('{id}', 'UserController@update')->name('update_user');
     Route::delete('{id}', 'UserController@destroy')->name('delete_user');
+    Route::get('mi_perfil', 'UserController@profile')->name('profile');
+    Route::get('abonar', 'UserController@budget')->name('budget');
+    Route::get('payment', 'UserController@switch_payment')->name('switch_payment');
 });
 
 Route::get('state/{id}', 'StateController@show');

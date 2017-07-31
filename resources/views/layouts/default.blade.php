@@ -19,6 +19,9 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/patch.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/vendors/toastr/css/toastr.min.css') }}"/>
     <!-- end of global styles-->
+
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> --}}
     @yield('styles')
     <style media="screen">
 
@@ -67,12 +70,12 @@ z-index: 999999">
                     <div class="btn-group">
                         <div class="user-settings no-bg">
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown">
-                                <img src="{{asset('assets/img/admin.jpg')}}" class="admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>Administrador</strong>
+                                <img src="{{asset('assets/img/admin.jpg')}}" class="admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>{{ Auth::user()->first_name }}</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
                             </button>
                             <div class="dropdown-menu admire_admin">
-                                <a class="dropdown-item title" href="#" disabled>
-                                    Administrador Agualu</a>
+                                <a class="dropdown-item title" href="{{ route('profile')}}" disabled>
+                                    {{ Auth::user()->full_name }}</a>
                                 <a class="dropdown-item not-active" href="edit_user" ><i class="fa fa-cogs"></i>
                                     Configuración</a>
                                 <a class="dropdown-item not-active" href="lockscreen" ><i class="fa fa-lock"></i>
@@ -98,7 +101,7 @@ z-index: 999999">
                     </div>
                     <div class="user-wrapper bg-dark">
                         <a class="user-link" href="">
-                    <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture" src="{{asset('assets/img/admin.jpg')}}"><p class="text-white user-info">Bienvenido Administrador</p></a>
+                    <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture" src="{{asset('assets/img/admin.jpg')}}"></a>
             </div>
         </div>
         <!-- #menu -->

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-xl-12">
-        <div class="form-group row m-t-15">
+        {{-- <div class="form-group row m-t-15">
             <div class="col-12 col-lg-3 text-center text-lg-right">
                 <label class="col-form-label">Imagen de perfil</label>
             </div>
@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="form-group row m-t-25">
             <div class="col-12 col-lg-3 text-lg-right">
                 <label for="u-name" class="col-form-label">Nombre *</label>

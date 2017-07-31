@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('member_code')->unique();
+            $table->string('member_code')->nullable()->unique();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
@@ -33,6 +33,8 @@ class CreateUsersTable extends Migration
             $table->integer('range_id')->unsigned();
             $table->boolean('preferential');
             $table->string('openpay_token')->nullable();
+            $table->decimal('minimum_volume', 10, 2);
+            $table->integer('user_id')->nullable();
             $table->enum('status', ['Vigente', 'Calificado', 'Clasificado', 'Activo', 'Inactivo', 'Cancelado']);
             $table->rememberToken();
             $table->timestamps();

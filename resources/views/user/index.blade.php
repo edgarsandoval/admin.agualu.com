@@ -123,7 +123,7 @@
     			var id 		= row.data('id');
     			var form 	= $('#form-delete');
 
-                if(id == '3') {
+                if(id == '{{ Auth::user()->id }}') {
                     alert('No te puedes eliminar a ti mismo');
                     return;
                 }

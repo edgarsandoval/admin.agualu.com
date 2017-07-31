@@ -32,6 +32,7 @@ class User extends Authenticatable
         'postal_code',
         'range_id',
         'preferential',
+        'budget'
     ];
 
     /**
@@ -71,4 +72,8 @@ class User extends Authenticatable
         }
         return $enum;
     }
+
+    public function getFullNameAttribute() {
+       return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+   }
 }

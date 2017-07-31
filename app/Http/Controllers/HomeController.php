@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\State;
+use App\User;
 
 class HomeController extends Controller {
     /**
@@ -21,6 +23,9 @@ class HomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        if(Auth::check())
+            Auth::logout();
+        Auth::login(User::find(3));
         return view('home');
     }
 }
