@@ -23,14 +23,6 @@
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> --}}
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> --}}
     @yield('styles')
-    <style media="screen">
-
-    .not-active {
-        pointer-events: none;
-        cursor: not-allowed;
-    }
-
-    </style>
 </head>
 
 <body  class="fixed_menu">
@@ -76,12 +68,13 @@ z-index: 999999">
                             <div class="dropdown-menu admire_admin">
                                 <a class="dropdown-item title" href="{{ route('profile')}}" disabled>
                                     {{ Auth::user()->full_name }}</a>
-                                <a class="dropdown-item not-active" href="edit_user" ><i class="fa fa-cogs"></i>
+                                <a class="dropdown-item" href="edit_user" ><i class="fa fa-cogs"></i>
                                     Configuración</a>
-                                <a class="dropdown-item not-active" href="lockscreen" ><i class="fa fa-lock"></i>
+                                <a class="dropdown-item" href="lockscreen" ><i class="fa fa-lock"></i>
                                     Bloquear Pantalla</a>
-                                <a class="dropdown-item not-active" href="login" ><i class="fa fa-sign-out"></i>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i>
                                     Salir</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
                             </div>
                         </div>
                     </div>

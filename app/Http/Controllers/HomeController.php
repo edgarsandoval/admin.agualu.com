@@ -14,7 +14,7 @@ class HomeController extends Controller {
      * @return void
      */
     public function __construct() {
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -23,9 +23,6 @@ class HomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        if(Auth::check())
-            Auth::logout();
-        Auth::login(User::find(3));
         return view('home');
     }
 }
