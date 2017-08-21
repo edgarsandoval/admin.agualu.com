@@ -33,8 +33,8 @@ class CreateUsersTable extends Migration
             $table->integer('range_id')->unsigned();
             $table->boolean('preferential');
             $table->string('openpay_token')->nullable();
-            $table->decimal('minimum_volume', 10, 2);
-            $table->integer('user_id')->nullable();
+            $table->decimal('budget', 10, 2);
+            $table->integer('user_id')->unsigned()->nullable();
             $table->enum('status', ['Vigente', 'Calificado', 'Clasificado', 'Activo', 'Inactivo', 'Cancelado']);
             $table->rememberToken();
             $table->timestamps();

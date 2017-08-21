@@ -41,3 +41,8 @@ Route::group(['prefix' => 'rangos'], function() {
     Route::put('{id}', 'RangeController@update')->name('update_range');
     Route::delete('{id}', 'RangeController@destroy')->name('delete_range');
 });
+
+
+Route::group(['prefix' => 'productos'] function() {
+    Route::get('/', function() { return 'xd'; })->name('products');
+});

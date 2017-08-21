@@ -10,7 +10,7 @@ class UsersTableSeeder extends Seeder {
      */
     public function run() {
         DB::table('users')->insert([
-           'member_code'    => 'GDL-' . str_random(8),
+           'member_code'    => 'JAL-0001',
            'first_name'     => 'Administrator',
            'last_name'      => 'Agualu',
            'email'          => 'admin@agualu.com',

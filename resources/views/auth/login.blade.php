@@ -3,7 +3,7 @@
 <head>
     <title>Login | Admire</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="shortcut icon" href="{{asset('assets/img/logo1.ico')}}"/>
+    <link rel="shortcut icon" href="{{asset('assets/img/favicon.ico')}}"/>
     <!--Global styles -->
     <link type="text/css" rel="stylesheet" href="{{asset('assets/css/components.css')}}"/>
     <link type="text/css" rel="stylesheet" href="{{asset('assets/css/custom.css')}}"/>
@@ -51,7 +51,7 @@ z-index: 999999">
                     <div class="login_logo login_border_radius1">
                         <h3 class="text-center">
                             <img src="{{asset('assets/img/logow.png')}}" alt="josh logo" class="admire_logo"><span class="text-white"> AGUALU &nbsp;<br/>
-                                Iniciar sesión</span>
+                                Inicia sesión</span>
                         </h3>
                     </div>
                     <div class="bg-white login_content login_border_radius">
@@ -77,7 +77,7 @@ z-index: 999999">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <input type="submit" value="Log In" class="btn btn-primary btn-block login_button">
+                                        <input type="submit" value="Iniciar sesión" class="btn btn-primary btn-block login_button">
                                     </div>
                                 </div>
                             </div>
