@@ -204,7 +204,7 @@
                                                     <a href="{{ route('budget')}}" class="btn btn-aqua">Abonar Saldo&nbsp;<i class="fa fa-money" aria-hidden="true"></i></a>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm 12">
-                                                    <a href="#" class="btn btn-aqua">Comprar ahora&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('products') }}" class="btn btn-aqua">Comprar ahora&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                                                 </div>
                                             </div>
                                         </div>

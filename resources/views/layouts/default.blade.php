@@ -18,6 +18,7 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/skins/mint_black_skin.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/patch.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/vendors/toastr/css/toastr.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/vendors/sweetalert/css/sweetalert2.min.css') }}"/>
     <!-- end of global styles-->
 
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> --}}
@@ -148,6 +149,12 @@ z-index: 999999">
                     </li>
                 </ul>
             </li>
+            <li {!! (Request::is('products')|| Request::is('add_range') ? 'class="active"':"")!!}>
+                <a href="{{ route('products') }}">
+                    <i class="fa fa-pagelines"></i>
+                    &nbsp; Productos Biostyle
+                </a>
+            </li>
 
 
         </ul>
@@ -169,6 +176,7 @@ z-index: 999999">
 <script type="text/javascript" src="{{asset('assets/js/components.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/custom.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/vendors/toastr/js/toastr.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/vendors/sweetalert/js/sweetalert2.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/core.js')}}"></script>
 <!-- end of global scripts-->
 <!-- page level js -->
