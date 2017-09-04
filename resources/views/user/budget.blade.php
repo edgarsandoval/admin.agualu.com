@@ -65,23 +65,35 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-12 col-lg-3 text-lg-right">
+                            <label for="u-name" class="col-form-label">Cantidad a pagar:</label>
+                        </div>
+                        <div class="col-12 col-xl-6 col-lg-8">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa fa-money text-primary"></i></span>
+                                <input type="number" class="form-control" id="payment-amount" min="0.01" step="0.01" max="2500" value="50">
+                            </div>
+                        </div>
+                    </div>
                     <div class="container payment-container">
                         <div class="method" data-method="1">
                             <div class="panel panel-default">
                                 <div class="panel-heading">Tarjeta de crédito/débito</div>
-                                <div class="panel-body">
+                                <div class="panel-body" style="overflow: auto;">
                             		<div class="bkng-tb-cntnt">
                             			<div class="pymnts">
-                            				<form action="/oficina/pagar_tarjeta" method="POST" id="payment-form">
-                            					<div class="pymnt-itm card active">
+                            				<form action="{{ route('card_payment') }}" method="POST" id="payment-form">
+                                                <input type="hidden" name="token_id" id="token_id">
+                                                <input type="hidden" name="use_card_points" id="use_card_points" value="false">
+                                                <input type="hidden" name="amount" class="amount-field" value="50">
+                                                {{ csrf_field() }}
+                                                <div class="pymnt-itm card active">
                             						<div class="pymnt-cntnt">
-                            							<div class="card-expl">
-                            								<div class="credit">
-                                                                <h4>Tarjetas de crédito</h4>
-                                                                <img src="{{ asset('assets/img/openpay/cards1.png')}}" alt="">
-                                                            </div>
-                            								<div class="debit"><h4>Tarjetas de débito</h4></div>
-                            							</div>
+                                                        <div class="card-expl">
+                                                            <div class="credit"><h4>Tarjetas de crédito</h4></div>
+                                                            <div class="debit"><h4>Tarjetas de débito</h4></div>
+                                                        </div>
                             							<div class="sctn-row">
                             								<div class="sctn-col l">
                             									<label>Nombre del titular</label>
@@ -107,7 +119,7 @@
 
                             							<div class="openpay" style="width: 750px; margin-right: 30px;">
                             								<div style="font-size:24px; float:left;">
-                            									<p style="margin-top: 20px; margin-right: 60px; margin-left: 20px;">$ 4 MXN</p>
+                            									<p style="margin-top: 20px; margin-right: 60px; margin-left: 20px;">$ 50.00 MXN</p>
                             								</div>
                             								<div class="logo">Transacciones realizadas vía:</div>
                             								<div class="shield">Tus pagos se realizan de forma segura con encriptación de 256 bits</div>
@@ -151,16 +163,23 @@
                     $element.hide();
             });
         });
+
+        $('#payment-amount').change(updateAmount).keyup(updateAmount);
     });
+
+    function updateAmount(){
+        $('.openpay p').html('$ ' + Number($('#payment-amount').val()).formatMoney(2, '.', ',') + ' M.N');
+        $('.amount-field').val($('#payment-amount').val());
+    }
 </script>
 <script type="text/javascript" src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
 <script type='text/javascript' src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
-		OpenPay.setId('myseqv8dilt2otqopeya');
-		OpenPay.setApiKey('pk_b3881d98249247bea60a222782b600c5');
-		OpenPay.setSandboxMode(false);
+		OpenPay.setId('m9l5xczjlu9ysohopebb');
+		OpenPay.setApiKey('pk_a22e10db3ab84a00a6f5ff39e08ec421');
+		OpenPay.setSandboxMode(true);
 		//Se genera el id de dispositivo
 		var deviceSessionId = OpenPay.deviceData.setup("payment-form", "deviceIdHiddenFieldName");
 

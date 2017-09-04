@@ -53,3 +53,8 @@ Route::group(['prefix' => 'productos'], function() {
     Route::put('{id}', 'ProductController@update')->name('update_product');
     Route::delete('{id}', 'ProductController@destroy')->name('delete_product');
 });
+
+Route::group(['prefix' => 'openpay'], function() {
+    Route::post('card', 'OpenpayController@card')->name('card_payment');
+    Route::post('webhook', 'OpenpayController@webhook')->name('webhook');
+});
