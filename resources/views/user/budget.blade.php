@@ -138,7 +138,36 @@
                         <div class="method" data-method="2">
                             <div class="panel panel-default">
                                 <div class="panel-heading">Tiendas de conveniencia</div>
-                                <div class="panel-body">Panel Content</div>
+                                <div class="panel-body">
+                                    <div id="pagos" class="container_full">
+                                    	<div class="container" style="padding-left:30px;">
+                                    		<div class="">
+                                    			<div class="">
+                                    				<form action="{{ route('stores_payment') }}" method="POST">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="amount" class="amount-field" value="50">
+
+                                    						<div class="sctn-col half l" style="width:100%; text-align: center;">
+                                    							<input type="submit" value="Crear Recibo" class="btn btn-aqua">
+                                    						</div>
+                                    				</form>
+                                    			</div>
+                                    		</div>
+                                    		<div class="sixteen columns">
+                                    			<h1 style="font-size:28px; color:#0089AC; text-align:center; line-height:36px; margin-top:20px;">
+                                    				Podrás pagar en cualquiera de las siguientes tiendas.
+                                    			</h1>
+                                    		</div>
+                                            <div class="row">
+                                                @for ($i = 1; $i <= 16; $i++)
+                                                    <div class="col-md-3" style="margin-bottom: 10px;">
+                                                        <img class="img-thumbnail" src="{{ asset('assets/img/openpay/tiendas_conveniencia') }}/{{ str_pad($i, 2, "0", STR_PAD_LEFT)}}.jpg" />
+                                                    </div>
+                                                @endfor
+                                            </div>
+                                    	</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

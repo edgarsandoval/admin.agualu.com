@@ -38,7 +38,7 @@ class OpenpayController extends Controller {
             // This only will be available in the TEST stage
             $user->budget += (float) $request->input('amount');
             $user->save();
-            
+
             return redirect()->route('view_user', ['id' => $user->id]);
         }
         catch(\OpenpayApiTransactionError $e) {
@@ -53,6 +53,39 @@ class OpenpayController extends Controller {
         //    die('ERROR on the request: ' . $e->getMessage());
             return back()->withErrors(['msg' => 'Hubo un error con el servidor, intenta más tarde.']);
         }
+    }
+
+    public function stores(Request $request) {
+        $user = Auth::user();
+
+        $customer = $this->_makeCustomerArray($user);
+
+        $chargeData = array(
+            'method' => 'store',
+            'amount' => (float) $request->input('amount'),
+            'description' => 'Monedero electrónico (agualu.com)',
+            'customer'  => $customer
+        );
+
+        try {
+            $charge = $this->openpay->charges->create($chargeData);
+            session(['charge' => $charge]);
+            return redirect()->route('stores_ticket', ['id' => $charge->id]);
+        }
+        catch(Exception $e) {
+            die($e->getMessage());
+        }
+
+    }
+
+    public function ticket($id) {
+        $charge = session('charge');
+        // TODO Validation and store of that charge
+
+        return view('openpay.ticket', [
+            'order' => $charge
+        ]);
+
     }
 
     private function _makeCustomerArray($user) {

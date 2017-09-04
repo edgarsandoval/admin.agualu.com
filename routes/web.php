@@ -20,6 +20,7 @@ Route::group(['prefix' => 'usuarios'], function() {
     Route::get('mi_perfil', 'UserController@profile')->name('profile');
     Route::get('abonar', 'UserController@budget')->name('budget');
     Route::get('payment', 'UserController@switch_payment')->name('switch_payment');
+    Route::get('ticket/{id}', 'OpenpayController@ticket')->name('stores_ticket');
 
     Route::get('/', 'UserController@index')->name('users');
     Route::get('crear', 'UserController@create')->name('add_user');
@@ -56,5 +57,6 @@ Route::group(['prefix' => 'productos'], function() {
 
 Route::group(['prefix' => 'openpay'], function() {
     Route::post('card', 'OpenpayController@card')->name('card_payment');
+    Route::post('stores', 'OpenpayController@stores')->name('stores_payment');
     Route::post('webhook', 'OpenpayController@webhook')->name('webhook');
 });
