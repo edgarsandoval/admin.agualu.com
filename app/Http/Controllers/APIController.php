@@ -24,15 +24,21 @@ class APIController extends Controller {
     }
 
     public function import_products() {
-        $products = Product::all();
+        $items = Item::all();
 
         $response = [];
 
-        foreach ($products as $product) {
+        $times = [10, 10, 15, 200, 400];
+
+        foreach ($items as $k => $item) {
             $response[] = [
-                'id'                => $product->id,
-                'precio_socio'      => $product->distributor_price,
-                'precio_publico'    => $product->public_price
+                'id'                => $item->id,
+                'nombre'            => $item->name,
+                'precio_socio'      => (float) $item->distributor_price,
+                'precio_publico'    => (float) $item->public_price,
+                'flujo'             => $item->flow,
+                'unidad'            => $item->unit,
+                'segundos'          => $times[$k],
             ];
         }
 
