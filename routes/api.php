@@ -20,7 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('test',function(){
     return response([1,2,3,4],200);
 });
-
+Route::post('get_credentials', 'APIController@getCredentials'); // -> para obtener psw.
+Route::post('get_authentication', 'APIController@authenticate'); // -> para obtener toke
+Route::post('authenticate', 'APIController@authenticate');
 Route::get('import_users', 'APIController@import_users');
 Route::get('import_products', 'APIController@import_products');
 Route::get('import_parameters', 'APIController@import_parameters');

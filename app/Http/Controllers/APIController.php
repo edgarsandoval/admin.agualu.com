@@ -6,15 +6,49 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Product;
+use App\Item;
 
 class APIController extends Controller {
+    public function getCredentials(Request $request) {
+        if(!$request->has('machine_id'))
+            return response()->json(['status' => false, 'msg' => 'El parametro [machine_id] no ha si encontrado', 'data' => null]);
+
+        $machine_id = $request->input('machine_id');
+
+        if(!in_array($machine_id, [1, 2, 3]))
+            return response()->json(['status' => false, 'msg' => 'La máquina no ha sido encontrada', 'data' => null]);
+
+        return response()->json(['status' => true, 'msg' => "Contraseña para máquina #$machine_id correctamente generada", 'data' => [
+            'password' => 'agualu20171hJu'
+            ]]);
+    }
+
+    public function authenticate(Request $request) {
+        if(!$request->has('machine_id'))
+            return response()->json(['status' => false, 'msg' => 'El parametro [machine_id] no ha si encontrado', 'data' => null]);
+
+            if(!$request->has('password'))
+                return response()->json(['status' => false, 'msg' => 'El parametro [password] no ha si encontrado', 'data' => null]);
+
+        if(!\Hash::check($request->input('password'), bcrypt('agualu20171hJu')))
+            return response()->json(['status' => false, 'msg' => 'La contraseña no coincide con la generada por el servidor', 'data' => null]);
+
+        $response = [
+            "status" => true,
+            "msg" => "Token successfully created",
+            "data"=> ["token" => "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9zeXN0ZW0uY2FtcGVzdHJlY2VsYXlhLm14L2FwaS9hdXRoZW50aWNhdGUiLCJpYXQiOjE1MDY5MTk1NjQsImV4cCI6MTUwNjkyMzE2NCwibmJmIjoxNTA2OTE5NTY0LCJqdGkiOiJ4emV5Y3RRNVpGanNRWG56In0.43RWbUSDbGrKnxNiJ6CY4MILAabyN_sWqMhe-zfO12M"],
+            "ttl" => 5];
+
+        return response()->json($response);
+    }
+
     public function import_users() {
         $users = User::all();
         $response = [];
 
         foreach ($users as $user) {
             $response[] = [
-                'number'    => $user->member_code,
+                'number'    => $user->id,
                 'password'  => $user->password,
                 'money'     => $user->budget ?: 0
             ];
