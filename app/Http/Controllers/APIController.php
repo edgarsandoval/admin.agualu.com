@@ -4,42 +4,53 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Helpers\Response;
+
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+
 use App\User;
 use App\Product;
 use App\Item;
+use App\Machine;
 
 class APIController extends Controller {
+    private $_expirationTime = 5;
+
     public function getCredentials(Request $request) {
         if(!$request->has('machine_id'))
-            return response()->json(['status' => false, 'msg' => 'El parametro [machine_id] no ha si encontrado', 'data' => null]);
+            return response()->json(Response::set(false, 'El parametro [machine_id] no ha si encontrado'));
 
         $machine_id = $request->input('machine_id');
+        $machine    = Machine::find($machine_id);
 
-        if(!in_array($machine_id, [1, 2, 3]))
-            return response()->json(['status' => false, 'msg' => 'La máquina no ha sido encontrada', 'data' => null]);
+        if(is_null($machine))
+            return response()->json(Response::set(false, 'La máquina no ha sido encontrada'));
 
-        return response()->json(['status' => true, 'msg' => "Contraseña para máquina #$machine_id correctamente generada", 'data' => [
-            'password' => 'agualu20171hJu'
-            ]]);
+        $password = 'agualu2017' . str_random(5);
+        $machine->password = $password;
+        $machine->save();
+
+        return response()->json(Response::set(true, "Contraseña para máquina #$machine_id correctamente generada", ['password' => $password]));
     }
 
     public function authenticate(Request $request) {
         if(!$request->has('machine_id'))
-            return response()->json(['status' => false, 'msg' => 'El parametro [machine_id] no ha si encontrado', 'data' => null]);
+            return response()->json(Response::set(false, 'El parametro [machine_id] no ha si encontrado'));
 
-            if(!$request->has('password'))
-                return response()->json(['status' => false, 'msg' => 'El parametro [password] no ha si encontrado', 'data' => null]);
+        if(!$request->has('password'))
+            return response()->json(Response::set(false, 'El parametro [password] no ha si encontrado'));
 
-        if(!\Hash::check($request->input('password'), bcrypt('agualu20171hJu')))
-            return response()->json(['status' => false, 'msg' => 'La contraseña no coincide con la generada por el servidor', 'data' => null]);
+        $machine_id = $request->input('machine_id');
+        $machine    = Machine::find($machine_id);
 
-        $response = [
-            "status" => true,
-            "msg" => "Token successfully created",
-            "data"=> ["token" => "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9zeXN0ZW0uY2FtcGVzdHJlY2VsYXlhLm14L2FwaS9hdXRoZW50aWNhdGUiLCJpYXQiOjE1MDY5MTk1NjQsImV4cCI6MTUwNjkyMzE2NCwibmJmIjoxNTA2OTE5NTY0LCJqdGkiOiJ4emV5Y3RRNVpGanNRWG56In0.43RWbUSDbGrKnxNiJ6CY4MILAabyN_sWqMhe-zfO12M"],
-            "ttl" => 5];
+        if(is_null($machine))
+            return response()->json(Response::set(false, 'La máquina no ha sido encontrada'));
 
-        return response()->json($response);
+        if(!\Hash::check($request->input('password'), $machine->password))
+            return response()->json(Response::set(false, 'La contraseña no coincide con la generada por el servidor'));
+
+        return response()->json(Response::set(true, 'Token successfully created', ["token" => "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9zeXN0ZW0uY2FtcGVzdHJlY2VsYXlhLm14L2FwaS9hdXRoZW50aWNhdGUiLCJpYXQiOjE1MDY5MTk1NjQsImV4cCI6MTUwNjkyMzE2NCwibmJmIjoxNTA2OTE5NTY0LCJqdGkiOiJ4emV5Y3RRNVpGanNRWG56In0.43RWbUSDbGrKnxNiJ6CY4MILAabyN_sWqMhe-zfO12M", 'ttl' => 5]));
     }
 
     public function import_users() {
