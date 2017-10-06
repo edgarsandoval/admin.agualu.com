@@ -180,6 +180,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Cohensive\Embed\EmbedServiceProvider::class,
 
+        // Other providers
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ],
 
     /*
@@ -232,6 +234,10 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Embed' => Cohensive\Embed\Facades\Embed::class,
+
+        // Other aliases
+        'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 
     ],
 

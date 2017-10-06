@@ -44,11 +44,8 @@ class APIController extends Controller {
         $machine_id = $request->input('machine_id');
         $machine    = Machine::find($machine_id);
 
-        if(is_null($machine))
-            return response()->json(Response::set(false, 'La máquina no ha sido encontrada'));
-
-        if(!\Hash::check($request->input('password'), $machine->password))
-            return response()->json(Response::set(false, 'La contraseña no coincide con la generada por el servidor'));
+        $credentials = $request->only('machine_id', 'password');
+        // dd($credentials);
 
         return response()->json(Response::set(true, 'Token successfully created', ["token" => "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9zeXN0ZW0uY2FtcGVzdHJlY2VsYXlhLm14L2FwaS9hdXRoZW50aWNhdGUiLCJpYXQiOjE1MDY5MTk1NjQsImV4cCI6MTUwNjkyMzE2NCwibmJmIjoxNTA2OTE5NTY0LCJqdGkiOiJ4emV5Y3RRNVpGanNRWG56In0.43RWbUSDbGrKnxNiJ6CY4MILAabyN_sWqMhe-zfO12M", 'ttl' => 5]));
     }
@@ -69,21 +66,19 @@ class APIController extends Controller {
     }
 
     public function import_products() {
-        $items = Item::all();
+        $items = Item::orderBy('order')->get();
 
         $response = [];
 
-        $times = [10, 10, 15, 200, 400];
-
         foreach ($items as $k => $item) {
             $response[] = [
-                'id'                => $item->id,
+                'id'                => $item->order,
                 'nombre'            => $item->name,
                 'precio_socio'      => (float) $item->distributor_price,
                 'precio_publico'    => (float) $item->public_price,
-                'flujo'             => $item->flow,
+                'flujo'             => $item->flow ?: 0,
                 'unidad'            => $item->unit,
-                'segundos'          => $times[$k],
+                'segundos'          => $item->time,
             ];
         }
 
@@ -97,7 +92,7 @@ class APIController extends Controller {
 
         // foreach ($products as $product) {
             $response = [
-                'precio_inscripcion'    => null,
+                'precio_inscripcion'    => 30,
             ];
         // }
 

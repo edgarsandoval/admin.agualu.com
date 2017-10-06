@@ -18,8 +18,8 @@ class CreateItemsTable extends Migration
             $table->string('name');
             $table->decimal('distributor_price', 10, 2);
             $table->decimal('public_price', 10, 2);
-            $table->integer('flow');
-            $table->enum('unit', ['s', 'ml', 'L']);
+            $table->integer('flow')->nullable();
+            $table->enum('unit', ['ml', 'L'])->nullable();
         });
     }
 
