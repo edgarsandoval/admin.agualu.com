@@ -13,11 +13,27 @@ use App\ErrorLog;
 use App\Item;
 use App\Machine;
 use App\Product;
+use App\State;
 use App\User;
+
+use Mail;
 
 class APIController extends Controller {
     private $_expirationTime = 5;
     private $_failedAuth = ['status' => false, 'msg' => 'token_required', 'data' => null];
+
+    public function testMail() {
+        $user = User::find(34);
+        $password = 1234;
+
+        Mail::send('emails.welcome', compact('user', 'password'), function ($m) use ($user) {
+           $m->from('no-reply@agualu.com', 'Agualu | Mailer');
+
+           $m->to($user->email)->subject('¡Bienvenido a la red Agualu!');
+        });
+
+        return response()->json(Response::set(true, 'Mail enviado'));
+    }
 
     public function getCredentials(Request $request) {
         if(!$request->has('machine_id'))
@@ -110,7 +126,51 @@ class APIController extends Controller {
     }
 
     public function send_registration(Request $request) {
-        return response()->json(['process' => 'Ok']);
+        if(is_null($request->header('Authorization')))
+            return response()->json($this->_failedAuth);
+
+        try {
+            $fields = ['name', 'email', 'machine_id'];
+
+            foreach($fields as $field)
+                if(!$request->has($field))
+                    return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha si encontrado'));
+
+            $password = rand(1000, 9999);
+
+            $machine = Machine::find($request->input('machine_id'));
+
+            $data = [
+                'first_name'        => $request->input('name'),
+                'last_name'         => '',
+                'email'             => $request->input('email'),
+                'password'          => $password,
+                'state_id'          => $machine->state_id,
+                'street'            => '',
+                'outdoor_number'    => 0,
+                'suburb'            => '',
+                'postal_code'       => '',
+                'range_id'          => 1,
+                'preferential'      => 0,
+                'status'            => 'Vigente',
+            ];
+
+
+            $user = User::create($data);
+            $user->member_code = $user->state->acronym . '-' . str_pad(count(State::find($user->state->id)->users), 4, "0", STR_PAD_LEFT);
+            $user->save();
+
+            Mail::send('emails.welcome', compact('user', 'password'), function ($m) use ($user) {
+               $m->from('no-reply@agualu.com', 'Agualu | Mailer');
+
+               $m->to($user->email)->subject('¡Bienvenido a la red Agualu!');
+            });
+
+            return response()->json(['process' => 'Ok']);
+
+        } catch(\Exception $e) {
+            return response()->json(Response::set(false, $e->getMessage()));
+        }
     }
 
     public function save_credit(Request $request) {
@@ -149,7 +209,7 @@ class APIController extends Controller {
                     return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha si encontrado'));
 
             $errorLog = ErrorLog::create($request->all());
-            
+
             return response()->json(['process' => 'Mensaje Enviado']);
         } catch(\Exception $e) {
             return response()->json(Response::set(false, $e->getMessage()));

@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('phone', 15);
             $table->string('cellphone', 15);
             $table->integer('state_id')->unsigned();
-            $table->integer('city_id')->unsigned();
+            $table->integer('city_id')->unsigned()->nullable();
             $table->string('street');
             $table->string('outdoor_number', 8);
             $table->string('indoor_number', 8)->nullable();

@@ -21,9 +21,11 @@ Route::get('test',function(){
     return response([1,2,3,4],200);
 });
 
+Route::get('test_mail', 'APIController@testMail');
+
 
 Route::post('get_credentials', 'APIController@getCredentials'); // -> para obtener psw.
-Route::post('get_authentication', 'APIController@authenticate'); // -> para obtener toke
+Route::post('get_authentication', 'APIController@authenticate'); // -> para obtener token
 
 Route::get('import_users', 'APIController@exportUsers');
 Route::get('import_products', 'APIController@exportProducts');

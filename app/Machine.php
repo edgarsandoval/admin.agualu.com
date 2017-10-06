@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Machine extends Model {
     protected $table = 'machines';
 
-    protected $fillable = ['password', 'description', 'lat', 'lng'];
+    protected $fillable = ['password', 'description', 'state_id', 'lat', 'lng'];
 
     protected $dates = ['created_at', 'updated_at'];
 
