@@ -16,6 +16,7 @@ use App\Machine;
 
 class APIController extends Controller {
     private $_expirationTime = 5;
+    private $_failedAuth = ['status' => false, 'msg' => 'token_required', 'data' => null];
 
     public function getCredentials(Request $request) {
         if(!$request->has('machine_id'))
@@ -50,7 +51,10 @@ class APIController extends Controller {
         return response()->json(Response::set(true, 'Token successfully created', ["token" => "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9zeXN0ZW0uY2FtcGVzdHJlY2VsYXlhLm14L2FwaS9hdXRoZW50aWNhdGUiLCJpYXQiOjE1MDY5MTk1NjQsImV4cCI6MTUwNjkyMzE2NCwibmJmIjoxNTA2OTE5NTY0LCJqdGkiOiJ4emV5Y3RRNVpGanNRWG56In0.43RWbUSDbGrKnxNiJ6CY4MILAabyN_sWqMhe-zfO12M", 'ttl' => 5]));
     }
 
-    public function import_users() {
+    public function exportUsers(Request $request) {
+        if(is_null($request->header('Authorization')))
+            return response()->json($this->_failedAuth);
+
         $users = User::all();
         $response = [];
 
@@ -58,14 +62,17 @@ class APIController extends Controller {
             $response[] = [
                 'number'    => $user->id,
                 'password'  => $user->password,
-                'money'     => $user->budget ?: 0
+                'money'     => (float) $user->budget ?: 0
             ];
         }
 
         return response()->json($response);
     }
 
-    public function import_products() {
+    public function exportProducts(Request $request) {
+        if(is_null($request->header('Authorization')))
+            return response()->json($this->_failedAuth);
+
         $items = Item::orderBy('order')->get();
 
         $response = [];
@@ -85,16 +92,13 @@ class APIController extends Controller {
         return response()->json($response);
     }
 
-    public function import_parameters() {
-        // $products = Product::all();
+    public function exportParameters(Request $request) {
+        if(is_null($request->header('Authorization')))
+            return response()->json($this->_failedAuth);
 
-        $response = [];
-
-        // foreach ($products as $product) {
-            $response = [
-                'precio_inscripcion'    => 30,
-            ];
-        // }
+        $response = [
+            'precio_inscripcion'    => 30,
+        ];
 
         return response()->json($response);
     }
@@ -109,7 +113,26 @@ class APIController extends Controller {
     }
 
     public function save_credit(Request $request) {
-        return response()->json(['process' => 'Abono Completado', 'money' => rand(100, 500)]);
+        if(is_null($request->header('Authorization')))
+            return response()->json($this->_failedAuth);
+
+        if(!$request->has('user_id'))
+            return response()->json(Response::set(false, 'El parametro [user_id] no ha si encontrado'));
+
+        if(!$request->has('amount'))
+            return response()->json(Response::set(false, 'El parametro [amount] no ha si encontrado'));
+
+        $user_id = $request->input('user_id');
+
+        $user = User::find($user_id);
+
+        if(is_null($user))
+            return response()->json(Response::set(false, 'El usuario no ha sido encontrada'));
+
+        $user->budget += $request->input('amount');
+        $user->save();
+
+        return response()->json(['process' => 'Abono Completado', 'money' => $user->budget]);
     }
 
     public function send_error(Request $request) {
