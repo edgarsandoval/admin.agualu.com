@@ -9,10 +9,11 @@ use App\Helpers\Response;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
-use App\User;
-use App\Product;
+use App\ErrorLog;
 use App\Item;
 use App\Machine;
+use App\Product;
+use App\User;
 
 class APIController extends Controller {
     private $_expirationTime = 5;
@@ -136,6 +137,22 @@ class APIController extends Controller {
     }
 
     public function send_error(Request $request) {
-        return response()->json(['process' => 'Mensaje Enviado']);
+        if(is_null($request->header('Authorization')))
+            return response()->json($this->_failedAuth);
+
+        try {
+
+            $fields = ['incident_token', 'user_id', 'machine_id', 'machine_series', 'message'];
+
+            foreach($fields as $field)
+                if(!$request->has($field))
+                    return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha si encontrado'));
+
+            $errorLog = ErrorLog::create($request->all());
+            
+            return response()->json(['process' => 'Mensaje Enviado']);
+        } catch(\Exception $e) {
+            return response()->json(Response::set(false, $e->getMessage()));
+        }
     }
 }

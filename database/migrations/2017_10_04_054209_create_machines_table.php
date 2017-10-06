@@ -14,6 +14,7 @@ class CreateMachinesTable extends Migration
     public function up()
     {
         Schema::create('machines', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('password', 60);
             $table->text('description')->nullable();
