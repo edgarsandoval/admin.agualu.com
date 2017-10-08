@@ -9,19 +9,26 @@ use App\User;
 use App\State;
 use App\Range;
 
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+use Session;
+
 class UserController extends Controller {
+
+    public function __construct() {
+        $this->middleware(['auth', 'isAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
-        $toastr   = $request->session()->pull('toastr', null);
-        $users      = User::with('city')->get();
-        return view('user.index', [
-            'users' => $users,
-            'toastr' => $toastr
-        ]);
+    public function index() {
+        $users = User::with('city')->get();
+
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -35,14 +42,9 @@ class UserController extends Controller {
         $ranges = Range::pluck('name', 'id');
         $status = User::getPossibleEnumValues('status');
         $users  = User::all()->pluck('full_name', 'id');
+        $roles = Role::get();
 
-        return view('user.create', [
-            'states' => $states,
-            'cities' => $cities,
-            'ranges' => $ranges,
-            'status' => $status,
-            'users'  => $users
-        ]);
+        return view('user.create', compact('states', 'cities', 'ranges', 'status', 'users'));
     }
 
     /**
@@ -52,21 +54,22 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        try {
-            $user = User::create($request->all());
-            $user->member_code = $user->state->acronym . '-' . str_pad(count(State::find($user->state->id)->users), 4, "0", STR_PAD_LEFT);
-            $user->save();
-            if($request->ajax()) {
-            }
-            else {
-                $request->session()->flash('toastr', ['status' => true, 'message' => 'Usuario registrado exitosamente', 'class' => 'success']);
-                return redirect()->route('users');
+        // TODO validate
+        $user = User::create($request->all());
+        $user->member_code = $user->state->acronym . '-' . str_pad(count(State::find($user->state->id)->users), 4, "0", STR_PAD_LEFT);
+        $user->save();
+
+        $roles = $request->input('roles');
+
+        if(isset($roles)) {
+            foreach ($roles as $role) {
+                $role_r = Role::where('id', '=', $role)->firstOrFail();
+                $user->assignRole($role_r);
             }
         }
-        catch(\Exception $e) {
-            $request->session()->flash('toastr', ['status' => false, 'message' => 'Hubo un error en el servidor', 'class' => 'error']);
-            return redirect()->route('users');
-        }
+
+        return redirect()->route('users')
+                         ->with('flash_message', 'User successfully added.');
     }
 
     /**
@@ -76,6 +79,7 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+        return redirect()->route('users');
         if(is_null($id) || !is_numeric($id))
             return view('404');
 
@@ -96,16 +100,11 @@ class UserController extends Controller {
         $states = State::pluck('name', 'id');
         $ranges = Range::pluck('name', 'id');
         $status = User::getPossibleEnumValues('status');
-        $user   = User::find($id);
+        $user   = User::findOrFail($id);
         $cities = State::find($user->state_id)->cities->pluck('name','id');
+        $roles = Role::get();
 
-        return view('user.edit', [
-            'states' => $states,
-            'cities' => $cities,
-            'ranges' => $ranges,
-            'status' => $status,
-            'user'   => $user
-        ]);
+        return view('users.edit',  compact('states', 'cities', 'ranges', 'status', 'user', 'roles'));
     }
 
     /**
@@ -116,23 +115,21 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        try {
-            $user = User::find($id);
+        $user = User::findOrFail($id);
 
-            foreach($request->except(['_method', '_token', '___', 'confirmpassword', 'gender']) as $key => $value) {
-                if($key == 'password' && $value == null)
-                    $user->password = $value;
-                $user->{$key} = $value;
-            }
+        // TODO validate
+        $input = $request->except(['_method', '_token', '___', 'confirmpassword', 'gender']);
+        $user->fill($input)->save();
 
-            $user->save();
-            $request->session()->flash('toastr', ['status' => true, 'message' => 'Usuario editadi exitosamente', 'class' => 'success']);
-            return redirect()->route('users');
-        }
-        catch(\Exception $e) {
-            $request->session()->flash('toastr', ['status' => false, 'message' => 'Hubo un error en el servidor', 'class' => 'error']);
-            return redirect()->route('users');
-        }
+        $roles = $request->input('roles');
+
+        if(isset($roles))
+            $user->roles()->sync($roles);
+        else
+             $user->roles()->detach();
+
+        return redirect()->route('users')
+                         ->with('flash_message', 'User successfully edited.');
     }
 
     /**
@@ -142,6 +139,11 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('users')
+                         ->with('flash_message', 'User successfully deleted.');
         try {
             User::destroy($id);
             return response()->json([

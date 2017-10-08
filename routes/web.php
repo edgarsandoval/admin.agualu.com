@@ -16,6 +16,8 @@ Auth::routes();
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::resource('users', 'UserController');
+
 Route::group(['prefix' => 'usuarios'], function() {
     Route::get('mi_perfil', 'UserController@profile')->name('profile');
     Route::get('abonar', 'UserController@budget')->name('budget');
