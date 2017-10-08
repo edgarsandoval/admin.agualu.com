@@ -1,0 +1,69 @@
+IMPORTAR USUARIOS
+*Se envía
+-Token por ligera seguridad
+*Recibe
+-usuario.number
+-usuario.password
+-usuario.money
+
+IMPORTAR PRODUCTOS
+*Se envía
+-Token por ligera seguridad
+*Recibe
+-producto.id
+-producto.precioSocio
+-producto.precioPublico
+
+IMPORTAR PARÁMETROS
+*Se envía
+-Token por ligera seguridad
+*Recibe
+-parametros.precioInscripcion
+
+TRANSMITIR VENTAS
+*Se envia
+-token
+-usuario.number
+-producto.precio
+-producto.id
+-maquina.id
+*Recibe
+-JSON con {process: "Abono Completado"}
+
+TRANSMITIR INSCRIPCIONES
+*Se envía
+-token
+-inscripcion.nombre
+-inscripcion.email
+-inscripcion.invitador
+-inscripcion.colocacion (Si no se indica una colocación, se envía maquina.id)
+*Se recibe
+JSON con {process: "Ok"}
+
+OBTENER AUTORIZACION
+*Se envía
+-token
+*Se recibe
+-token generado por servidor
+(Aplicación y servidor aplican transformación al token para tener el mismo token final)
+
+REGISTRAR ABONO
+*Se envía
+-token
+-usuario.number
+-abono.monto
+-autorizacion.token
+-maquina.id
+*Recibe
+-JSON con {process: "Abono Completado", money: $cantidadFinal }
+
+REGISTRAR ERROR
+*Se envía
+-token
+-token único del incidente
+-usuario.id
+-error.mensaje
+-maquina.serie
+-maquina.id
+*Recibe
+-JSON con {process: "Mensaje Enviado"}

@@ -182,6 +182,7 @@ return [
 
         // Other providers
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*

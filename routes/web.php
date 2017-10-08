@@ -60,3 +60,9 @@ Route::group(['prefix' => 'openpay'], function() {
     Route::post('stores', 'OpenpayController@stores')->name('stores_payment');
     Route::post('webhook', 'OpenpayController@webhook')->name('webhook');
 });
+
+Route::resource('roles', 'RoleController');
+
+Route::resource('permissions', 'PermissionController');
+
+Route::resource('posts', 'PostController');
