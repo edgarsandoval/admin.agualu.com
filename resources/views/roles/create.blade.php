@@ -7,8 +7,8 @@
 
 @section('styles')
    <!-- plugin styles-->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/jasny-bootstrap/css/jasny-bootstrap.min.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/bootstrapvalidator/css/bootstrapValidator.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/jasny-bootstrap/css/jasny-bootstrap.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/bootstrapvalidator/css/bootstrapValidator.min.css') }}"/>
     <!--end of page level css-->
 @stop
 
@@ -46,57 +46,21 @@
                     </div>
                 <div class="card-block m-t-35">
                     {!! Form::open(['route' => 'store_role', 'method' => 'POST', 'id' => 'role-form', 'class' => 'form-horizontal login_validator'])!!}
+                        @include('partials.role-form')
                     {{ Form::open(array('url' => 'roles')) }}
-
-                    <div class="form-group">
-                        {{ Form::label('name', 'Name') }}
-                        {{ Form::text('name', null, array('class' => 'form-control')) }}
-                    </div>
-
-                    <h5><b>Assign Permissions</b></h5>
-
-                    <div class='form-group'>
-                        @foreach ($permissions as $permission)
-                            {{ Form::checkbox('permissions[]',  $permission->id ) }}
-                            {{ Form::label($permission->name, ucfirst($permission->name)) }}<br>
-
-                        @endforeach
-                    </div>
-
-                    {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
-
-                    {{ Form::close() }}
-
                 </div>
             </div>
         </div>
     </div>
-<div class='col-lg-4 col-lg-offset-4'>
+@stop
 
-    <h1><i class='fa fa-key'></i> Add Role</h1>
-    <hr>
-
-    {{ Form::open(array('url' => 'roles')) }}
-
-    <div class="form-group">
-        {{ Form::label('name', 'Name') }}
-        {{ Form::text('name', null, array('class' => 'form-control')) }}
-    </div>
-
-    <h5><b>Assign Permissions</b></h5>
-
-    <div class='form-group'>
-        @foreach ($permissions as $permission)
-            {{ Form::checkbox('permissions[]',  $permission->id ) }}
-            {{ Form::label($permission->name, ucfirst($permission->name)) }}<br>
-
-        @endforeach
-    </div>
-
-    {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
-
-    {{ Form::close() }}
-
-</div>
-
-@endsection
+@section('scripts')
+    <!-- plugin scripts-->
+    <script type="text/javascript" src="{{ asset('js/pluginjs/jasny-bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/holderjs/js/holder.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/bootstrapvalidator/js/bootstrapValidator.min.js') }}"></script>
+    <!-- end of plugin scripts-->
+    {{-- <script type="text/javascript" src="{{asset('assets/js/pages/validation.js')}}"></script> --}}
+    <script type="text/javascript" src="{{ asset('js/pages/forms.js') }}"></script>
+    <!-- end of page level scripts-->
+@stop

@@ -42,6 +42,11 @@ $light--primary--color: #18bfd1;
     }
 }
 
+.input-sm {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
 .card_nav_hover > a:hover {
     border-bottom: 4px solid $dark--primary--color !important;
 }

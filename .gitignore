@@ -3,9 +3,11 @@
 /vendor
 /public/css/vendor.css
 /public/js/vendor.js
+/public/vendor
 /.idea
 /.vagrant
 Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+public/css/patch.css

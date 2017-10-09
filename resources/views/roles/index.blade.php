@@ -7,11 +7,10 @@
 
 @section('styles')
     <!--Plugin styles-->
-    {{-- <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/select2/css/select2.min.css')}}"/> --}}
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/pages/dataTables.bootstrap.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/dataTables.bootstrap.css') }}"/>
     <!--End of plugin styles-->
     <!--Page level styles-->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/pages/tables.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/tables.css') }}"/>
     <!-- end of page level styles -->
 @stop
 
@@ -36,7 +35,7 @@
                 </div>
                 <div class="card-block m-t-35">
                     <div>
-                        <div class="pull-right m-b-10">
+                        <div class="m-b-10">
                             <a href="{{ route('add_role') }}" class="btn btn-success">
                                 <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
                                 Añadir nuevo rol
@@ -113,16 +112,17 @@
     	});
     </script>
     <!--Plugin scripts-->
-    <script type="text/javascript" src="{{asset('assets/vendors/select2/js/select2.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/datatables/js/jquery.dataTables.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/datatables/js/dataTables.bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/datatables/js/dataTables.responsive.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/datatables/js/dataTables.buttons.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/datatables/js/buttons.colVis.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/datatables/js/buttons.html5.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/datatables/js/buttons.bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/datatables/js/buttons.print.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/select2/js/select2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatables/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatables/js/dataTables.responsive.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatables/js/dataTables.buttons.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatables/js/buttons.colVis.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatables/js/buttons.html5.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatables/js/buttons.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatables/js/buttons.print.min.js') }}"></script>
     <!--End of plugin scripts-->
     <!--Page level scripts-->
-    <script type="text/javascript" src="{{asset('assets/js/pages/users.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/pages/_datatables.js') }}"></script>
     <!-- end page level scripts -->
+@stop
