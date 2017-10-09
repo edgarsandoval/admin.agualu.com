@@ -1,0 +1,9 @@
+{
+  "/mix.js": "/mix.js",
+  "/js/app.js": "/js/app.js",
+  "/css/app.css": "/css/app.css",
+  "/css/patch.css": "/css/patch.css",
+  "/css/vendor.css": "/css/vendor.css",
+  "/css/vendor.js": "/css/vendor.js",
+  "/js/vendor.js": "/js/vendor.js"
+}
