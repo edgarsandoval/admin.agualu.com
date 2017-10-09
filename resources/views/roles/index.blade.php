@@ -21,7 +21,7 @@
                 <div class="col-lg-6 col-sm-4">
                     <h4 class="nav_top_align">
                         <i class="fa fa-cogs"></i>
-                        Adminisrar Roles
+                        Administrar Roles
                     </h4>
                 </div>
             </div>
@@ -123,6 +123,6 @@
     <script type="text/javascript" src="{{ asset('vendor/datatables/js/buttons.print.min.js') }}"></script>
     <!--End of plugin scripts-->
     <!--Page level scripts-->
-    <script type="text/javascript" src="{{ asset('js/pages/_datatables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/pages/datatables.js') }}"></script>
     <!-- end page level scripts -->
 @stop

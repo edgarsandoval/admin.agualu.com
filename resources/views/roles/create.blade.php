@@ -47,7 +47,7 @@
                 <div class="card-block m-t-35">
                     {!! Form::open(['route' => 'store_role', 'method' => 'POST', 'id' => 'role-form', 'class' => 'form-horizontal login_validator'])!!}
                         @include('partials.role-form')
-                    {{ Form::open(array('url' => 'roles')) }}
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>

@@ -14,15 +14,5 @@ $(document).ready(function() {
                 }
             },
         }
-    }).on('success.form.bv', function(e) {
-        e.preventDefault();
-        swal({
-            title: "Success.",
-            text: "Successfully Added",
-            type: "success",
-            allowOutsideClick: false
-        }).then(function() {
-            location.reload();
-        });
-    });;
+    });
 });
