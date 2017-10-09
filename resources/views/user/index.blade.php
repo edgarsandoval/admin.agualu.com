@@ -1,10 +1,10 @@
 @extends('layouts/default')
 
-{{-- Page title --}}
 @section('title')
     Usuarios
     @parent
 @stop
+
 {{-- page level styles --}}
 @section('styles')
     <!--Plugin styles-->
@@ -153,9 +153,4 @@
     <!--Page level scripts-->
     <script type="text/javascript" src="{{asset('assets/js/pages/users.js')}}"></script>
     <!-- end page level scripts -->
-    @if(isset($toastr))
-    <script type="text/javascript">
-        toastr.{{ $toastr['class'] }}('{{ $toastr['message']}}', '{{ $toastr['status'] ? '¡Exito!' : '¡Error!'}}');
-    </script>
-    @endif
 @stop

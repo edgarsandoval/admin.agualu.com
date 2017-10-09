@@ -1,9 +1,8 @@
 /node_modules
-/public/hot
-/public/storage
-/public/assets
 /storage/*.key
 /vendor
+/public/css/vendor.css
+/public/js/vendor.js
 /.idea
 /.vagrant
 Homestead.json

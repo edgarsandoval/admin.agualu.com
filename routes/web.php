@@ -63,8 +63,24 @@ Route::group(['prefix' => 'openpay'], function() {
     Route::post('webhook', 'OpenpayController@webhook')->name('webhook');
 });
 
-Route::resource('roles', 'RoleController');
+Route::group(['prefix' => 'roles'], function() {
+    Route::get('/', 'RoleController@index')->name('roles');
+    Route::get('crear', 'RoleController@create')->name('add_role');
+    Route::post('/', 'RoleController@store')->name('store_role');
+    Route::get('{id}', 'RoleController@show')->name('view_role');
+    Route::get('{id}/editar', 'RoleController@edit')->name('edit_role');
+    Route::put('{id}', 'RoleController@update')->name('update_role');
+    Route::delete('{id}', 'RoleController@destroy')->name('delete_role');
+});
 
-Route::resource('permissions', 'PermissionController');
+Route::group(['prefix' => 'permisos'], function() {
+    Route::get('/', 'PermissionController@index')->name('permissions');
+    Route::get('crear', 'PermissionController@create')->name('add_permission');
+    Route::post('/', 'PermissionController@store')->name('store_permission');
+    Route::get('{id}', 'PermissionController@show')->name('view_permission');
+    Route::get('{id}/editar', 'PermissionController@edit')->name('edit_permission');
+    Route::put('{id}', 'PermissionController@update')->name('update_permission');
+    Route::delete('{id}', 'PermissionController@destroy')->name('delete_permission');
+});
 
 Route::resource('posts', 'PostController');
