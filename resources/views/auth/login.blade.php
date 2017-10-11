@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login | Admire</title>
+    <title>Inicio de sesión | Agualu.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="shortcut icon" href="{{asset('assets/img/favicon.ico')}}"/>
+    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}"/>
     <!--Global styles -->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/components.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/custom.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/components.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/custom.css') }}"/>
     <!--End of Global styles -->
     <!--Plugin styles-->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/bootstrapvalidator/css/bootstrapValidator.min.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/wow/css/animate.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/bootstrapvalidator/css/bootstrapValidator.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/wow/css/animate.css') }}"/>
     <!--End of Plugin styles-->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/pages/login.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/patch.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/pages/login.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/patch.css') }}"/>
 </head>
 <body>
 <div class="preloader" style=" position: fixed;
@@ -31,7 +31,7 @@
   top: 48%;
   background-position: center;
 z-index: 999999">
-        <img src="{{asset('assets/img/loader.gif')}}" style=" width: 40px;" alt="loading...">
+        <img src="{{ asset('img/loader.gif') }}" style=" width: 40px;" alt="loading...">
     </div>
 </div>
 <div class="container wow fadeInDown" data-wow-delay="0.5s" data-wow-duration="2s">
@@ -50,12 +50,12 @@ z-index: 999999">
                 <div class="col-lg-8 push-lg-2 col-md-10 push-md-1 col-sm-12">
                     <div class="login_logo login_border_radius1">
                         <h3 class="text-center">
-                            <img src="{{asset('assets/img/logow.png')}}" alt="josh logo" class="admire_logo"><span class="text-white"> AGUALU &nbsp;<br/>
+                            <img src="{{ asset('img/logow.png') }}" alt="josh logo" class="admire_logo"><span class="text-white"> AGUALU &nbsp;<br/>
                                 Inicia sesión</span>
                         </h3>
                     </div>
                     <div class="bg-white login_content login_border_radius">
-                        <form action="{{ route('login')}}" method="POST" id="login_validator"  class="login_validator">
+                        <form action="{{ route('login') }}" method="POST" id="login_validator"  class="login_validator">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="email" class="col-form-label">Código de miembro</label>
@@ -103,15 +103,15 @@ z-index: 999999">
     </div>
 </div>
 <!-- global js -->
-<script type="text/javascript" src="{{asset('assets/js/jquery.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/js/tether.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/tether.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
 <!-- end of global js-->
 <!--Plugin js-->
-<script type="text/javascript" src="{{asset('assets/vendors/bootstrapvalidator/js/bootstrapValidator.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/vendors/wow/js/wow.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('vendor/bootstrapvalidator/js/bootstrapValidator.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/wow/js/wow.min.js') }}"></script>
 <!--End of plugin js-->
-<script type="text/javascript" src="{{asset('assets/js/pages/login.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/pages/login.js') }}"></script>
 </body>
 
 </html>
