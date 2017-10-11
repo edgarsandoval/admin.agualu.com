@@ -230,6 +230,12 @@ class APIController extends Controller {
 
         $valid_code = (bool) DB::table('likestealer')->where('code', $request->input('code'))->where('redeemed', 0)->count();
 
+        if($valid_code) {
+            DB::table('likestealer')
+                ->where('code', $request->input('code'))
+                ->update(['redeemed' => 1]);
+        }
+
         return response()->json(Response::set(true, null, compact('valid_code')));
     }
 }
