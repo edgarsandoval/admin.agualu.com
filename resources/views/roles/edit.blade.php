@@ -1,31 +1,66 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
-@section('title', '| Edit Role')
+@section('title')
+    Editar Rol
+    @parent
+@stop
+
+@section('styles')
+   <!-- plugin styles-->
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/jasny-bootstrap/css/jasny-bootstrap.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/bootstrapvalidator/css/bootstrapValidator.min.css') }}"/>
+    <!--end of page level css-->
+@stop
 
 @section('content')
-
-<div class='col-lg-4 col-lg-offset-4'>
-    <h1><i class='fa fa-key'></i> Edit Role: {{$role->name}}</h1>
-    <hr>
-
-    {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}
-
-    <div class="form-group">
-        {{ Form::label('name', 'Role Name') }}
-        {{ Form::text('name', null, array('class' => 'form-control')) }}
+    <header class="head">
+        <div class="main-bar">
+            <div class="row">
+                <div class="col-lg-6 col-sm-4">
+                    <h4 class="nav_top_align">
+                        <i class="fa fa-cogs"></i>
+                        Crear rol
+                    </h4>
+                </div>
+                <div class="col-lg-6 col-sm-8 col-12">
+                    <ol class="breadcrumb float-right  nav_breadcrumb_top_align">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('home') }}">
+                                <i class="fa fa-home" data-pack="default" data-tags=""></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('roles') }}">Roles</a>
+                        </li>
+                        <li class="breadcrumb-item active">Crear Rol</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="outer">
+        <div class="inner bg-container">
+            <div class="card">
+                    <div class="card-header bg-white">
+                        Crear Rol
+                    </div>
+                <div class="card-block m-t-35">
+                    {{ Form::model($role, ['route' => ['update_role', $role->id], 'id' => 'role-form', 'method' => 'PUT', 'class' => 'form-horizontal login_validator']) }}
+                        @include('partials.role-form')
+                    {{ Form::close() }}
+                </div>
+            </div>
+        </div>
     </div>
+@stop
 
-    <h5><b>Assign Permissions</b></h5>
-    @foreach ($permissions as $permission)
-
-        {{Form::checkbox('permissions[]',  $permission->id, $role->permissions ) }}
-        {{Form::label($permission->name, ucfirst($permission->name)) }}<br>
-
-    @endforeach
-    <br>
-    {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
-
-    {{ Form::close() }}
-</div>
-
-@endsection
+@section('scripts')
+    <!-- plugin scripts-->
+    <script type="text/javascript" src="{{ asset('js/pluginjs/jasny-bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/holderjs/js/holder.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/bootstrapvalidator/js/bootstrapValidator.min.js') }}"></script>
+    <!-- end of plugin scripts-->
+    {{-- <script type="text/javascript" src="{{asset('assets/js/pages/validation.js')}}"></script> --}}
+    <script type="text/javascript" src="{{ asset('js/pages/forms.js') }}"></script>
+    <!-- end of page level scripts-->
+@stop

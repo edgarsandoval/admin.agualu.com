@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;
-//Importing laravel-permission models
+
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use Session;
 
+use App\Helpers\Response;
+
 class RoleController extends Controller {
 
     public function __construct() {
-        $this->middleware(['auth', 'isAdmin']);//isAdmin middleware lets only users with a //specific permission permission to access these resources
+        $this->middleware(['role:admin']);
     }
 
     /**
@@ -68,9 +70,8 @@ class RoleController extends Controller {
             $role->givePermissionTo($p);
         }
 
-        return redirect()->route('roles.index')
-            ->with('flash_message',
-             'Role'. $role->name.' added!');
+        return redirect()->route('roles')
+            ->with('success_message', '¡Rol "' . $role->name . '" añadido correctamente!');
     }
 
     /**
@@ -127,9 +128,8 @@ class RoleController extends Controller {
             $role->givePermissionTo($p);  //Assign permission to role
         }
 
-        return redirect()->route('roles.index')
-            ->with('flash_message',
-             'Role'. $role->name.' updated!');
+        return redirect()->route('roles')
+            ->with('success_message', '¡Rol "' . $role->name . '" editado correctamente!');
     }
 
     /**
@@ -138,14 +138,14 @@ class RoleController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $role = Role::findOrFail($id);
+
+        if ($role->id == 1)
+            return response()->json(Response::set(false, '¡No se puede eliminar este rol!'));
+
         $role->delete();
 
-        return redirect()->route('roles.index')
-            ->with('flash_message',
-             'Role deleted!');
-
+        return response()->json(Response::set(true, '¡Rol eliminado correctamente!'));
     }
 }

@@ -11,7 +11,7 @@
                 </div>
             </div>
         </div>
-        @if(!$roles->isEmpty())
+        {{-- @if(!$roles->isEmpty())
             <legend></legend>
             <h4><b>Asignación de permisos</b></h4>
 
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             @endforeach
-        @endif
+        @endif --}}
         <div class="form-group row">
             <div class="col-12 col-lg-9 push-lg-3">
                 <button class="btn btn-primary" type="submit">

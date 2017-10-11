@@ -98,15 +98,14 @@ z-index: 999999">
         </div>
         <!-- #menu -->
         <ul id="menu" class="bg-blue dker">
-            @role('admin')
             <li {!! (Request::is('index')? 'class="active"':"") !!}>
                 <a href="{{ route('home') }} ">
                     <i class="fa fa-home"></i>
                     <span class="link-title">&nbsp;Dashboard</span>
                 </a>
             </li>
-            @endrole
-            <li {!! (Request::is('users')|| Request::is('add_user') ? 'class="active"':"")!!}>
+            @role('admin')
+            <li {!! (Request::is('usuarios')|| Request::is('usuarios/ver_red') ? 'class="active"':"")!!}>
             <a href="#">
                     <i class="fa fa-user"></i>
                     <span class="link-title">&nbsp; Usuarios</span>
@@ -116,17 +115,18 @@ z-index: 999999">
                     <li {!! (Request::is('usuarios')? 'class="active"':"") !!}>
                         <a href="{{ route('users')}} ">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Mostrar Usuarios
+                            &nbsp; Listar Usuarios
                         </a>
                     </li>
-                    <li {!! (Request::is('usuarios/añadir')? 'class="active"':"") !!}>
-                        <a href="{{ route('add_user')}} ">
+                    <li {!! (Request::is('usuarios/ver_red')? 'class="active"':"") !!}>
+                        <a href="#">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Añadir Usuario
+                            &nbsp; Visualizar red
                         </a>
                     </li>
                 </ul>
             </li>
+            @endrole
 
             <li {!! (Request::is('rangos')|| Request::is('rangos/añadir') ? 'class="active"':"")!!}>
             <a href="#">
@@ -155,6 +155,7 @@ z-index: 999999">
                     &nbsp; Productos Biostyle
                 </a>
             </li>
+            @role('admin')
             <li {!! (Request::is('roles')|| Request::is('permisos') ? 'class="active"':"")!!}>
             <a href="#">
                     <i class="fa fa-cogs"></i>
@@ -176,6 +177,7 @@ z-index: 999999">
                     </li>
                 </ul>
             </li>
+            @endrole
 
 
 

@@ -61,10 +61,8 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($permissions as $permission)
-                                    <tr>
-
+                                    <tr role="row" class="even" data-id={{ $permission->id }}>
                                         <td>{{ $permission->name }}</td>
-
                                         <td>
                                             <a class="edit" data-toggle="tooltip" data-placement="top" title="Editar" href="{{ route('edit_permission', $permission->id)}}">
                                                 <i class="fa fa-pencil text-warning"></i>
@@ -83,43 +81,11 @@
             </div>
         </div>
     </div>
-    {!! Form::open(['route' => ['delete_user', ':USER_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
+    {!! Form::open(['route' => ['delete_permission', ':ID'], 'method' => 'DELETE', 'class' => 'form-delete']) !!}
     {!! Form::close() !!}
 @stop
 
 @section('scripts')
-    <script type="text/javascript">
-    	$(document).ready(function()
-    	{
-
-    		$('.btn-delete').click(function(event)
-    		{
-    			event.preventDefault();
-    			event.stopPropagation();
-
-    			if(!confirm('¿Esta seguro que desea eliminar al usuario?'))
-    				return;
-
-    			var row 	= $(this).parents('tr');
-    			var id 		= row.data('id');
-    			var form 	= $('#form-delete');
-
-                if(id == '{{ Auth::user()->id }}') {
-                    alert('No te puedes eliminar a ti mismo');
-                    return;
-                }
-
-    			var url 	= form.attr('action').replace(':USER_ID', id);
-    			var data 	= form.serialize();
-
-    			row.fadeOut();
-
-    			$.post(url, data, function(response) {
-                    toastr[response.class](response.message, response.status ? '¡Exito!' : '¡Error!');
-    			});
-    		});
-    	});
-    </script>
     <!--Plugin scripts-->
     <script type="text/javascript" src="{{ asset('vendor/select2/js/select2.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>

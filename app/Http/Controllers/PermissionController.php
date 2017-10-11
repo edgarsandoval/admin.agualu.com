@@ -11,10 +11,12 @@ use Spatie\Permission\Models\Permission;
 
 use Session;
 
+use App\Helpers\Response;
+
 class PermissionController extends Controller {
 
     public function __construct() {
-        $this->middleware(['role:partner']);
+        $this->middleware(['role:admin']);
     }
 
     /**
@@ -23,7 +25,7 @@ class PermissionController extends Controller {
     * @return \Illuminate\Http\Response
     */
     public function index() {
-        $permissions = Permission::all(); //Get all permissions
+        $permissions = Permission::orderBy('name')->get();
 
         return view('permissions.index')->with('permissions', $permissions);
     }
@@ -68,8 +70,7 @@ class PermissionController extends Controller {
         }
 
         return redirect()->route('permissions')
-            ->with('flash_message',
-             'Permission'. $permission->name.' added!');
+            ->with('success_message', '¡Permiso "' . $permission->name . '" añadido correctamente!');
 
     }
 
@@ -112,8 +113,7 @@ class PermissionController extends Controller {
         $permission->fill($input)->save();
 
         return redirect()->route('permissions')
-            ->with('flash_message',
-             'Permission'. $permission->name.' updated!');
+            ->with('success_message', '¡Permiso "' . $permission->name . '" editado correctamente!');
 
     }
 
@@ -126,18 +126,11 @@ class PermissionController extends Controller {
     public function destroy($id) {
         $permission = Permission::findOrFail($id);
 
-    //Make it impossible to delete this specific permission
-    if ($permission->name == "Administer roles & permissions") {
-            return redirect()->route('permissions')
-            ->with('flash_message',
-             'Cannot delete this Permission!');
-        }
+        if ($permission->id == 1)
+            return response()->json(Response::set(false, '¡No se puede eliminar este permiso!'));
 
         $permission->delete();
 
-        return redirect()->route('permissions')
-            ->with('flash_message',
-             'Permission deleted!');
-
+        return response()->json(Response::set(true, '¡Permiso eliminado correctamente!'));
     }
 }
