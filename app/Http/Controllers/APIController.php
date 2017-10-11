@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 use App\ErrorLog;
 use App\Item;
@@ -159,6 +161,7 @@ class APIController extends Controller {
 
             $user = User::create($data);
             $user->member_code = $user->state->acronym . '-' . str_pad(count(State::find($user->state->id)->users), 4, "0", STR_PAD_LEFT);
+            $user->assignRole(Role::where('id', '=', 2)->firstOrFail());
             $user->save();
 
             Mail::send('emails.welcome', compact('user', 'password'), function ($m) use ($user) {

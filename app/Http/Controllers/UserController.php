@@ -14,10 +14,12 @@ use Spatie\Permission\Models\Permission;
 
 use Session;
 
+use App\Helpers\Response;
+
 class UserController extends Controller {
 
     public function __construct() {
-        $this->middleware(['auth', 'isAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+        $this->middleware(['role:admin']);
     }
 
     /**
@@ -142,23 +144,7 @@ class UserController extends Controller {
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('users')
-                         ->with('success_message', 'User successfully deleted.');
-        try {
-            User::destroy($id);
-            return response()->json([
-                'status'    => true,
-                'message'   => 'Usuario eliminado correctamente',
-                'class'     => 'success'
-            ]);
-        }
-        catch(\Exception $e) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Hubo un error en el servidor',
-                'class'     => 'error'
-            ]);
-        }
+        return response()->json(Response::set(true, 'Usuario eliminado correctamente'));
     }
 
     public function profile() {
