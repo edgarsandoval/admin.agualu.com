@@ -1,7 +1,7 @@
 'use strict';
 $(document).ready(function() {
     var table = $('.dataTable');
-    table.DataTable({
+    table = table.DataTable({
         dom: "<'text-right'B><f>lr<'table-responsive't><'row'<'col-md-5 col-12'i><'col-md-7 col-12'p>>",
         buttons: [],
         language: {
@@ -34,8 +34,10 @@ $(document).ready(function() {
         row.fadeOut();
 
         $.post(url, data, function(response) {
-            if(response.status)
+            if(response.status) {
                 toastr.success(response.message, '¡Exito!');
+                table.row(row).remove().draw();
+            }
             else {
                 toastr.error(response.message, '¡Error!');
                 row.fadeIn();
