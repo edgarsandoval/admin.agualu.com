@@ -214,6 +214,21 @@ $.ajaxSetup({
 </script>
 
 <script type="text/javascript">
+@if (session('success_message'))
+    toastr.success('{{ session('success_message') }}', '¡Error!');
+@endif
+
+@if (session('warning_message'))
+    toastr.warning('{{ session('warning_message') }}', '¡Cuidado!');
+@endif
+
+@if (session('info_message'))
+    toastr.info('{{ session('info_message') }}', '¡Atención!');
+@endif
+
+@if (session('error_message'))
+    toastr.error('{{ session('error_message') }}', '¡Error!');
+@endif
 
 @if($errors->any())
    @foreach ($errors->all() as $error)

@@ -6,9 +6,14 @@ $(document).ready(function() {
         'customer'     : 'Cliente Preferente',
     };
 
-    var msg     = lscache.get('user').member_code + ' - ' + roles[lscache.get('user').roles[0].name];
-    var name    = lscache.get('user').first_name + ' ' + lscache.get('user').last_name;
-    var title   = "<span>¡Bienvenido!</span> <h5 class='text-white'>" + name + "</h5>";
+    if(!lscache.get('visited')) {
 
-    toastr.success(msg, title);
+        var msg     = lscache.get('user').member_code + ' - ' + roles[lscache.get('user').roles[0].name];
+        var name    = lscache.get('user').first_name + ' ' + lscache.get('user').last_name;
+        var title   = "<span>¡Bienvenido!</span> <h5 class='text-white'>" + name + "</h5>";
+
+        toastr.success(msg, title);
+        lscache.set('visited', true);
+    }
+
 });

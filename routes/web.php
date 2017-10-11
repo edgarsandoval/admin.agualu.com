@@ -83,4 +83,4 @@ Route::group(['prefix' => 'permisos'], function() {
     Route::delete('{id}', 'PermissionController@destroy')->name('delete_permission');
 });
 
-Route::resource('posts', 'PostController');
+// Route::resource('posts', 'PostController');

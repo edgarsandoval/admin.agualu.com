@@ -69,7 +69,7 @@ class UserController extends Controller {
         }
 
         return redirect()->route('users')
-                         ->with('flash_message', 'User successfully added.');
+                         ->with('success_message', 'User successfully added.');
     }
 
     /**
@@ -129,7 +129,7 @@ class UserController extends Controller {
              $user->roles()->detach();
 
         return redirect()->route('users')
-                         ->with('flash_message', 'User successfully edited.');
+                         ->with('success_message', 'User successfully edited.');
     }
 
     /**
@@ -143,7 +143,7 @@ class UserController extends Controller {
         $user->delete();
 
         return redirect()->route('users')
-                         ->with('flash_message', 'User successfully deleted.');
+                         ->with('success_message', 'User successfully deleted.');
         try {
             User::destroy($id);
             return response()->json([

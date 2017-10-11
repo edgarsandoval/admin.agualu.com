@@ -108,6 +108,8 @@ z-index: 999999">
 <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
 <!-- end of global js-->
 <!--Plugin js-->
+
+<script type="text/javascript" src="{{ asset('vendor/lscache/js/lscache.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/bootstrapvalidator/js/bootstrapValidator.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/wow/js/wow.min.js') }}"></script>
 <!--End of plugin js-->
