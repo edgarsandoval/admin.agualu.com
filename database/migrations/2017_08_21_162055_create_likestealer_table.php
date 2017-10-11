@@ -23,7 +23,7 @@ class CreateLikestealerTable extends Migration
             $table->tinyInteger('liked');
             $table->string('code');
             $table->tinyInteger('redeemed');
-            $table->dateTime('registred_date')->useCurrent();;
+            $table->dateTime('registred_date')->useCurrent();
         });
     }
 

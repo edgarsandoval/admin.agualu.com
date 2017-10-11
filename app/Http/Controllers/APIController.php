@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Helpers\Response;
+use Illuminate\Support\Facades\DB;
 
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -202,7 +203,7 @@ class APIController extends Controller {
 
         try {
 
-            $fields = ['incident_token', 'user_id', 'machine_id', 'machine_series', 'message'];
+            $fields = ['incident_token', 'machine_series', 'message'];
 
             foreach($fields as $field)
                 if(!$request->has($field))
@@ -214,5 +215,21 @@ class APIController extends Controller {
         } catch(\Exception $e) {
             return response()->json(Response::set(false, $e->getMessage()));
         }
+    }
+
+    public function validateCode(Request $request) {
+        if(is_null($request->header('Authorization')))
+            return response()->json($this->_failedAuth);
+
+
+            $fields = ['code'];
+
+            foreach($fields as $field)
+                if(!$request->has($field))
+                    return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha si encontrado'));
+
+        $valid_code = (bool) DB::table('likestealer')->where('code', $request->input('code'))->where('redeemed', 0)->count();
+
+        return response()->json(Response::set(true, null, compact('valid_code')));
     }
 }
