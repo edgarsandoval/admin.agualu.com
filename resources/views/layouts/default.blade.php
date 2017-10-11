@@ -17,8 +17,11 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('css/components.css') }}"/>
     <link type="text/css" rel="stylesheet" href="{{ asset('css/custom.css') }}"/>
     <link type="text/css" rel="stylesheet" href="{{ asset('css/mint_black_skin.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ asset('css/vendor.css') }}"/>
+
     <link type="text/css" rel="stylesheet" href="{{ asset('css/patch.css') }}">
+
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/toastr/css/toastr.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/sweetalert/css/sweetalert2.min.css') }}"/>
     <!-- end of global styles-->
 
     @yield('styles')
@@ -194,8 +197,11 @@ z-index: 999999">
 <!-- global scripts-->
 <script type="text/javascript" src="{{ asset('js/components.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/vendor.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/core.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('vendor/lscache/js/lscache.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/toastr/js/toastr.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/sweetalert/js/sweetalert2.min.js') }}"></script>
 <!-- end of global scripts-->
 <!-- page level js -->
 @yield('scripts')

@@ -10,11 +10,11 @@ $(document).ready(function() {
             member_code: {
                 validators: {
                     notEmpty: {
-                        message: 'El nombre de usuario es requerido'
+                        message: 'El codigo de miembro es requerido'
                     },
                     regexp: {
                         regexp: /^[A-Z]{3}-\d{4}$/,
-                        message: 'El nombre de usuario no es válido'
+                        message: 'El codigo de miembro no es válido'
                     }
                 }
             },
