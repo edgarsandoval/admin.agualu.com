@@ -40,13 +40,13 @@ class APIController extends Controller {
 
     public function getCredentials(Request $request) {
         if(!$request->has('machine_id'))
-            return response()->json(Response::set(false, 'El parametro [machine_id] no ha si encontrado'));
+            return response()->json(Response::set(false, 'El parametro [machine_id] no ha sido encontrado'));
 
         $machine_id = $request->input('machine_id');
         $machine    = Machine::find($machine_id);
 
         if(is_null($machine))
-            return response()->json(Response::set(false, 'La máquina no ha sido encontrada'));
+            return response()->json(Response::set(false, 'La máquina no ha sidodo encontrada'));
 
         $password = 'agualu2017' . str_random(5);
         $machine->password = $password;
@@ -57,10 +57,10 @@ class APIController extends Controller {
 
     public function authenticate(Request $request) {
         if(!$request->has('machine_id'))
-            return response()->json(Response::set(false, 'El parametro [machine_id] no ha si encontrado'));
+            return response()->json(Response::set(false, 'El parametro [machine_id] no ha sido encontrado'));
 
         if(!$request->has('password'))
-            return response()->json(Response::set(false, 'El parametro [password] no ha si encontrado'));
+            return response()->json(Response::set(false, 'El parametro [password] no ha sido encontrado'));
 
         $machine_id = $request->input('machine_id');
         $machine    = Machine::find($machine_id);
@@ -86,7 +86,7 @@ class APIController extends Controller {
             ];
         }
 
-        return response()->json($response);
+        return response()->json(Response::set(true, null, ['users' => $response]));
     }
 
     public function exportProducts(Request $request) {
@@ -109,7 +109,7 @@ class APIController extends Controller {
             ];
         }
 
-        return response()->json($response);
+        return response()->json(Response::set(true, null, ['products' => $response]));
     }
 
     public function exportParameters(Request $request) {
@@ -120,24 +120,48 @@ class APIController extends Controller {
             'precio_inscripcion'    => 30,
         ];
 
-        return response()->json($response);
+        return response()->json(Response::set(true, null, $response));
+    }
+
+    public function exportCodes(Request $request) {
+        if(is_null($request->header('Authorization')))
+            return response()->json($this->_failedAuth);
+
+        $codes = DB::table('likestealer')->select('code')->where('redeemed', 0)->get();
+
+        $response = ['codes' => []];
+
+        foreach($codes as $code)
+            $response['codes'][] = $code->code;
+
+        return response()->json(Response::set(true, null, $response));
     }
 
 
-    public function send_sales(Request $request) {
-        return response()->json(['process' => 'Abono Completado']);
+    public function sendSales(Request $request) {
+        if(is_null($request->header('Authorization')))
+            return response()->json($this->_failedAuth);
+
+        $fields = ['user_id', 'machine_id', 'product_id', 'amount', 'is_public'];
+
+        foreach($fields as $field)
+            if(!$request->has($field))
+                return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha sido encontrado'));
+
+        // if(is_null(User::find($request->input('user_id'))))
+        return response()->json(Response::set(true, 'Abono completado'));
     }
 
-    public function send_registration(Request $request) {
+    public function sendRegistration(Request $request) {
         if(is_null($request->header('Authorization')))
             return response()->json($this->_failedAuth);
 
         try {
-            $fields = ['name', 'email', 'machine_id'];
+            $fields = ['name', 'email', 'machine_id', 'user_id'];
 
             foreach($fields as $field)
                 if(!$request->has($field))
-                    return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha si encontrado'));
+                    return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha sido encontrado'));
 
             $password = rand(1000, 9999);
 
@@ -170,57 +194,58 @@ class APIController extends Controller {
                $m->to($user->email)->subject('¡Bienvenido a la red Agualu!');
             });
 
-            return response()->json(['process' => 'Ok']);
+            return response()->json(Response::set(true, 'Ok'));
 
         } catch(\Exception $e) {
             return response()->json(Response::set(false, $e->getMessage()));
         }
     }
 
-    public function save_credit(Request $request) {
+    public function saveCredit(Request $request) {
         if(is_null($request->header('Authorization')))
             return response()->json($this->_failedAuth);
 
         if(!$request->has('user_id'))
-            return response()->json(Response::set(false, 'El parametro [user_id] no ha si encontrado'));
+            return response()->json(Response::set(false, 'El parametro [user_id] no ha sido encontrado'));
 
         if(!$request->has('amount'))
-            return response()->json(Response::set(false, 'El parametro [amount] no ha si encontrado'));
+            return response()->json(Response::set(false, 'El parametro [amount] no ha sido encontrado'));
 
         $user_id = $request->input('user_id');
 
         $user = User::find($user_id);
 
         if(is_null($user))
-            return response()->json(Response::set(false, 'El usuario no ha sido encontrada'));
+            return response()->json(Response::set(false, 'El usuario no ha sidodo encontrada'));
 
         $user->budget += $request->input('amount');
         $user->save();
 
-        return response()->json(['process' => 'Abono Completado', 'money' => $user->budget]);
+        return response()->json(Response::set(true, 'Abono Completado', ['money' => $user->budget]));
     }
 
-    public function send_error(Request $request) {
+    public function sendError(Request $request) {
         if(is_null($request->header('Authorization')))
             return response()->json($this->_failedAuth);
 
         try {
 
-            $fields = ['incident_token', 'machine_series', 'message'];
+            $fields = ['incident_token', 'machine_series', 'message', 'user_id', 'machine_id', 'is_public'];
 
             foreach($fields as $field)
                 if(!$request->has($field))
-                    return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha si encontrado'));
+                    return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha sido encontrado'));
 
-            $errorLog = ErrorLog::create($request->all());
+            //$errorLog = ErrorLog::create($request->all());
 
-            return response()->json(['process' => 'Mensaje Enviado']);
+
+            return response()->json(Response::set(true, 'Mensaje Enviado'));
         } catch(\Exception $e) {
             return response()->json(Response::set(false, $e->getMessage()));
         }
     }
 
-    public function validateCode(Request $request) {
+    public function sendCode(Request $request) {
         if(is_null($request->header('Authorization')))
             return response()->json($this->_failedAuth);
 
@@ -229,16 +254,15 @@ class APIController extends Controller {
 
             foreach($fields as $field)
                 if(!$request->has($field))
-                    return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha si encontrado'));
+                    return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha sido encontrado'));
 
-        $valid_code = (bool) DB::table('likestealer')->where('code', $request->input('code'))->where('redeemed', 0)->count();
-
-        if($valid_code) {
-            DB::table('likestealer')
-                ->where('code', $request->input('code'))
-                ->update(['redeemed' => 1]);
+        try {
+            if(DB::table('likestealer')->where('code', $request->input('code'))->update(['redeemed' => 1]))
+                return response()->json(Response::set(true, 'Ok'));
+            else
+                throw new \Exception();
+        } catch(\Exception $e) {
+            return response()->json(Response::set(false, 'El código no ha podido ser encontrado'));
         }
-
-        return response()->json(Response::set(true, null, compact('valid_code')));
     }
 }

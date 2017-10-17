@@ -30,8 +30,9 @@ Route::post('get_authentication', 'APIController@authenticate'); // -> para obte
 Route::get('import_users', 'APIController@exportUsers');
 Route::get('import_products', 'APIController@exportProducts');
 Route::get('import_parameters', 'APIController@exportParameters');
-Route::post('send_sales', 'APIController@send_sales');
-Route::post('send_registration', 'APIController@send_registration');
-Route::put('save_credit', 'APIController@save_credit');
-Route::post('send_error', 'APIController@send_error');
-Route::post('validate_code', 'APIController@validateCode');
+Route::get('import_codes', 'APIController@exportCodes');
+Route::post('send_code', 'APIController@sendCode');
+Route::post('send_sales', 'APIController@sendSales');
+Route::post('send_registration', 'APIController@sendRegistration');
+Route::put('save_credit', 'APIController@saveCredit');
+Route::post('send_error', 'APIController@sendError');
