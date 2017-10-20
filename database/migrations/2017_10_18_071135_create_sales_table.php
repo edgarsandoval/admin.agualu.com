@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateErrorLogsTable extends Migration
+class CreateSalesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateErrorLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('error_logs', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
+        Schema::create('sales', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('incident_token');
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('machine_id')->unsigned();
-            $table->string('machine_series');
-            $table->string('message');
+            $table->integer('product_id')->unsigned();
+            $table->decimal('amount', 10, 2);
             $table->boolean('is_public');
             $table->timestamps();
         });
@@ -33,6 +31,6 @@ class CreateErrorLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('error_logs');
+        Schema::dropIfExists('sales');
     }
 }

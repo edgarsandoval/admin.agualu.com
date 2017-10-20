@@ -182,6 +182,10 @@ class APIController extends Controller {
                 'status'            => 'Vigente',
             ];
 
+            if($request->input('user_id') == 0) // This means nobody refer this new user, so it will be a [Machine] children
+                $data['machine_id'] = $machine->id;
+            else // Otherwise, this user is te refered member, so it will be [User] children
+                $data['user_id']     = $request->input('user_id');
 
             $user = User::create($data);
             $user->member_code = $user->state->acronym . '-' . str_pad(count(State::find($user->state->id)->users), 4, "0", STR_PAD_LEFT);
@@ -236,8 +240,12 @@ class APIController extends Controller {
                 if(!$request->has($field))
                     return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha sido encontrado'));
 
-            //$errorLog = ErrorLog::create($request->all());
+            $data = $request->all();
 
+            if($request->input('is_public'))
+                $data['user_id'] = null;
+
+            $errorLog = ErrorLog::create($data);
 
             return response()->json(Response::set(true, 'Mensaje Enviado'));
         } catch(\Exception $e) {

@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
+use App\Machine;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -34,8 +36,12 @@ class User extends Authenticatable
         'postal_code',
         'range_id',
         'preferential',
-        'budget'
+        'budget',
+        'user_id',
+        'machine_id'
     ];
+
+    protected $appends = [ 'father' ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -45,6 +51,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getFatherAttribute() {
+        if(!is_null($this->user_id))
+            return self::find($this->user_id);
+
+        if(!is_null($this->machine_id))
+            return Machine::find($this->machine_id)->user;
+
+        return null;
+    }
 
     public function setPasswordAttribute($value) {
         if(!empty($value))
