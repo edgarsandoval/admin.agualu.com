@@ -20,6 +20,7 @@ use App\State;
 use App\User;
 
 use Mail;
+use Setting;
 
 class APIController extends Controller {
     private $_expirationTime = 5;
@@ -116,8 +117,10 @@ class APIController extends Controller {
         if(is_null($request->header('Authorization')))
             return response()->json($this->_failedAuth);
 
+        $name = 'registration_fee';
+
         $response = [
-            'precio_inscripcion'    => 30,
+            'precio_inscripcion'    => (float )Setting::get($name, 30),
         ];
 
         return response()->json(Response::set(true, null, $response));
