@@ -122,7 +122,7 @@ z-index: 999999">
                     <li {!! (Request::is('usuarios/directorio')? 'class="active"':"") !!}>
                         <a href="{{ route('user_directory')}} ">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Listar Miembros
+                            &nbsp; Ver Directorio
                         </a>
                     </li>
                     <li {!! (Request::is('usuarios/ver_red')? 'class="active"':"") !!}>

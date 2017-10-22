@@ -25,18 +25,9 @@ Route::group(['prefix' => 'usuarios'], function() {
     Route::get('ticket/{id}', 'OpenpayController@ticket')->name('stores_ticket');
     Route::get('directorio', 'UserController@directory')->name('user_directory');
     Route::get('ver_red', 'UserController@network')->name('network');
-
-    Route::get('/', 'UserController@index')->name('users');
-    Route::get('crear', 'UserController@create')->name('add_user');
-    Route::post('/', 'UserController@store')->name('store_user');
-    Route::get('{id}', 'UserController@show')->name('view_user');
-    Route::get('{id}/editar', 'UserController@edit')->name('edit_user');
-    Route::put('{id}', 'UserController@update')->name('update_user');
-    Route::delete('{id}', 'UserController@destroy')->name('delete_user');
 });
 
 Route::get('state/{id}', 'StateController@show');
-
 
 Route::group(['prefix' => 'rangos'], function() {
     Route::get('/', 'RangeController@index')->name('ranges');
@@ -65,24 +56,34 @@ Route::group(['prefix' => 'openpay'], function() {
     Route::post('webhook', 'OpenpayController@webhook')->name('webhook');
 });
 
-Route::group(['prefix' => 'roles'], function() {
-    Route::get('/', 'RoleController@index')->name('roles');
-    Route::get('crear', 'RoleController@create')->name('add_role');
-    Route::post('/', 'RoleController@store')->name('store_role');
-    Route::get('{id}', 'RoleController@show')->name('view_role');
-    Route::get('{id}/editar', 'RoleController@edit')->name('edit_role');
-    Route::put('{id}', 'RoleController@update')->name('update_role');
-    Route::delete('{id}', 'RoleController@destroy')->name('delete_role');
-});
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::group(['prefix' => 'usuarios'], function() {
+        Route::get('/', 'UserController@index')->name('users');
+        Route::get('crear', 'UserController@create')->name('add_user');
+        Route::post('/', 'UserController@store')->name('store_user');
+        Route::get('{id}', 'UserController@show')->name('view_user');
+        Route::get('{id}/editar', 'UserController@edit')->name('edit_user');
+        Route::put('{id}', 'UserController@update')->name('update_user');
+        Route::delete('{id}', 'UserController@destroy')->name('delete_user');
+    });
 
-Route::group(['prefix' => 'permisos'], function() {
-    Route::get('/', 'PermissionController@index')->name('permissions');
-    Route::get('crear', 'PermissionController@create')->name('add_permission');
-    Route::post('/', 'PermissionController@store')->name('store_permission');
-    Route::get('{id}', 'PermissionController@show')->name('view_permission');
-    Route::get('{id}/editar', 'PermissionController@edit')->name('edit_permission');
-    Route::put('{id}', 'PermissionController@update')->name('update_permission');
-    Route::delete('{id}', 'PermissionController@destroy')->name('delete_permission');
-});
+    Route::group(['prefix' => 'roles'], function() {
+        Route::get('/', 'RoleController@index')->name('roles');
+        Route::get('crear', 'RoleController@create')->name('add_role');
+        Route::post('/', 'RoleController@store')->name('store_role');
+        Route::get('{id}', 'RoleController@show')->name('view_role');
+        Route::get('{id}/editar', 'RoleController@edit')->name('edit_role');
+        Route::put('{id}', 'RoleController@update')->name('update_role');
+        Route::delete('{id}', 'RoleController@destroy')->name('delete_role');
+    });
 
-// Route::resource('posts', 'PostController');
+    Route::group(['prefix' => 'permisos'], function() {
+        Route::get('/', 'PermissionController@index')->name('permissions');
+        Route::get('crear', 'PermissionController@create')->name('add_permission');
+        Route::post('/', 'PermissionController@store')->name('store_permission');
+        Route::get('{id}', 'PermissionController@show')->name('view_permission');
+        Route::get('{id}/editar', 'PermissionController@edit')->name('edit_permission');
+        Route::put('{id}', 'PermissionController@update')->name('update_permission');
+        Route::delete('{id}', 'PermissionController@destroy')->name('delete_permission');
+    });
+});

@@ -68,12 +68,21 @@
                                             <td class="center">{{ isset($user->city) ? $user->city->name : 'N/A' }}</td>
                                             <td class="center">{{ $user->status }}</td>
                                             <td>
-                                                <a class="edit" data-toggle="tooltip" data-placement="top" title="Editar" href="{{ route('edit_user', $user->id)}}">
-                                                    <i class="fa fa-pencil text-warning"></i>
-                                                </a>&nbsp; &nbsp;
-                                                <a class="delete hidden-xs hidden-sm btn-delete" data-toggle="tooltip" data-placement="top" title="Eliminar" href="#">
-                                                    <i class="fa fa-trash text-danger"></i>
-                                                </a>
+                                                @role('partner')
+                                                    <a href="{{ route('view_user', $user->id ) }}" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver Usuario">
+                                                        <i class="fa fa-eye text-success"></i>
+                                                    </a>&nbsp; &nbsp;
+                                                @endrole
+                                                @can('Editar Usuarios')
+                                                    <a class="edit" data-toggle="tooltip" data-placement="top" title="Editar" href="{{ route('edit_user', $user->id)}}">
+                                                        <i class="fa fa-pencil text-warning"></i>
+                                                    </a>&nbsp; &nbsp;
+                                                @endcan
+                                                @can('Eliminar Usuarios')
+                                                    <a class="delete hidden-xs hidden-sm btn-delete" data-toggle="tooltip" data-placement="top" title="Eliminar" href="#">
+                                                        <i class="fa fa-trash text-danger"></i>
+                                                    </a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
@@ -87,18 +96,6 @@
     </div>
     {!! Form::open(['route' => ['delete_user', ':ID'], 'method' => 'DELETE', 'class' => 'form-delete']) !!}
     {!! Form::close() !!}
-                    {{-- <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->created_at->format('F d, Y h:ia') }}</td>
-                    <td>{{  $user->roles()->pluck('name')->implode(' ') }}</td>
-                    <td>
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
-
-                    {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
-                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
-
-                    </td> --}}
 @stop
 @section('scripts')
     <!--Plugin scripts-->

@@ -183,6 +183,7 @@ return [
         // Other providers
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Unisharp\Setting\SettingServiceProvider::class,
     ],
 
     /*
@@ -239,6 +240,7 @@ return [
         // Other aliases
         'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Setting' => Unisharp\Setting\SettingFacade::class,
 
     ],
 

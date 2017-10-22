@@ -17,11 +17,6 @@ use Session;
 use App\Helpers\Response;
 
 class UserController extends Controller {
-
-    public function __construct() {
-        $this->middleware(['role:admin']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +41,7 @@ class UserController extends Controller {
         $users  = User::all()->pluck('full_name', 'id');
         $roles = Role::get();
 
-        return view('user.create', compact('states', 'cities', 'ranges', 'status', 'users'));
+        return view('users.create', compact('states', 'cities', 'ranges', 'status', 'users'));
     }
 
     /**
@@ -87,7 +82,7 @@ class UserController extends Controller {
 
         $user = User::find($id);
 
-        return view('user.show', [
+        return view('users.show', [
             'user'  => $user
         ]);
     }
@@ -150,13 +145,13 @@ class UserController extends Controller {
     public function profile() {
         $user = Auth::user();
 
-        return view('user.show', [
+        return view('users.show', [
             'user' => $user
         ]);
     }
 
     public function budget() {
-        return view('user.budget');
+        return view('users.budget');
     }
 
     public function network() {
@@ -179,6 +174,9 @@ class UserController extends Controller {
     	while(!$queue->isEmpty()) {
             $node = $queue->pop();
 
+            if($node->level == 8)
+                continue;
+
             if($node instanceof User) {
                 $father = $node->father;
 
@@ -198,8 +196,41 @@ class UserController extends Controller {
             $network[] = $this->_parseOrgChartNodeModel($node);
         }
 
-        // dd($network);
-        return view('user.network', compact('network', 'machinesId'));
+        return view('users.network', compact('network', 'machinesId'));
+    }
+
+    public function directory() {
+        $users = [];
+
+        $queue = new \SplQueue();
+
+        $user = Auth::user();
+        $user->level    = 1;
+
+        foreach ($user->childrens as $children) {
+            $children->level = 2;
+            $queue->push($children);
+        }
+
+
+    	while(!$queue->isEmpty()) {
+            $node = $queue->pop();
+
+            if($node->level == 8)
+                continue;
+
+            if(count($node->childrens) != 0) {
+                foreach ($node->childrens as $children) {
+                    $children->level = $node->level + 1;
+                    $queue->push($children);
+                }
+            }
+
+            if($node instanceof User)
+                $users[] = $node;
+        }
+
+        return view('users.index', compact('users'));
     }
 
     private function _parseOrgChartNodeModel($node) {
@@ -208,7 +239,7 @@ class UserController extends Controller {
                 'id'                => $node->id,
                 'parentId'          => $node->user_id,
                 'name'              => $node->full_name,
-                'distributorNumber' => 'Distribuidor #' . $node->id,
+                'distributorNumber' => 'Distribuidor ' . $node->member_code,
                 'level'             => 'Nivel '. $node->level,
                 'state'             => (isset($node->city) ? $node->city->name . ', ' : ''). $node->state->name,
                 'consumption'       => 'Consumo $' . number_format(0, 2),

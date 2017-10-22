@@ -30,7 +30,7 @@
             <div class="card">
                 <div class="card-block m-t-25">
                     <div>
-                        <h4>Bienvenido {{ Auth::user()->full_name }}</h4>
+                        <h4>Bienvenido {{ Auth::user()->full_name . ' - ' . Auth::user()->roles()->pluck('name')->implode(' ') }}</h4>
                     </div>
                     <div class="form-group row m-t-25">
                         <p style="padding: 35px;">El contenido principal de esta vista está aún por definirse, sin embargo puedes navegar por el menú de la izquierda.</p>
