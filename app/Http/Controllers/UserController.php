@@ -23,7 +23,7 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $users = User::with('city')->get();
+        $users = User::where('id', '<>', Auth::user()->id)->with('city')->get();
 
         return view('users.index', compact('users'));
     }

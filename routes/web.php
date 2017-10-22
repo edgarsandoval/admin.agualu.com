@@ -67,6 +67,11 @@ Route::group(['middleware' => ['role:admin']], function () {
         Route::delete('{id}', 'UserController@destroy')->name('delete_user');
     });
 
+    Route::group(['prefix' => 'parametros'], function() {
+        Route::get('/', 'SettingController@index')->name('parameters');
+        Route::put('/', 'SettingController@update')->name('update_parameter');
+    });
+
     Route::group(['prefix' => 'roles'], function() {
         Route::get('/', 'RoleController@index')->name('roles');
         Route::get('crear', 'RoleController@create')->name('add_role');

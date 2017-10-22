@@ -162,6 +162,12 @@ z-index: 999999">
                 </a>
             </li>
             @role('admin')
+            <li {!! (Request::is('parametros') ? 'class="active"':"")!!}>
+                <a href="{{ route('parameters') }}">
+                    <i class="fa fa-pencil"></i>
+                    &nbsp; Parámetros de Multinivel
+                </a>
+            </li>
             <li {!! (Request::is('roles')|| Request::is('permisos') ? 'class="active"':"")!!}>
             <a href="#">
                     <i class="fa fa-cogs"></i>

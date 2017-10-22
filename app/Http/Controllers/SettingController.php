@@ -3,60 +3,55 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Setting;
 
-class SettingController extends Controller
-{
+class SettingController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+    public function index() {
+        $sections = [
+            [
+                'name' => 'Inscripción',
+                'fields' => [
+                    [
+                        'name'  => 'registration_fee',
+                        'value' => '',
+                        'label' => 'Cuota de inscripción'
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+                    ]
+                ]
+            ],
+            [
+                'name' => 'Repartición de niveles',
+                'fields' => [
+                    [
+                        'name'  => 'owner_percentage',
+                        'value' => '',
+                        'label' => 'Porcentaje para el dueño de la máquina'
+                    ]
+                ]
+            ]
+        ];
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        for($i = 1; $i <= 7; $i++)
+            $sections[1]['fields'][] = [
+                'name'  => 'level_' . $i . '_percentage',
+                'value' => '',
+                'label' => 'Porcentaje para nivel no. ' . $i
+            ];
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $sections = json_decode(json_encode($sections));
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        foreach($sections as $section)
+            foreach($section->fields as &$field)
+                $field->value = Setting::get($field->name, '');
+
+
+
+        return view('settings.index', compact('sections'));
     }
 
     /**
@@ -66,19 +61,12 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request) {
+        foreach ($request->except(['_method', '_token']) as $name => $value) {
+            Setting::set($name, $value);
+        }
+
+        return redirect()->route('parameters');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
