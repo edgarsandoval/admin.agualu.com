@@ -104,29 +104,35 @@ z-index: 999999">
                     <span class="link-title">&nbsp;Dashboard</span>
                 </a>
             </li>
-            @role('admin')
             <li {!! (Request::is('usuarios')|| Request::is('usuarios/ver_red') ? 'class="active"':"")!!}>
             <a href="#">
                     <i class="fa fa-user"></i>
-                    <span class="link-title">&nbsp; Usuarios</span>
+                    <span class="link-title">&nbsp; Miembros</span>
                     <span class="fa arrow"></span>
                 </a>
                 <ul>
+                    @role('admin')
                     <li {!! (Request::is('usuarios')? 'class="active"':"") !!}>
                         <a href="{{ route('users')}} ">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Listar Usuarios
+                            &nbsp; Listar Miembros
+                        </a>
+                    </li>
+                    @endrole
+                    <li {!! (Request::is('usuarios/directorio')? 'class="active"':"") !!}>
+                        <a href="{{ route('user_directory')}} ">
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp; Listar Miembros
                         </a>
                     </li>
                     <li {!! (Request::is('usuarios/ver_red')? 'class="active"':"") !!}>
-                        <a href="#">
+                        <a href="{{ route('network') }}">
                             <i class="fa fa-angle-right"></i>
                             &nbsp; Visualizar red
                         </a>
                     </li>
                 </ul>
             </li>
-            @endrole
 
             <li {!! (Request::is('rangos')|| Request::is('rangos/añadir') ? 'class="active"':"")!!}>
             <a href="#">

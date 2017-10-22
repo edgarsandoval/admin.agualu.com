@@ -18,4 +18,12 @@ class Machine extends Model {
             $this->attributes['password'] = \Hash::make($value);
     }
 
+    public function childrens() {
+        return $this->hasMany('App\User');
+    }
+
+    public function state() {
+        return $this->hasOne('App\State', 'id', 'state_id');
+    }
+
 }

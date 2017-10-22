@@ -158,4 +158,71 @@ class UserController extends Controller {
     public function budget() {
         return view('user.budget');
     }
+
+    public function network() {
+        $network = [];
+        $machinesId = [];
+
+        $queue = new \SplQueue();
+
+        $user = Auth::user();
+        $user->parentId = null;
+        $user->level    = 1;
+
+        foreach ($user->childrens as $children) {
+            $children->level = 2;
+            $queue->push($children);
+        }
+
+        $network[] = $this->_parseOrgChartNodeModel($user);
+
+    	while(!$queue->isEmpty()) {
+            $node = $queue->pop();
+
+            if($node instanceof User) {
+                $father = $node->father;
+
+                if(!$father instanceof User)
+                    $node->user_id =  $father->id . 'M';
+            }
+            else
+                $machinesId[] = $node->id . 'M';
+
+            if(count($node->childrens) != 0) {
+                foreach ($node->childrens as $children) {
+                    $children->level = $node->level + 1;
+                    $queue->push($children);
+                }
+            }
+
+            $network[] = $this->_parseOrgChartNodeModel($node);
+        }
+
+        // dd($network);
+        return view('user.network', compact('network', 'machinesId'));
+    }
+
+    private function _parseOrgChartNodeModel($node) {
+        if($node instanceof User) {
+            return [
+                'id'                => $node->id,
+                'parentId'          => $node->user_id,
+                'name'              => $node->full_name,
+                'distributorNumber' => 'Distribuidor #' . $node->id,
+                'level'             => 'Nivel '. $node->level,
+                'state'             => (isset($node->city) ? $node->city->name . ', ' : ''). $node->state->name,
+                'consumption'       => 'Consumo $' . number_format(0, 2),
+            ];
+        }
+        else {
+            return [
+                'id'                => $node->id . 'M',
+                'parentId'          => $node->user_id,
+                'name'              => 'Máquina #' . $node->id,
+                'level'             => 'Nivel ' . $node->level,
+                'state'             => $node->state->name,
+                // 'CompraPersonal'    => 'xd',
+            ];
+        }
+    }
 }

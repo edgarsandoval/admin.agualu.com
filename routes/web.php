@@ -23,6 +23,8 @@ Route::group(['prefix' => 'usuarios'], function() {
     Route::get('abonar', 'UserController@budget')->name('budget');
     Route::get('payment', 'UserController@switch_payment')->name('switch_payment');
     Route::get('ticket/{id}', 'OpenpayController@ticket')->name('stores_ticket');
+    Route::get('directorio', 'UserController@directory')->name('user_directory');
+    Route::get('ver_red', 'UserController@network')->name('network');
 
     Route::get('/', 'UserController@index')->name('users');
     Route::get('crear', 'UserController@create')->name('add_user');

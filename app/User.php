@@ -41,8 +41,6 @@ class User extends Authenticatable
         'machine_id'
     ];
 
-    protected $appends = [ 'father' ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -54,10 +52,10 @@ class User extends Authenticatable
 
     public function getFatherAttribute() {
         if(!is_null($this->user_id))
-            return self::find($this->user_id);
+            return User::find($this->user_id);
 
         if(!is_null($this->machine_id))
-            return Machine::find($this->machine_id)->user;
+            return Machine::find($this->machine_id);
 
         return null;
     }
@@ -77,6 +75,22 @@ class User extends Authenticatable
 
     public function range() {
         return $this->belongsTo('App\Range', 'id', 'range_id');
+    }
+
+    public function getChildrensAttribute() {
+        $childs = [];
+
+        $users = User::where('user_id', $this->id)->get();
+
+        foreach ($users as $user)
+            $childs[] = $user;
+
+        $machines = Machine::where('user_id', $this->id)->get();
+
+        foreach ($machines as $machine)
+            $childs[] = $machine;
+
+        return $childs;
     }
 
     public static function getPossibleEnumValues($name){
