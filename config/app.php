@@ -184,6 +184,7 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Unisharp\Setting\SettingServiceProvider::class,
+        Darryldecode\Cart\CartServiceProvider::class,
     ],
 
     /*
@@ -241,7 +242,7 @@ return [
         'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Setting' => Unisharp\Setting\SettingFacade::class,
-
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
     ],
 
 ];
