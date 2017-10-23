@@ -12,10 +12,12 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+use App\Commission;
 use App\ErrorLog;
 use App\Item;
 use App\Machine;
 use App\Product;
+use App\Sale;
 use App\State;
 use App\User;
 
@@ -151,8 +153,79 @@ class APIController extends Controller {
             if(!$request->has($field))
                 return response()->json(Response::set(false, 'El parametro [' . $field . '] no ha sido encontrado'));
 
-        // if(is_null(User::find($request->input('user_id'))))
+        $data = $request->all();
+
+        if($request->input('is_public'))
+            $data['user_id'] = null;
+
+        $sale = Sale::create($data);
+
+        // First step, we need to deposit the part that correspond to the owner;
+
+        $machine = Machine::find($request->input('machine_id'));
+        $ownerCommission = Commission::create([
+            'user_id'   => $machine->user_id,
+            'sale_id'   => $sale->id,
+            'amount'    => $this->_calculatePercentaje($data['amount'], Setting::get('owner_percentage')),
+            'tax'       => $this->_calculatePercentaje($data['amount'], Setting::get('owner_percentage')) * 0.16,
+            'level'     => 0,
+        ]);
+
+        // After that we need to define, which one going to be the first node on th graph.
+        $queue = new \SplQueue();
+
+        if($request->input('is_public')) { // In this point is necessary consider the machine that host the member
+            $firstNode          = $machine->father;
+            $firstNode->level   = 1;
+            $queue->push($firstNode);
+        }
+        else {// Or here we don't care the machine, just the member who did the sale
+            $user = User::find($request->input('user_id'));
+
+            if(!is_null($user->father)) {
+                $firstNode          = $user->father;
+                $firstNode->level   = 1;
+                $queue->push($firstNode);
+            }
+        }
+
+        // Once that we choosed, the first node we need to start the travel.
+
+        while(!$queue->isEmpty()) {
+            $node = $queue->pop();
+
+            if($node->level > 7)
+                break;
+
+            // If the node is an [User], just calculate the percentage accord to it level.
+            // Else calculate the percentage to it's level and add them to owner machine.
+            $userID = $node instanceof User ? $node->id : $node->user_id;
+
+            $memberCommission = Commission::create([
+                'user_id'   => $userID,
+                'sale_id'   => $sale->id,
+                'amount'    => $this->_calculatePercentaje($data['amount'], Setting::get('level_' . $node->level . '_percentage')),
+                'tax'       => $this->_calculatePercentaje($data['amount'], Setting::get('level_' . $node->level . '_percentage')) * 0.16,
+                'level'     => $node->level,
+            ]);
+
+            if(!is_null($node->father)) {
+                $nextNode           = $node->father;
+                $nextNode->level    = $node->level + 1;
+
+                $queue->push($nextNode);
+            }
+
+        }
+
         return response()->json(Response::set(true, 'Abono completado'));
+    }
+
+    private function _calculatePercentaje($amount, $percentage) {
+        $amount         = (float) $amount;
+        $percetnaje     = (float) $percentage;
+
+        return $amount * ($percentage / 100);
     }
 
     public function sendRegistration(Request $request) {
