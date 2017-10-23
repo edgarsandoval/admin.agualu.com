@@ -8,9 +8,9 @@
 {{-- page level styles --}}
 @section('styles')
     <!--Plugin css-->
-    <link rel="stylesheet" href="{{ asset('assets/vendors/owl-carousel/css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/owl-carousel/css/owl.theme.default.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/prettyphoto/css/prettyPhoto.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/prettyphoto/css/prettyPhoto.css') }}">
     <!--End off plugin css-->
     <!--Page level css-->
     <!--end of page level css-->
@@ -77,9 +77,11 @@
                         <div>{!! $product->benefits !!}</div>
                         <h3>Recomendaciones: </h3>
                         <div>{!! $product->recommendations !!}</div>
-
+                        <div class="price-container">
+                            <p>Obtenlo por solo <span>{{ $product->public_price }}</span> créditos</p>
+                        </div>
                         <div class="pull-right">
-                            <button type="button" name="button" class="btn btn-lg btn-primary" onclick="javascript:pruebaCarrito();">Añadir al carrito <i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+                            <button type="button" name="button" class="btn btn-lg btn-primary btn-cart" data-id="{{ $product->id }}">Añadir al carrito <i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                         </div>
                     </div>
                 </div>
@@ -90,13 +92,9 @@
 @stop
 {{-- page level scripts --}}
 @section('scripts')
-    <script type="text/javascript" src="{{ asset('assets/vendors/owl-carousel/js/owl.carousel.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendors/prettyphoto/js/jquery.prettyPhoto.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/owl-carousel/js/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/prettyphoto/js/jquery.prettyPhoto.js') }}"></script>
     <script type="text/javascript">
-
-    function pruebaCarrito() {
-        swal("¡Hecho!", "El producto de ha añaido al carrito", "success");
-    }
 
     $(document).ready(function () {
         $("a[rel^='prettyPhoto']").prettyPhoto();
@@ -108,6 +106,21 @@
             itemsDesktop: [1199, 3],
             itemsDesktopSmall: [979, 3]
 
+        });
+
+        $('.btn-cart').click(function(event) {
+            var data = {
+                'product_id': $(this).data('id')
+            };
+
+            $.post('{{ route('cart_add') }}', data, function(response) {
+
+                if(response.status)
+                    swal('¡Hecho!', response.message, 'success');
+                else
+                    swal('¡Error!', response.message, 'error');
+
+            });
         });
     });
 

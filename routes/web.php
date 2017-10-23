@@ -56,6 +56,13 @@ Route::group(['prefix' => 'openpay'], function() {
     Route::post('webhook', 'OpenpayController@webhook')->name('webhook');
 });
 
+Route::group(['prefix' => 'carrito'], function() {
+    Route::get('/', 'CartController@index')->name('cart');
+    Route::post('add', 'CartController@add')->name('cart_add');
+    Route::post('delete', 'CartController@delete')->name('cart_delete');
+    Route::post('process', 'CartController@process')->name('cart_process');
+});
+
 Route::group(['middleware' => ['role:admin']], function () {
     Route::group(['prefix' => 'usuarios'], function() {
         Route::get('/', 'UserController@index')->name('users');

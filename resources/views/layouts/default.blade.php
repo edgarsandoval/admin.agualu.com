@@ -61,6 +61,13 @@ z-index: 999999">
                 </div>
                 <div class="topnav dropdown-menu-right float-right">
                     <div class="btn-group">
+                        <a class="btn btn-default btn-sm toggle-right" href="{{ route('cart') }}" data-toggle="tooltip" data-placement="bottom" title="Ir al carrito">
+                            &nbsp;
+                            <i class="fa fa-shopping-cart text-white"></i>
+                            &nbsp;
+                        </a>
+                    </div>
+                    <div class="btn-group">
                         <div class="user-settings no-bg">
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown">
                                 <img src="{{asset('img/admin.jpg')}}" class="admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>{{ Auth::user()->first_name }}</strong>

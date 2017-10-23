@@ -194,3 +194,51 @@ div#content {
         }
     }
 }
+
+.price-container {
+    text-align: left !important;
+    padding: 10px;
+
+    p {
+        font-size: 20px;
+
+        span {
+            font-weight: bold;
+            color: $dark--primary--color;
+        }
+    }
+}
+
+
+#shopping-cart {
+    th {
+        padding: 12px 0;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+        border-top: solid 1px #999;
+        vertical-align: middle;
+        font-size: 16px;
+        p {
+            color: $dark--primary--color;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        img {
+            width: 120px;
+            height: 120px;
+        }
+    }
+
+    tfoot {
+        border-top: solid $primary--color;
+        padding-top: 10px;
+        td {
+            border-top: none;
+        }
+    }
+}

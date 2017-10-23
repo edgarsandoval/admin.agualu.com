@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Product;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller {
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +15,7 @@ class ProductController extends Controller
     public function index() {
         $products = Product::all();
 
-        return view('product.index', compact('products'));
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -24,8 +23,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -35,8 +33,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
     }
 
@@ -49,7 +46,7 @@ class ProductController extends Controller
     public function show($id) {
         $product = Product::findOrFail($id);
 
-       return view('product.show', compact('product'));
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -58,8 +55,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -70,8 +66,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         //
     }
 
@@ -81,8 +76,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
 }

@@ -43,54 +43,6 @@
     </header>
     <div class="outer">
         <div class="inner bg-container">
-            @if(false)
-            <div class="card">
-                <div class="card-header bg-white">
-                    Usuarios Registrados
-                </div>
-                <div class="card-block m-t-35" id="user_body">
-                    <div>
-                        <div>
-                            <table class="table  table-striped table-bordered table-hover dataTable no-footer" id="editable_table" role="grid">
-                                <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc wid-20" tabindex="0" rowspan="1" colspan="1">Código de Usuario</th>
-                                    <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1">Nombre(s)</th>
-                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1">Apellido</th>
-                                    <th class="sorting wid-20" tabindex="0" rowspan="1" colspan="1">Ciudad</th>
-                                    <th class="sorting wid-15" tabindex="0" rowspan="1" colspan="1">Estado</th>
-                                    <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1">Acciones</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- @foreach ($users as $user)
-                                        <tr role="row" class="even" data-id={{ $user->id }}>
-                                            <td class="sorting_1">{{ $user->member_code }}</td>
-                                            <td>{{ $user->first_name }}</td>
-                                            <td>{{ $user->last_name }}</td>
-                                            <td class="center">{{ $user->city->name }}</td>
-                                            <td class="center">{{ $user->status }}</td>
-                                            <td>
-                                                <a href="{{ route('view_user', $user->id ) }}" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver Usuario">
-                                                    <i class="fa fa-eye text-success"></i>
-                                                </a>&nbsp; &nbsp;
-                                                <a class="edit" data-toggle="tooltip" data-placement="top" title="Editar" href="{{ route('edit_user', $user->id)}}">
-                                                    <i class="fa fa-pencil text-warning"></i>
-                                                </a>&nbsp; &nbsp;
-                                                <a class="delete hidden-xs hidden-sm btn-delete" data-toggle="tooltip" data-placement="top" title="Eliminar" href="#">
-                                                    <i class="fa fa-trash text-danger"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- END EXAMPLE TABLE PORTLET-->
-                </div>
-            </div>
-            @endif
             <div class="card">
                 <div class="card-header bg-white">
                     Catalogo de productos
