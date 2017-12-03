@@ -4,19 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\User;
 use App\State;
 use App\Range;
+use App\Commission;
+use App\Report;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use Session;
+use Setting;
 
 use App\Helpers\Response;
 
 class UserController extends Controller {
+    public $translatedMonths = [null, 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    public $monthEndings     = [31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31];
     /**
      * Display a listing of the resource.
      *
@@ -231,6 +237,95 @@ class UserController extends Controller {
         }
 
         return view('users.index', compact('users'));
+    }
+
+    public function earnings($id = null) {
+        if(is_null($id))
+            $user  = Auth::user();
+        else
+            $user  = User::find($id);
+
+        if(is_null($user))
+            return redirect()->route('home')
+                         ->with('error_message', 'Usuario no encontrado');
+
+        $dateRanges = $this->_getPeriodFromDate(date('j'));
+        $period     = sprintf('%s al %s de %s %s', $dateRanges->start_date, $dateRanges->end_date, $this->_parseMonth(date('n')), date('Y'));
+
+        $earnings   = [];
+        $sales      = [];
+
+        for($i = 1; $i <= 7; $i++) {
+            $level      = $i;
+            $amount     = DB::table(with(new Commission)->getTable())->whereBetween('created_at', [
+                                sprintf('%s-%s-%s', date('Y'), date('m'), $dateRanges->start_date),
+                                sprintf('%s-%s-%s', date('Y'), date('m'), $dateRanges->end_date)
+                            ])->where([
+                                ['user_id', $user->id],
+                                ['level', $i]
+                            ])->sum('amount');
+            $percentage = Setting::get('level_' . $i . '_percentage');
+
+            $earnings[] = (object) compact('amount', 'level', 'percentage');
+
+            $amount = floatval($amount) / (floatval($percentage) / 100);
+            $sales[] = (object) compact('amount', 'level');
+
+        }
+
+        return view('users.earnings', compact('earnings', 'sales', 'period', 'user'));
+    }
+
+    public function history($period = null, $id = null) {
+        if(is_null($id))
+            $user  = Auth::user();
+        else
+            $user  = User::find($id);
+
+        if(is_null($user))
+            return redirect()->route('home')
+                         ->with('error_message', 'Usuario no encontrado');
+
+        if(is_null($period)) {
+            $reports = Report::where('from', '>', $user->created_at)->orderBy('period', 'DESC')->get();
+
+            return view('users.history', compact('reports'));
+        } else {
+            $report = Report::where('period', $period)->first();
+            $startDate  = strtotime($report->from);
+            $endDate    = strtotime($report->to);
+
+            $period     = sprintf('%s al %s de %s %s', date('d', $startDate), date('d', $endDate), $this->_parseMonth(date('n', $startDate)), date('Y', $startDate));
+
+            $earnings   = [];
+            $sales      = [];
+
+            for($i = 1; $i <= 7; $i++) {
+                $level      = $i;
+                $amount     = DB::table(with(new Commission)->getTable())->whereBetween('created_at', [
+                                    date('Y-m-d', $startDate),
+                                    date('Y-m-d', $endDate),
+                                ])->where([
+                                    ['user_id', $user->id],
+                                    ['level', $i]
+                                ])->sum('amount');
+
+                $percentage = Setting::get('level_' . $i . '_percentage');
+
+                $earnings[] = (object) compact('amount', 'level', 'percentage');
+
+                $amount = floatval($amount) / (floatval($percentage) / 100);
+                $sales[] = (object) compact('amount', 'level');
+
+            }
+
+            return view('users.earnings', compact('earnings', 'sales', 'period', 'user'));
+        }
+
+    }
+
+    private function _parseMonth($month) {
+        return $this->translatedMonths[$month];
     }
 
     private function _parseOrgChartNodeModel($node) {

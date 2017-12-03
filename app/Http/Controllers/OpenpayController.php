@@ -10,9 +10,9 @@ use User;
 
 class OpenpayController extends Controller {
     private $openpay = null;
-    private $id = 'm9l5xczjlu9ysohopebb';
-    private $private_key = 'sk_2c3f0e1491ac4497ba8c7fe4b4ab32a1';
-    private $production_mode = false;
+    private $id = 'mvmzgrfww4wvppeubcee';
+    private $private_key = 'sk_8a176cc9984247b98b6174e515b9cbab';
+    private $production_mode = true;
 
     public function __construct() {
         $this->openpay = Openpay::getInstance($this->id, $this->private_key);

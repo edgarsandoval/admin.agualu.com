@@ -77,6 +77,10 @@ class User extends Authenticatable
         return $this->belongsTo('App\Range', 'id', 'range_id');
     }
 
+    public function commissions() {
+        return $this->hasMany('App\Commission');
+    }
+
     public function getChildrensAttribute() {
         $childs = [];
 

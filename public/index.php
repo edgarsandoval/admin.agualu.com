@@ -1,5 +1,6 @@
 <?php
-
+date_default_timezone_set('america/mexico_city');
+setlocale(LC_ALL, 'es_ES', 'Spanish_Spain', 'Spanish');
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

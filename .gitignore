@@ -12,3 +12,4 @@ npm-debug.log
 .env
 public/css/patch.css
 .ftpconfig
+prepros-6.config

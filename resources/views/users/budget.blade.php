@@ -8,10 +8,10 @@
 {{-- page level styles --}}
 @section('styles')
    <!-- plugin styles-->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/jasny-bootstrap/css/jasny-bootstrap.min.css')}}" />
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/bootstrapvalidator/css/bootstrapValidator.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{asset('vendor/jasny-bootstrap/css/jasny-bootstrap.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{asset('vendor/bootstrapvalidator/css/bootstrapValidator.min.css')}}" />
     <!--end of page level css-->
-    <link rel="stylesheet" href="{{ asset('assets/css/openpay.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/openpay.css')}}">
 @stop
 
 
@@ -161,7 +161,7 @@
                                             <div class="row">
                                                 @for ($i = 1; $i <= 16; $i++)
                                                     <div class="col-md-3" style="margin-bottom: 10px;">
-                                                        <img class="img-thumbnail" src="{{ asset('assets/img/openpay/tiendas_conveniencia') }}/{{ str_pad($i, 2, "0", STR_PAD_LEFT)}}.jpg" />
+                                                        <img class="img-thumbnail" src="{{ asset('img/openpay/tiendas_conveniencia') }}/{{ str_pad($i, 2, "0", STR_PAD_LEFT)}}.jpg" />
                                                     </div>
                                                 @endfor
                                             </div>
@@ -206,9 +206,9 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 
-		OpenPay.setId('m9l5xczjlu9ysohopebb');
-		OpenPay.setApiKey('pk_a22e10db3ab84a00a6f5ff39e08ec421');
-		OpenPay.setSandboxMode(true);
+		OpenPay.setId('mvmzgrfww4wvppeubcee');
+		OpenPay.setApiKey('pk_31b7b77197a24cda92f855ecf3fbe1b6');
+		// OpenPay.setSandboxMode(true);
 		//Se genera el id de dispositivo
 		var deviceSessionId = OpenPay.deviceData.setup("payment-form", "deviceIdHiddenFieldName");
 
