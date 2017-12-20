@@ -18,6 +18,7 @@ class CreateMachinesTable extends Migration
             $table->increments('id');
             $table->string('password', 60);
             $table->text('description')->nullable();
+            $table->string('address')->nullable();
             $table->decimal('lat', 10, 7)->nullable();
             $table->decimal('lng', 10, 7)->nullable();
             $table->timestamps();

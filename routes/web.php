@@ -41,6 +41,16 @@ Route::group(['prefix' => 'rangos'], function() {
     Route::delete('{id}', 'RangeController@destroy')->name('delete_range');
 });
 
+Route::group(['prefix' => 'maquinas'], function() {
+    Route::get('/', 'MachineController@index')->name('machines');
+    Route::get('crear', 'MachineController@create')->name('add_machine');
+    Route::post('/', 'MachineController@store')->name('store_machine');
+    Route::get('{id}', 'MachineController@show')->name('view_machine');
+    Route::get('{id}/editar', 'MachineController@edit')->name('edit_machine');
+    Route::put('{id}', 'MachineController@update')->name('update_machine');
+    Route::delete('{id}', 'MachineController@destroy')->name('delete_machine');
+});
+
 
 Route::group(['prefix' => 'productos'], function() {
     Route::get('/', 'ProductController@index')->name('products');

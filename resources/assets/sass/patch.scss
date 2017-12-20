@@ -248,3 +248,13 @@ h3 {
         color: $light--primary--color;
     }
 }
+
+.map-container {
+    margin-bottom: 25px;
+}
+
+.dataTables_length {
+    @media all and (min-width: 768px)  {
+        margin-top: 0 !important;
+    }
+}

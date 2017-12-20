@@ -174,6 +174,29 @@ z-index: 999999">
                     </li>
                 </ul>
             </li>
+
+            <li {!! (Request::is('maquinas')|| Request::is('maquinas/añadir') ? 'class="active"':"")!!}>
+            <a href="#">
+                    <i class="fa fa-tint"></i>
+                    <span class="link-title">&nbsp; Máquinas</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul>
+                    <li {!! (Request::is('maquinas')? 'class="active"':"") !!}>
+                        <a href="{{ route('machines')}} ">
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp; Mostrar Máquinas
+                        </a>
+                    </li>
+                    <li {!! (Request::is('maquinas/añadir')? 'class="active"':"") !!}>
+                        <a href="{{ route('add_machine')}} ">
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp; Añadir Máquina
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li {!! (Request::is('productos') ? 'class="active"':"")!!}>
                 <a href="{{ route('products') }}">
                     <i class="fa fa-pagelines"></i>
