@@ -11,7 +11,7 @@
     <link type="text/css" rel="stylesheet" href="{{asset('vendor/jasny-bootstrap/css/jasny-bootstrap.min.css')}}" />
     <link type="text/css" rel="stylesheet" href="{{asset('vendor/bootstrapvalidator/css/bootstrapValidator.min.css')}}" />
     <!--end of page level css-->
-    <link rel="stylesheet" href="{{ asset('css/openpay.css')}}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/openpay.css')}}"> --}}
 @stop
 
 
@@ -80,42 +80,58 @@
                         <div class="method" data-method="1">
                             <div class="panel panel-default">
                                 <div class="panel-heading">Tarjeta de crédito/débito</div>
-                                <div class="panel-body" style="overflow: auto;">
-                            		<div class="bkng-tb-cntnt">
-                            			<div class="pymnts">
-                            				<form action="{{ route('card_payment') }}" method="POST" id="payment-form">
+                                <div class="panel-body">
+                                    <div class="openpay-container">
+                                        <div class="row headers">
+                                            <div class="col-md-4">
+                                                <label>Tarjetas de crédito</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label>Tarjetas de débito</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form action="{{ route('card_payment') }}" method="POST" id="payment-form" class="form-inline">
                                                 <input type="hidden" name="token_id" id="token_id">
                                                 <input type="hidden" name="use_card_points" id="use_card_points" value="false">
                                                 <input type="hidden" name="amount" class="amount-field" value="50">
                                                 {{ csrf_field() }}
-                                                <div class="pymnt-itm card active">
-                            						<div class="pymnt-cntnt">
-                                                        <div class="card-expl">
-                                                            <div class="credit"><h4>Tarjetas de crédito</h4></div>
-                                                            <div class="debit"><h4>Tarjetas de débito</h4></div>
+                                                <div class="row">
+                        							<div class="form-group">
+                    									<label>Nombre del titular</label>
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name">
                                                         </div>
-                            							<div class="sctn-row">
-                            								<div class="sctn-col l">
-                            									<label>Nombre del titular</label>
-                            									<input type="text" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name">
-                            								</div>
-                            								<div class="sctn-col">
-                            									<label>Número de tarjeta</label>
-                            									<input type="text" autocomplete="off" data-openpay-card="card_number"></div>
-                            							</div>
-                            							<div class="sctn-row">
-                            								<div class="sctn-col l">
-                            									<label>Fecha de expiración</label>
-                            									<div class="sctn-col half l">
-                            										<input type="text" placeholder="Mes" data-openpay-card="expiration_month">
-                            									</div>
-                            									<div class="sctn-col half l">
-                            										<input type="text" placeholder="Año" data-openpay-card="expiration_year"></div>
-                            								</div>
-                            								<div class="sctn-col cvv"><label>Código de seguridad</label>
-                            									<div class="sctn-col half l"><input type="text" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2"></div>
-                            								</div>
-                            							</div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Número de tarjeta</label>
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" autocomplete="off" data-openpay-card="card_number">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <label>Número de tarjeta</label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" placeholder="Mes" data-openpay-card="expiration_month">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Número de tarjeta</label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" placeholder="Año" data-openpay-card="expiration_year"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Número de tarjeta</label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2">
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                             							<div class="openpay" style="width: 750px; margin-right: 30px;">
                             								<div style="font-size:24px; float:left;">
@@ -127,11 +143,10 @@
                             							<div class="sctn-row">
                             									<a class="button rght" id="pay-button">Pagar</a>
                             							</div>
-                            						</div>
-                            					</div>
                             				</form>
-                            			</div>
-                            		</div>
+                                            </div>
+                                        </div>
+                                    </div>
                             	</div>
                             </div>
                         </div>
