@@ -75,7 +75,9 @@ z-index: 999999">
                             </button>
                             <div class="dropdown-menu admire_admin">
                                 <a class="dropdown-item title" href="{{ route('profile')}}" disabled>
-                                    {{ Auth::user()->full_name }}</a>
+                                    {{ Auth::user()->full_name }} <br> <small>$ {{ number_format(Auth::user()->budget, 2) }}</small> </a>
+                                <a class="dropdown-item" href="{{ route('budget')}}" ><i class="fa fa-money"></i>
+                                    Abonar Saldo</a>
                                 <a class="dropdown-item" href="lockscreen" ><i class="fa fa-lock"></i>
                                     Bloquear Pantalla</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i>

@@ -40,6 +40,7 @@ class MachineController extends Controller {
         $data = $request->all();
         $data['password'] = bcrypt('1234');
         $data['user_id']  = Auth::user()->id;
+        $data['state_id'] = Auth::user()->state_id;
 
         $machine = Machine::create($data);
 

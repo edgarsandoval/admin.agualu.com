@@ -1,52 +1,95 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
-@section('title', '| Edit User')
+{{-- Page title --}}
+@section('title')
+    Editar Usuario
+    @parent
+@stop
+{{-- page level styles --}}
+@section('styles')
+   <!-- plugin styles-->
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/jasny-bootstrap/css/jasny-bootstrap.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('vendor/bootstrapvalidator/css/bootstrapValidator.min.css') }}" />
+    <!--end of page level css-->
+@stop
 
+{{-- Page content --}}
 @section('content')
+    <header class="head">
+        <div class="main-bar">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4 class="nav_top_align skin_txt">
+                        <i class="fa fa-pencil"></i>
+                        Editar Usuario
+                    </h4>
+                </div>
+                <div class="col-lg-6">
+                    <ol class="breadcrumb float-right nav_breadcrumb_top_align">
+                        <li class="breadcrumb-item">
+                            <a href="index">
+                                <i class="fa fa-home" data-pack="default" data-tags=""></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#">Usuarios</a>
+                        </li>
+                        <li class="breadcrumb-item active">Editar Usuario</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="outer">
+        <div class="inner bg-container">
+            <div class="card">
+                <div class="card-block m-t-25">
+                    <div>
+                        <h4>Información Personal</h4>
+                    </div>
+                    {!! Form::model($user, ['route' => ['update_user', $user->id], 'method' => 'PUT', 'id' => 'tryitForm', 'class' => 'form-horizontal login_validator'])!!}
+                        @include('partials.user-form')
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+        <!-- /.inner -->
+    </div>
+    <!-- /.outer -->
+@stop
+{{-- page level scripts --}}
+@section('scripts')
+    <!-- plugin scripts-->
+    <script type="text/javascript" src="{{ asset('js/pluginjs/jasny-bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/holderjs/js/holder.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/bootstrapvalidator/js/bootstrapValidator.min.js') }}"></script>
+    <!-- end of plugin scripts-->
+    <script type="text/javascript">
 
-<div class='col-lg-4 col-lg-offset-4'>
+    $(document).ready(function() {
+        $('#state').change(function(event) {
+            var state_id = $(this).val();
+            $('#city').empty();
+            $.ajax({
+                type: 'GET',
+                url: '{{ url('state') }}/' + state_id,
+                success: function(response) {
+                    $('#city').empty();
 
-   <h1><i class='fa fa-user-plus'></i> Edit {{$user->name}}</h1>
-   <hr>
+                    response.state.cities.forEach(city => {
+                        $('#city').append(
+                            $('<option>', {
+                                value: city.id,
+                                html: city.name
+                            })
+                        );
 
-   {{ Form::model($user, array('route' => array('users.update', $user->id), 'method' => 'PUT')) }}{{-- Form model binding to automatically populate our fields with user data --}}
+                    });
+                }
+            });
+        });
+    })
 
-   <div class="form-group">
-       {{ Form::label('name', 'Name') }}
-       {{ Form::text('name', null, array('class' => 'form-control')) }}
-   </div>
-
-   <div class="form-group">
-       {{ Form::label('email', 'Email') }}
-       {{ Form::email('email', null, array('class' => 'form-control')) }}
-   </div>
-
-   <h5><b>Give Role</b></h5>
-
-   <div class='form-group'>
-       @foreach ($roles as $role)
-           {{ Form::checkbox('roles[]',  $role->id, $user->roles ) }}
-           {{ Form::label($role->name, ucfirst($role->name)) }}<br>
-
-       @endforeach
-   </div>
-
-   <div class="form-group">
-       {{ Form::label('password', 'Password') }}<br>
-       {{ Form::password('password', array('class' => 'form-control')) }}
-
-   </div>
-
-   <div class="form-group">
-       {{ Form::label('password', 'Confirm Password') }}<br>
-       {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
-
-   </div>
-
-   {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
-
-   {{ Form::close() }}
-
-</div>
-
-@endsection
+    </script>
+    <!-- end of page level scripts-->
+@stop

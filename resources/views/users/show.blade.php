@@ -83,11 +83,11 @@
                                     <li class="nav-item card_nav_hover">
                                         <a class="nav-link" href="#tab2" id="hats-tab" data-toggle="tab">Información de contacto</a>
                                     </li>
-                                    @if($user->id == Auth::user()->id)
+                                    {{-- @if($user->id == Auth::user()->id)
                                     <li class="nav-item card_nav_hover">
                                         <a class="nav-link" href="#tab3"  id="followers" data-toggle="tab">Monedero</a>
                                     </li>
-                                    @endif
+                                    @endif --}}
                                 </ul>
                                 <div id="clothing-nav-content" class="tab-content m-t-10">
                                     <div role="tabpanel" class="tab-pane fade show active" id="user">
@@ -194,19 +194,6 @@
                                                     <td>{{ $user->city->name }}</td>
                                                 </tr>
                                             </table>
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="tab3">
-                                        <div class="card_nav_body_padding">
-                                            <h3>Tu saldo actual es de: <b style="color: #0fb0c0;">$ {{ number_format($user->budget ?: 0, 2) }}</b></h3>
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm 12">
-                                                    <a href="{{ route('budget')}}" class="btn btn-aqua">Abonar Saldo&nbsp;<i class="fa fa-money" aria-hidden="true"></i></a>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm 12">
-                                                    <a href="{{ route('products') }}" class="btn btn-aqua">Comprar ahora&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

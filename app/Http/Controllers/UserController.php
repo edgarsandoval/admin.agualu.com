@@ -276,6 +276,19 @@ class UserController extends Controller {
         return view('users.earnings', compact('earnings', 'sales', 'period', 'user'));
     }
 
+    private function _getPeriodFromDate($period) {
+        if($period < 15)
+            return (object) [
+                'start_date' => 1,
+                'end_date'   => 15,
+            ];
+        else
+            return (object) [
+                'start_date' => 16,
+                'end_date'   => $this->monthEndings[date('n') - 1],
+            ];
+    }
+
     public function history($period = null, $id = null) {
         if(is_null($id))
             $user  = Auth::user();

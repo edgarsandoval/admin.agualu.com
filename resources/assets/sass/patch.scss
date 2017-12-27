@@ -2,6 +2,8 @@ $primary--color: #0fb0c0;
 $dark--primary--color: #0c909e;
 $light--primary--color: #18bfd1;
 
+@import './openpay.scss';
+
 .login_top_bottom {
     .alert {
         margin: 0 auto;

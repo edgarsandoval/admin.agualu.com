@@ -220,6 +220,18 @@
               {{ Form::select('status', $status, null, ['class' => 'form-control']) }}
           </div>
       </div>
+      <div class="form-group row">
+          <div class="col-12 col-lg-3 text-lg-right">
+              <label class="col-form-label">Estado</label>
+          </div>
+         <div class="col-12 col-xl-6 col-lg-8">
+             @foreach ($roles as $role)
+                 {{ Form::checkbox('roles[]',  $role->id, $user->roles ) }}
+                 {{ Form::label($role->name, ucfirst($role->name)) }}<br>
+             @endforeach
+         </div>
+     </div>
+
         <div class="form-group row">
             <div class="col-12 col-lg-9 push-lg-3">
                 <button class="btn btn-primary" type="submit">
