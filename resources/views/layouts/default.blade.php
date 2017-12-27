@@ -126,30 +126,32 @@ z-index: 999999">
                         </a>
                     </li>
                     @endrole
+                    @role('partner')
                     <li {!! (Request::is('usuarios/directorio')? 'class="active"':"") !!}>
                         <a href="{{ route('user_directory')}} ">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Ver Directorio
+                            &nbsp; Directorio
                         </a>
                     </li>
                     <li {!! (Request::is('usuarios/ganancias') ? 'class="active"':"") !!}>
                         <a href="{{ route('earnings') }}">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Ver ganancias
+                            &nbsp; Ganancias
                         </a>
                     </li>
                     <li {!! (Request::is('usuarios/historial') ? 'class="active"':"") !!}>
                         <a href="{{ route('history') }}">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Ver historial
+                            &nbsp; Historial
                         </a>
                     </li>
                     <li {!! (Request::is('usuarios/ver_red')? 'class="active"':"") !!}>
                         <a href="{{ route('network') }}">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Visualizar red
+                            &nbsp; Red
                         </a>
                     </li>
+                    @endrole
                 </ul>
             </li>
 

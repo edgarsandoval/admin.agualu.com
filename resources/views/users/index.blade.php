@@ -64,7 +64,7 @@
                                             <td class="sorting_1">{{ $user->member_code }}</td>
                                             <td>{{ $user->first_name }}</td>
                                             <td>{{ $user->last_name }}</td>
-                                            <td>{{ $user->roles()->pluck('name')->implode(' ') }}</td>
+                                            <td>{{ $user->activeRoles }}</td>
                                             <td class="center">{{ isset($user->city) ? $user->city->name : 'N/A' }}</td>
                                             <td class="center">{{ $user->status }}</td>
                                             <td>

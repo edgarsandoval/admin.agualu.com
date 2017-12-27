@@ -60,6 +60,24 @@ class User extends Authenticatable
         return null;
     }
 
+    public function getActiveRolesAttribute() {
+        $roles =  $this->roles()->pluck('name');
+        $items = [];
+        foreach ($roles as &$role)
+            switch ($role) {
+                case 'admin':
+                    $items[] = 'Administrador';
+                    break;
+                case 'partner':
+                    $items[] = 'Asociado';
+                    break;
+                case 'administrative':
+                    $items[] = 'Personal Administrativo';
+                    break;
+            }
+        return implode(' ', $items);
+    }
+
     public function setPasswordAttribute($value) {
         if(!empty($value))
             $this->attributes['password'] = \Hash::make($value);
