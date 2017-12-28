@@ -1,4 +1,5 @@
 .openpay-container {
+    padding: 1em;
     .headers {
         div {
             min-height: 100px;
@@ -19,6 +20,68 @@
                     background-size: contain;
                 }
             }
+        }
+    }
+
+    div.row:not(.headers) {
+        .payment-info {
+            min-height: 150px;
+
+            div {
+                img {
+                }
+                @media all and (max-width: 480px) {
+                    text-align: center;
+                }
+            }
+        }
+        input {
+            height: 3rem;
+            margin-bottom: 15px;
+        }
+    }
+
+
+    div.openpay {
+        text-align: right;
+        p {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: $primary--color;
+        }
+
+        a#pay-button {
+            float: right;
+            cursor: pointer;
+            background: #0fb0c0;
+            color: #fff;
+            transition: .5s all;
+        }
+    }
+}
+
+#pagos {
+    .brands-container {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    div.openpay {
+        text-align: right;
+        p {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: $primary--color;
+        }
+
+        a#pay-button {
+            float: right;
+            cursor: pointer;
+            background: #0fb0c0;
+            color: #fff;
+            transition: .5s all;
         }
     }
 }

@@ -79,7 +79,6 @@
                     <div class="container payment-container">
                         <div class="method" data-method="1">
                             <div class="panel panel-default">
-                                <div class="panel-heading">Tarjeta de crédito/débito</div>
                                 <div class="panel-body">
                                     <div class="openpay-container">
                                         <div class="row headers">
@@ -92,57 +91,47 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <form action="{{ route('card_payment') }}" method="POST" id="payment-form" class="form-inline">
+                                                <form action="{{ route('card_payment') }}" method="POST" id="payment-form">
                                                 <input type="hidden" name="token_id" id="token_id">
                                                 <input type="hidden" name="use_card_points" id="use_card_points" value="false">
                                                 <input type="hidden" name="amount" class="amount-field" value="50">
                                                 {{ csrf_field() }}
                                                 <div class="row">
-                        							<div class="form-group">
-                    									<label>Nombre del titular</label>
-                                                        <div class="col-md-6">
-                                                            <input type="text" class="form-control" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name">
-                                                        </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" placeholder="Nombre del tarjetahabiente" autocomplete="off" data-openpay-card="holder_name">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Número de tarjeta</label>
-                                                        <div class="col-md-6">
-                                                            <input type="text" class="form-control" autocomplete="off" data-openpay-card="card_number">
-                                                        </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" placeholder="Número de la tarjeta" autocomplete="off" data-openpay-card="card_number">
                                                     </div>
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="form-group">
-                                                        <label>Número de tarjeta</label>
-                                                        <div class="col-md-4">
-                                                            <input type="text" class="form-control" placeholder="Mes" data-openpay-card="expiration_month">
-                                                        </div>
+                                                    <div class="col-md-6"></div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" class="form-control" placeholder="MM" data-openpay-card="expiration_month">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Número de tarjeta</label>
-                                                        <div class="col-md-4">
-                                                            <input type="text" class="form-control" placeholder="Año" data-openpay-card="expiration_year"></div>
-                                                        </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" class="form-control" placeholder="YYYY" data-openpay-card="expiration_year">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Número de tarjeta</label>
-                                                        <div class="col-md-4">
-                                                            <input type="text" class="form-control" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2">
-                                                        </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" class="form-control" placeholder="CCV" autocomplete="off" data-openpay-card="cvv2">
                                                     </div>
                                                 </div>
 
-                            							<div class="openpay" style="width: 750px; margin-right: 30px;">
-                            								<div style="font-size:24px; float:left;">
-                            									<p style="margin-top: 20px; margin-right: 60px; margin-left: 20px;">$ 50.00 MXN</p>
-                            								</div>
-                            								<div class="logo">Transacciones realizadas vía:</div>
-                            								<div class="shield">Tus pagos se realizan de forma segura con encriptación de 256 bits</div>
-                            							</div>
-                            							<div class="sctn-row">
-                            									<a class="button rght" id="pay-button">Pagar</a>
-                            							</div>
+                                                <div class="row">
+                                                    <div class="col-md-6 payment-info">
+                                                        <div class="logo">Transacciones realizadas vía: <img src="{{ asset('img/openpay/openpay.png') }}"> </div>
+                                                        <div class="shield">Tus pagos se realizan de forma segura con encriptación de 256 bits <img src="{{ asset('img/openpay/security.png') }}"> </div>
+                                                    </div>
+                                                    <div class="col-md-6 openpay">
+                                                        <h3>Cantidad a pagar: </h3>
+                    									<p>$ 50.00 MXN</p>
+                                                        <a id="pay-button" class="btn btn-aqua">Pagar ahora</a>
+                        							</div>
+                                                </div>
+
+
+
                             				</form>
                                             </div>
                                         </div>
@@ -152,34 +141,33 @@
                         </div>
                         <div class="method" data-method="2">
                             <div class="panel panel-default">
-                                <div class="panel-heading">Tiendas de conveniencia</div>
                                 <div class="panel-body">
                                     <div id="pagos" class="container_full">
                                     	<div class="container" style="padding-left:30px;">
-                                    		<div class="">
-                                    			<div class="">
-                                    				<form action="{{ route('stores_payment') }}" method="POST">
-                                                            {{ csrf_field() }}
-                                                            <input type="hidden" name="amount" class="amount-field" value="50">
-
-                                    						<div class="sctn-col half l" style="width:100%; text-align: center;">
-                                    							<input type="submit" value="Crear Recibo" class="btn btn-aqua">
-                                    						</div>
-                                    				</form>
-                                    			</div>
-                                    		</div>
                                     		<div class="sixteen columns">
-                                    			<h1 style="font-size:28px; color:#0089AC; text-align:center; line-height:36px; margin-top:20px;">
+                                    			<h2 style="font-size:28px; color:#0089AC; text-align:center; line-height:36px; margin-top:20px;">
                                     				Podrás pagar en cualquiera de las siguientes tiendas.
-                                    			</h1>
+                                    			</h2>
                                     		</div>
-                                            <div class="row">
+                                            <div class="row brands-container">
                                                 @for ($i = 1; $i <= 16; $i++)
                                                     <div class="col-md-3" style="margin-bottom: 10px;">
                                                         <img class="img-thumbnail" src="{{ asset('img/openpay/tiendas_conveniencia') }}/{{ str_pad($i, 2, "0", STR_PAD_LEFT)}}.jpg" />
                                                     </div>
                                                 @endfor
                                             </div>
+                                            <div class="row">
+                                                <div class="col-md-6"></div>
+                                    			<div class="col-md-6 openpay">
+                                    				<form action="{{ route('stores_payment') }}" method="POST">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="amount" class="amount-field" value="50">
+                                                            <h3>Cantidad a pagar: </h3>
+                        									<p>$ 50.00 MXN</p>
+                                                            <input type="submit" value="Crear Recibo" class="btn btn-aqua">
+                                    				</form>
+                                    			</div>
+                                    		</div>
                                     	</div>
                                     </div>
                                 </div>
