@@ -7,7 +7,7 @@
             <div class="col-12 col-lg-6 text-center text-lg-left">
                 <div class="fileinput fileinput-new" data-provides="fileinput">
                     <div class="fileinput-new img-thumbnail text-center">
-                        <img src="{{asset('assets/img/admin.jpg')}}" data-src="img/admin.jpg" alt="not found"></div>
+                        <img src="{{asset('assets/img/admin.png')}}" data-src="img/admin.png" alt="not found"></div>
                     <div class="fileinput-preview fileinput-exists img-thumbnail"></div>
                     <div class="m-t-20 text-center">
                                     <span class="btn btn-primary btn-file">

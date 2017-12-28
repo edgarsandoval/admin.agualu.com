@@ -70,7 +70,7 @@ z-index: 999999">
                     <div class="btn-group">
                         <div class="user-settings no-bg">
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown">
-                                <img src="{{asset('img/admin.jpg')}}" class="admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>{{ Auth::user()->first_name }}</strong>
+                                <img src="{{asset('img/admin.png')}}" class="admin_img2 rounded-circle avatar-img" alt="avatar"> <strong>{{ Auth::user()->first_name }}</strong>
                                 <span class="fa fa-sort-down white_bg"></span>
                             </button>
                             <div class="dropdown-menu admire_admin">
@@ -102,7 +102,7 @@ z-index: 999999">
                     </div>
                     <div class="user-wrapper bg-dark">
                         <a class="user-link" href="">
-                    <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture" src="{{asset('img/admin.jpg')}}"></a>
+                    <img class="media-object img-thumbnail user-img rounded-circle admin_img3" alt="User Picture" src="{{asset('img/admin.png')}}"></a>
             </div>
         </div>
         <!-- #menu -->

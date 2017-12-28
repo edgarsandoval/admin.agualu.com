@@ -67,7 +67,7 @@
 	animation-name: fadeInUp;
 }
 .avatar {
-	background-image: url('../../img/admin.jpg');
+	background-image: url('../../img/admin.png');
 }
 .btn-primary, .btn-primary.active, .btn-primary.disabled, .btn-primary:active, .btn-primary[disabled] {
 	background-color: #2A9FD6;

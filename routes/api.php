@@ -36,3 +36,6 @@ Route::post('send_sales', 'APIController@sendSales');
 Route::post('send_registration', 'APIController@sendRegistration');
 Route::put('save_credit', 'APIController@saveCredit');
 Route::post('send_error', 'APIController@sendError');
+
+
+Route::get('cuts', 'APIController@cuts');

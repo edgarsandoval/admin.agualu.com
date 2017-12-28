@@ -58,7 +58,7 @@
                                 <div class="form-group">
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-new thumb_zoom zoom admin_img_width">
-                                            <img src="{{asset('assets/img/admin.jpg')}}" alt="admin" class="admin_img_width"></div>
+                                            <img src="{{asset('assets/img/admin.png')}}" alt="admin" class="admin_img_width"></div>
                                         <div class="fileinput-preview fileinput-exists thumb_zoom zoom admin_img_width"></div>
                                         <div class="btn_file_position">
                                                     <span class="btn btn-primary btn-file">

@@ -20,6 +20,7 @@ use App\Product;
 use App\Sale;
 use App\State;
 use App\User;
+use App\Report;
 
 use Mail;
 use Setting;
@@ -27,6 +28,7 @@ use Setting;
 class APIController extends Controller {
     private $_expirationTime = 5;
     private $_failedAuth = ['status' => false, 'msg' => 'token_required', 'data' => null];
+    public $monthEndings     = [31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31];
 
     public function testMail() {
         $user = User::find(34);
@@ -170,6 +172,8 @@ class APIController extends Controller {
             'tax'       => $this->_calculatePercentaje($data['amount'], Setting::get('owner_percentage')) * 0.16,
             'level'     => 0,
         ]);
+        $ownerCommission->user->current_earnings += $ownerCommission->amount;
+        $ownerCommission->user->save();
 
         // After that we need to define, which one going to be the first node on th graph.
         $queue = new \SplQueue();
@@ -208,6 +212,8 @@ class APIController extends Controller {
                 'tax'       => $this->_calculatePercentaje($data['amount'], Setting::get('level_' . $node->level . '_percentage')) * 0.16,
                 'level'     => $node->level,
             ]);
+            $memberCommission->user->current_earnings += $memberCommission->amount;
+            $memberCommission->user->save();
 
             if(!is_null($node->father)) {
                 $nextNode           = $node->father;
@@ -348,5 +354,40 @@ class APIController extends Controller {
         } catch(\Exception $e) {
             return response()->json(Response::set(false, 'El código no ha podido ser encontrado'));
         }
+    }
+
+    public function cuts() {
+        // Fisrt, we'll create a new register for this period
+        $data = [];
+        $data['period'] = date('Y') . date('m') . (date('j') > 15 ? 2 : 1);
+        $period = $this->_getPeriodFromDate(date('j'));
+        $commonDate = date('Y-m-');
+        $data['from']   = $commonDate . $period->start_date;
+        $data['to']     = $commonDate . $period->end_date;
+
+        $report = Report::create($data);
+
+        // After that, for each user in the network we'll deposit its earnings on its respective virtual wallets.
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->budget += $user->current_earnings;
+            $user->current_earnings = 0;
+            $user->save();
+        }
+
+        return 1;
+    }
+
+    private function _getPeriodFromDate($period) {
+        if($period < 15)
+            return (object) [
+                'start_date' => 1,
+                'end_date'   => 15,
+            ];
+        else
+            return (object) [
+                'start_date' => 16,
+                'end_date'   => $this->monthEndings[date('n') - 1],
+            ];
     }
 }
