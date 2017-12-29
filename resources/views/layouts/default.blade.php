@@ -78,8 +78,6 @@ z-index: 999999">
                                     {{ Auth::user()->full_name }} <br> <small>$ {{ number_format(Auth::user()->budget, 2) }}</small> </a>
                                 <a class="dropdown-item" href="{{ route('budget')}}" ><i class="fa fa-money"></i>
                                     Abonar Saldo</a>
-                                <a class="dropdown-item" href="lockscreen" ><i class="fa fa-lock"></i>
-                                    Bloquear Pantalla</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i>
                                     Salir</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
@@ -120,43 +118,44 @@ z-index: 999999">
                     <span class="fa arrow"></span>
                 </a>
                 <ul>
-                    @role('admin')
+                    @hasanyrole(['admin', 'administrative'])
                     <li {!! (Request::is('usuarios')? 'class="active"':"") !!}>
                         <a href="{{ route('users')}} ">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Listar Miembros
+                            &nbsp; Mostrar Miembros
                         </a>
                     </li>
-                    @endrole
+                    @endhasanyrole
                     @role('partner')
                     <li {!! (Request::is('usuarios/directorio')? 'class="active"':"") !!}>
                         <a href="{{ route('user_directory')}} ">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Directorio
+                            &nbsp; Directorio de socios
                         </a>
                     </li>
                     <li {!! (Request::is('usuarios/ganancias') ? 'class="active"':"") !!}>
                         <a href="{{ route('earnings') }}">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Ganancias
+                            &nbsp; Ingresos en este periodo
                         </a>
                     </li>
                     <li {!! (Request::is('usuarios/historial') ? 'class="active"':"") !!}>
                         <a href="{{ route('history') }}">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Historial
+                            &nbsp; Historial de ganancias
                         </a>
                     </li>
                     <li {!! (Request::is('usuarios/ver_red')? 'class="active"':"") !!}>
                         <a href="{{ route('network') }}">
                             <i class="fa fa-angle-right"></i>
-                            &nbsp; Red
+                            &nbsp; Visor de red
                         </a>
                     </li>
                     @endrole
                 </ul>
             </li>
 
+            @role('admin')
             <li {!! (Request::is('rangos')|| Request::is('rangos/añadir') ? 'class="active"':"")!!}>
             <a href="#">
                     <i class="fa fa-bar-chart"></i>
@@ -178,9 +177,10 @@ z-index: 999999">
                     </li>
                 </ul>
             </li>
-
+            @endrole
+            @hasanyrole(['admin', 'partner', 'administrative'])
             <li {!! (Request::is('maquinas')|| Request::is('maquinas/añadir') ? 'class="active"':"")!!}>
-            <a href="#">
+                <a href="#">
                     <i class="fa fa-tint"></i>
                     <span class="link-title">&nbsp; Máquinas</span>
                     <span class="fa arrow"></span>
@@ -192,21 +192,42 @@ z-index: 999999">
                             &nbsp; Mostrar Máquinas
                         </a>
                     </li>
+                    @role('admin')
                     <li {!! (Request::is('maquinas/añadir')? 'class="active"':"") !!}>
                         <a href="{{ route('add_machine')}} ">
                             <i class="fa fa-angle-right"></i>
                             &nbsp; Añadir Máquina
                         </a>
                     </li>
+                    @endrole
                 </ul>
             </li>
-
+            @endhasanyrole
+            @hasanyrole(['admin', 'partner'])
             <li {!! (Request::is('productos') ? 'class="active"':"")!!}>
-                <a href="{{ route('products') }}">
+                <a href="#">
                     <i class="fa fa-pagelines"></i>
-                    &nbsp; Productos Biostyle
+                    <span class="link-title">&nbsp; Productos Biostyle</span>
+                    <span class="fa arrow"></span>
                 </a>
+                <ul>
+                    <li {!! (Request::is('productos')? 'class="active"':"") !!}>
+                        <a href="{{ route('machines')}} ">
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp; Mostrar Productos
+                        </a>
+                    </li>
+                    @role('admin')
+                    <li {!! (Request::is('productos/añadir')? 'class="active"':"") !!}>
+                        <a href="#">
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp; Añadir Productos
+                        </a>
+                    </li>
+                    @endrole
+                </ul>
             </li>
+            @endhasanyrole
             @role('admin')
             <li {!! (Request::is('parametros') ? 'class="active"':"")!!}>
                 <a href="{{ route('parameters') }}">
@@ -236,9 +257,6 @@ z-index: 999999">
                 </ul>
             </li>
             @endrole
-
-
-
         </ul>
                 </div>
         <!-- /#menu -->

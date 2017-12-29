@@ -52,7 +52,9 @@
                                         <th class="sorting_asc wid-20" tabindex="0" rowspan="1" colspan="1">Código de Usuario</th>
                                         <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1">Nombre(s)</th>
                                         <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1">Apellido</th>
+                                        @role('admin')
                                         <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1">Tipo</th>
+                                        @endrole
                                         <th class="sorting wid-20" tabindex="0" rowspan="1" colspan="1">Ciudad</th>
                                         <th class="sorting wid-15" tabindex="0" rowspan="1" colspan="1">Estado</th>
                                         <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1">Acciones</th>
@@ -64,7 +66,9 @@
                                             <td class="sorting_1">{{ $user->member_code }}</td>
                                             <td>{{ $user->first_name }}</td>
                                             <td>{{ $user->last_name }}</td>
+                                            @role('admin')
                                             <td>{{ $user->activeRoles }}</td>
+                                            @endrole
                                             <td class="center">{{ isset($user->city) ? $user->city->name : 'N/A' }}</td>
                                             <td class="center">{{ $user->status }}</td>
                                             <td>

@@ -82,7 +82,7 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        return redirect()->route('users');
+        // return redirect()->route('users');
         if(is_null($id) || !is_numeric($id))
             return view('404');
 

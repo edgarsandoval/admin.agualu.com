@@ -4,6 +4,7 @@ $(document).ready(function() {
         'admin'        : 'Administrador',
         'partner'      : 'Socio',
         'customer'     : 'Cliente Preferente',
+        'administrative': 'Administrativo',
     };
 
     if(!lscache.get('visited')) {
