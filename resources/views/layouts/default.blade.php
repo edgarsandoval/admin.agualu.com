@@ -212,7 +212,7 @@ z-index: 999999">
                 </a>
                 <ul>
                     <li {!! (Request::is('productos')? 'class="active"':"") !!}>
-                        <a href="{{ route('machines')}} ">
+                        <a href="{{ route('products')}} ">
                             <i class="fa fa-angle-right"></i>
                             &nbsp; Mostrar Productos
                         </a>

@@ -27,6 +27,7 @@ Route::group(['prefix' => 'usuarios'], function() {
     Route::get('ver_ganancias/{id?}', 'UserController@earnings')->name('earnings');
     Route::get('ver_red', 'UserController@network')->name('network');
     Route::get('ver_historial/{period?}/{id?}', 'UserController@history')->name('history');
+    Route::get('{id}', 'UserController@show')->name('view_user');
 });
 
 Route::get('state/{id}', 'StateController@show');
@@ -80,7 +81,6 @@ Route::group(['middleware' => ['role:admin']], function () {
         Route::get('/', 'UserController@index')->name('users');
         Route::get('crear', 'UserController@create')->name('add_user');
         Route::post('/', 'UserController@store')->name('store_user');
-        Route::get('{id}', 'UserController@show')->name('view_user');
         Route::get('{id}/editar', 'UserController@edit')->name('edit_user');
         Route::put('{id}', 'UserController@update')->name('update_user');
         Route::delete('{id}', 'UserController@destroy')->name('delete_user');
