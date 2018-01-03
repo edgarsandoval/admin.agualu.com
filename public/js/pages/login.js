@@ -14,7 +14,8 @@ $(document).ready(function() {
                         message: 'El codigo de miembro es requerido'
                     },
                     regexp: {
-                        regexp: /^[A-Z]{3}-\d{4}$/,
+                        // regexp: /^[A-Z]{3}-\d{4}$/,
+                        regexp: /\d/,
                         message: 'El codigo de miembro no es válido'
                     }
                 }

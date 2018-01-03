@@ -43,6 +43,6 @@ class LoginController extends Controller
     * @return string
     */
    public function username() {
-       return 'member_code';
+       return 'id';
    }
 }

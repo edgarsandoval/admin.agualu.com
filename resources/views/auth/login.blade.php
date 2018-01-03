@@ -62,7 +62,7 @@ z-index: 999999">
                                 <div class="input-group">
                                     <span class="input-group-addon input_email"><i
                                                 class="fa fa-envelope text-primary"></i></span>
-                                    <input type="text" class="form-control  form-control-md" id="member_code" name="member_code" placeholder="ej. AGS-0001">
+                                    <input type="text" class="form-control  form-control-md" id="id" name="id" placeholder="ej. 1">
                                 </div>
                             </div>
                             <!--</h3>-->
