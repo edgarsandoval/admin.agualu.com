@@ -185,6 +185,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Unisharp\Setting\SettingServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
+        JeroenNoten\LaravelCkEditor\ServiceProvider::class,
     ],
 
     /*

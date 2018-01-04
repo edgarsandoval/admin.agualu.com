@@ -50,6 +50,9 @@
             <div class="card">
                 <div class="card-header bg-white">
                     {{ $product->name . ' - ' . $product->short_description }}
+                    @role('admin')
+                        <a href="{{ route('edit_product', $product->id) }}" class="btn btn-default pull-right"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Editar</a>
+                    @endrole
                 </div>
                 <div class="card-block m-t-35">
                     <div class="product-container">
