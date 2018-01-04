@@ -1,25 +1,5 @@
 <div class="row">
     <div class="col-xl-12">
-        {{-- <div class="form-group row m-t-15">
-            <div class="col-12 col-lg-3 text-center text-lg-right">
-                <label class="col-form-label">Imagen de perfil</label>
-            </div>
-            <div class="col-12 col-lg-6 text-center text-lg-left">
-                <div class="fileinput fileinput-new" data-provides="fileinput">
-                    <div class="fileinput-new img-thumbnail text-center">
-                        <img src="{{asset('assets/img/admin.png')}}" data-src="img/admin.png" alt="not found"></div>
-                    <div class="fileinput-preview fileinput-exists img-thumbnail"></div>
-                    <div class="m-t-20 text-center">
-                                    <span class="btn btn-primary btn-file">
-                                    <span class="fileinput-new">Cambiar imagen</span>
-                                    <span class="fileinput-exists">Cambiar</span>
-                                    <input type="file" name="...">
-                                    </span>
-                        <a href="#" class="btn btn-warning fileinput-exists" data-dismiss="fileinput">Eliminar</a>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
         <div class="form-group row m-t-25">
             <div class="col-12 col-lg-3 text-lg-right">
                 <label for="u-name" class="col-form-label">Nombre *</label>
@@ -193,23 +173,21 @@
         </div>
         <div class="form-group row">
             <div class="col-12 col-lg-3 text-lg-right">
+                <label for="u-name" class="col-form-label">CLABE interbancaria</label>
+            </div>
+            <div class="col-12 col-xl-6 col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-credit-card text-primary"></i></span>
+                    {!! Form::text('clabe', null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-lg-3 text-lg-right">
                 <label class="col-form-label">Rango</label>
             </div>
            <div class="col-12 col-xl-6 col-lg-8">
                 {{ Form::select('range_id', $ranges, null, ['class' => 'form-control']) }}
-           </div>
-       </div>
-       <div class="form-group gender_message row">
-           <div class="col-12 col-lg-3 text-lg-right">
-               <label class="col-form-label">Cliente preferente</label>
-           </div>
-           <div class="col-12 col-xl-6 col-lg-8">
-               <div class="custom-controls-stacked">
-                   <label class="custom-control custom-checkbox">
-                       {{ Form::checkbox('preferential', 1, null, ['class' => 'custom-control-input']) }}
-                       <span class="custom-control-indicator"></span>
-                   </label>
-               </div>
            </div>
        </div>
        <div class="form-group row">

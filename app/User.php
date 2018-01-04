@@ -35,8 +35,8 @@ class User extends Authenticatable
         'suburb',
         'postal_code',
         'range_id',
-        'preferential',
         'budget',
+        'clabe',
         'user_id',
         'machine_id'
     ];
