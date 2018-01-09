@@ -49,7 +49,7 @@
                             <table class="table  table-striped table-bordered table-hover dataTable no-footer" id="editable_table" role="grid">
                                 <thead>
                                     <tr role="row">
-                                        <th class="sorting_asc wid-20" tabindex="0" rowspan="1" colspan="1">Código de Usuario</th>
+                                        <th class="sorting_asc wid-20" tabindex="0" rowspan="1" colspan="1">No. miembro</th>
                                         <th class="sorting wid-25" tabindex="0" rowspan="1" colspan="1">Nombre(s)</th>
                                         <th class="sorting wid-10" tabindex="0" rowspan="1" colspan="1">Apellido</th>
                                         @role('admin')
@@ -63,7 +63,7 @@
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr role="row" class="even" data-id={{ $user->id }}>
-                                            <td class="sorting_1">{{ $user->member_code }}</td>
+                                            <td class="sorting_1">{{ $user->id }}</td>
                                             <td>{{ $user->first_name }}</td>
                                             <td>{{ $user->last_name }}</td>
                                             @role('admin')
@@ -85,8 +85,11 @@
                                                 @can('Eliminar Usuarios')
                                                     <a class="delete hidden-xs hidden-sm btn-delete" data-toggle="tooltip" data-placement="top" title="Eliminar" href="#">
                                                         <i class="fa fa-trash text-danger"></i>
-                                                    </a>
+                                                    </a>&nbsp; &nbsp;
                                                 @endcan
+                                                <a href="{{ route('network', $user->id ) }}" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver red">
+                                                    <i class="fa fa-sitemap text-default"></i>
+                                                </a>&nbsp; &nbsp;
                                             </td>
                                         </tr>
                                     @endforeach

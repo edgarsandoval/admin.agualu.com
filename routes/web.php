@@ -25,7 +25,7 @@ Route::group(['prefix' => 'usuarios'], function() {
     Route::get('ticket/{id}', 'OpenpayController@ticket')->name('stores_ticket');
     Route::get('directorio', 'UserController@directory')->name('user_directory');
     Route::get('ver_ganancias/{id?}', 'UserController@earnings')->name('earnings');
-    Route::get('ver_red', 'UserController@network')->name('network');
+    Route::get('ver_red/{id?}', 'UserController@network')->name('network');
     Route::get('ver_historial/{period?}/{id?}', 'UserController@history')->name('history');
     Route::get('{id}', 'UserController@show')->name('view_user');
 });
