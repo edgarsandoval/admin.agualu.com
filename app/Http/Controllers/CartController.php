@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Helpers\Response;
+use App\Order;
 use App\Product;
 use Cart;
 
@@ -48,13 +49,21 @@ class CartController extends Controller {
     public function process(Request $request) {
         $cart = Cart::getContent();
         $subtotal = number_format(Cart::getSubTotal(), 2);
-        $balance = Auth::user()->budget -= $subtotal;
+        $user = Auth::user();
 
-        Auth::user()->save();
+        $balance = $user->budget -= $subtotal;
+        $user->save();
+
+        $order = Order::create([
+            'user_id'       => $user->id,
+            'full_name'     => $user->fullName,
+            'address'       => $user->address,
+            'amount'        => $subtotal
+        ]);
 
         Cart::clear();
 
         return response()->json(Response::set(true, 'El producto se ha eliminado del carrito exitosamente', compact('subtotal', 'balance', 'total')));
-    
+
     }
 }
