@@ -160,13 +160,17 @@ class UserController extends Controller {
         return view('users.budget');
     }
 
-    public function network() {
+    public function network($id = null) {
         $network = [];
         $machinesId = [];
 
         $queue = new \SplQueue();
 
-        $user = Auth::user();
+        if(is_null($id))
+            $user = Auth::user();
+        else
+            $user = User::find($id);
+
         $user->parentId = null;
         $user->level    = 1;
 
