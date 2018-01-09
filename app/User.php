@@ -129,5 +129,17 @@ class User extends Authenticatable
 
     public function getFullNameAttribute() {
        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
-   }
+    }
+
+    public function getAddressAttribute() {
+        return trim(sprintf('Calle %s No. %s %s, Col. %s, CP. %s, %s, %s',
+            $this->street,
+            $this->outdoor_number,
+            ((is_null($this->indoor_number)) ? '' : 'Int. ' . $this->indoor_number),
+            $this->suburb,
+            $this->postal_code,
+            $this->city->name,
+            $this->state->name
+        ));
+    }
 }
