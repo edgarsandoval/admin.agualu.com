@@ -66,7 +66,6 @@ Route::group(['prefix' => 'productos'], function() {
 Route::group(['prefix' => 'openpay'], function() {
     Route::post('card', 'OpenpayController@card')->name('card_payment');
     Route::post('stores', 'OpenpayController@stores')->name('stores_payment');
-    Route::post('webhook', 'OpenpayController@webhook')->name('webhook');
 });
 
 Route::group(['prefix' => 'carrito'], function() {

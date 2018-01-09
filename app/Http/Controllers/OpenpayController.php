@@ -42,15 +42,9 @@ class OpenpayController extends Controller {
             return redirect()->route('view_user', ['id' => $user->id]);
         }
         catch(\OpenpayApiTransactionError $e) {
-            // die('ERROR on the transaction: ' . $e->getMessage() .
-            // 	      ' [error code: ' . $e->getErrorCode() .
-            // 	      ', error category: ' . $e->getCategory() .
-            // 	      ', HTTP code: '. $e->getHttpCode() .
-            // 	      ', request ID: ' . $e->getRequestId() . ']');
             return back()->withErrors(['msg' => $this->_mapCodeError($e->getErrorCode())]);
         }
         catch (\OpenpayApiRequestError $e) {
-        //    die('ERROR on the request: ' . $e->getMessage());
             return back()->withErrors(['msg' => 'Hubo un error con el servidor, intenta más tarde.']);
         }
     }
@@ -114,7 +108,36 @@ class OpenpayController extends Controller {
     public function webhook() {
         $body = @file_get_contents('php://input');
         $data = json_decode($body);
-        http_response_code(200); // Return 200 OK
+
+        switch ($data->type) {
+            case 'verification':
+				$codigo = $data->verification_code;
+				file_put_contents('codigo.txt', $codigo);
+				header("HTTP/1.1 200 OK");
+				break;
+
+            case 'charge.succeeded':
+
+                $charge = $this->openpay->charges->get($data->transaction->id);
+                $email = $charge->customer->email;
+
+                $user = User::where('email', $email)->first();
+
+                if(!is_null($user)) {
+                    $user->budget += floatval($data->transaction->amount);
+                    $user->save();
+
+                    //TODO Send an email confirmation, thanks for your 
+                }
+
+            	header("HTTP/1.1 200 OK");
+                break;
+
+            default:
+                # code...
+                break;
+        }
+        // http_response_code(200); // Return 200 OK
     }
 
 }

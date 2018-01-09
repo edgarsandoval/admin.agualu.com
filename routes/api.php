@@ -21,6 +21,8 @@ Route::get('test',function(){
     return response([1,2,3,4],200);
 });
 
+Route::post('webhook', 'OpenpayController@webhook')->name('webhook');
+
 Route::get('test_mail', 'APIController@testMail');
 
 
