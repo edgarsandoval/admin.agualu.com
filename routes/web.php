@@ -26,7 +26,6 @@ Route::group(['prefix' => 'usuarios'], function() {
     Route::get('directorio', 'UserController@directory')->name('user_directory');
     Route::get('ver_ganancias/{id?}', 'UserController@earnings')->name('earnings');
     Route::get('ver_red/{id?}', 'UserController@network')->name('network');
-    Route::get('ver_historial/{period?}/{id?}', 'UserController@history')->name('history');
     Route::get('{id}', 'UserController@show')->name('view_user');
 });
 
@@ -40,6 +39,14 @@ Route::group(['prefix' => 'rangos'], function() {
     Route::get('{id}/editar', 'RangeController@edit')->name('edit_range');
     Route::put('{id}', 'RangeController@update')->name('update_range');
     Route::delete('{id}', 'RangeController@destroy')->name('delete_range');
+});
+
+Route::group(['prefix' => 'pedidos'], function() {
+    Route::get('/', 'OrderController@index')->name('orders');
+    Route::get('ver_historial', 'OrderController@history')->name('history');
+    Route::get('{id}', 'OrderController@show')->name('view_order');
+    Route::get('{id}/editar', 'OrderController@edit')->name('edit_order');
+    Route::put('{id}', 'OrderController@update')->name('update_order');
 });
 
 Route::group(['prefix' => 'maquinas'], function() {

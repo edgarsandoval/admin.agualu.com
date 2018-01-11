@@ -260,3 +260,38 @@ h3 {
         margin-top: 0 !important;
     }
 }
+
+
+table.table,
+.card-block {
+    .label {
+        line-height: inherit!important;
+        display: inline;
+        padding: .2em .6em .3em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25em;
+    }
+
+    span.label-sm {
+        font-size: 100%;
+        vertical-align: bottom;
+    }
+
+    .label-success {
+        background-color: #01bc8c;
+    }
+
+    .label-warning {
+        background-color: #f89a14;
+    }
+
+    .label-danger {
+        background-color: #ef6f6c;
+    }
+}

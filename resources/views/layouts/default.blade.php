@@ -60,6 +60,8 @@ z-index: 999999">
                     </span>
                 </div>
                 <div class="topnav dropdown-menu-right float-right">
+                    @role('partner')
+
                     <div class="btn-group">
                         <a class="btn btn-default btn-sm toggle-right" href="{{ route('cart') }}" data-toggle="tooltip" data-placement="bottom" title="Ir al carrito">
                             &nbsp;
@@ -67,6 +69,8 @@ z-index: 999999">
                             &nbsp;
                         </a>
                     </div>
+
+                    @endrole
                     <div class="btn-group">
                         <div class="user-settings no-bg">
                             <button type="button" class="btn btn-default no-bg micheal_btn" data-toggle="dropdown">
@@ -80,10 +84,21 @@ z-index: 999999">
                                     <br> <small>$ {{ number_format(Auth::user()->budget, 2) }}</small>
                                     @endrole
                                 </a>
-                                <a class="dropdown-item" href="{{ route('budget')}}" ><i class="fa fa-money"></i>
-                                    Abonar Saldo</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i>
-                                    Salir</a>
+                                @role('partner')
+
+                                <a class="dropdown-item" href="{{ route('budget')}}" >
+                                    <i class="fa fa-money"></i> Abonar Saldo
+                                </a>
+                                <a class="dropdown-item" href="{{ route('history')}}" >
+                                    <i class="fa fa-archive"></i> Historial de pedidos
+                                </a>
+                                <a class="dropdown-item" href="{{ route('history')}}" >
+                                    <i class="fa fa-archive"></i> Historial de pedidos
+                                </a>
+
+                                @endrole
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-sign-out"></i> Salir</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
                             </div>
                         </div>

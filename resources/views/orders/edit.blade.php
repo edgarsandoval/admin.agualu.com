@@ -2,7 +2,7 @@
 
 {{-- Page title --}}
 @section('title')
-    Editar Rango
+    Editar Pedido
     @parent
 @stop
 {{-- page level styles --}}
@@ -22,7 +22,7 @@
                 <div class="col-lg-6">
                     <h4 class="nav_top_align skin_txt">
                         <i class="fa fa-pencil"></i>
-                        Editar Rango
+                        Editar Pedido
                     </h4>
                 </div>
                 <div class="col-lg-6">
@@ -33,9 +33,9 @@
                             </a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="#">Rangos</a>
+                            <a href="#">Pedidos</a>
                         </li>
-                        <li class="breadcrumb-item active">Editar Rango</li>
+                        <li class="breadcrumb-item active">Editar Pedido</li>
                     </ol>
                 </div>
             </div>
@@ -45,11 +45,22 @@
         <div class="inner bg-container">
             <div class="card">
                 <div class="card-block m-t-25">
-                    <div>
-                        <h4>Información Personal</h4>
-                    </div>
-                    {!! Form::model($range, ['route' => ['update_range', $range->id], 'method' => 'PUT', 'id' => 'tryitForm', 'class' => 'form-horizontal login_validator'])!!}
-                        @include('partials.range-form')
+                    {!! Form::model($order, ['route' => ['update_order', $order->id], 'method' => 'PUT', 'id' => 'tryitForm', 'class' => 'form-horizontal login_validator'])!!}
+                        <div class="form-group row">
+                            <div class="col-12 col-lg-3 text-lg-right">
+                                <label class="col-form-label">Estado del pedido</label>
+                            </div>
+                            <div class="col-12 col-xl-6 col-lg-8">
+                                {{ Form::select('status', $status, null, ['class' => 'form-control']) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 col-lg-9 push-lg-3">
+                                <button class="btn btn-primary" type="submit">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
                     {!! Form::close() !!}
                 </div>
             </div>

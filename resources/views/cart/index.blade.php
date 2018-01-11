@@ -145,7 +145,13 @@ $(document).ready(function() {
             cancelButtonText: 'No',
         }).then(function() {
             $.post('{{ route('cart_process') }}', null, function(response) {
-                window.location.href = '{{ route('products') }}';
+                if(response.status) {
+                    swal('Pedido completado', response.message, 'success').then((value) => {
+                        window.location.href = '{{ route('history') }}';
+                    });
+                } else {
+                    swal('Oh, oh...', response.message, 'error');
+                }
             });
         }, function (dismiss) {
             if (dismiss === 'cancel') {

@@ -51,27 +51,30 @@ class CartController extends Controller {
         $subtotal = number_format(Cart::getSubTotal(), 2);
         $user = Auth::user();
 
-        $order = Order::create([
-            'user_id'       => $user->id,
-            'full_name'     => $user->fullName,
-            'address'       => $user->address,
-            'amount'        => $subtotal
-        ]);
-
-        foreach ($cart as $item) {
-            $product = Product::where('sku', $item->id)->first();
-            $order->products()->attach($product, [
-                'price' => $item->price,
-                'quantity'=> $item->quantity
+        try {
+            $order = Order::create([
+                'user_id'       => $user->id,
+                'full_name'     => $user->fullName,
+                'address'       => $user->address,
+                'amount'        => $subtotal
             ]);
+
+            foreach ($cart as $item) {
+                $product = Product::where('sku', $item->id)->first();
+                $order->products()->attach($product, [
+                    'price' => $item->price,
+                    'quantity'=> $item->quantity
+                ]);
+            }
+
+            $balance = $user->budget -= $subtotal;
+            $user->save();
+
+            Cart::clear();
+
+            return response()->json(Response::set(true, 'Pedido creado correctamente', compact('order')));
+        } catch(\Ecxeption $e) {
+            return response()->json(Response::set(false, 'Hubo un error en el servidor'));
         }
-
-        $balance = $user->budget -= $subtotal;
-        $user->save();
-
-        Cart::clear();
-
-        return response()->json(Response::set(true, 'El producto se ha eliminado del carrito exitosamente', compact('subtotal', 'balance', 'total')));
-
     }
 }

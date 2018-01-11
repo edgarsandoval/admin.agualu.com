@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('full_name');
             $table->string('address');
             $table->decimal('amount', 10, 2);
+            $table->enum('status', ['En proceso', 'Completado', 'Cancelado']);
             $table->timestamps();
         });
 

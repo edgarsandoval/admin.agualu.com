@@ -142,4 +142,8 @@ class User extends Authenticatable
             $this->state->name
         ));
     }
+
+    public function orders() {
+        return $this->hasMany('App\Order');
+    }
 }
