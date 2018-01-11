@@ -341,6 +341,10 @@ class UserController extends Controller {
 
     }
 
+    public function accountStatements() {
+        return 'Pending';
+    }
+
     private function _parseMonth($month) {
         return $this->translatedMonths[$month];
     }

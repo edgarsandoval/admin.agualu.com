@@ -92,7 +92,7 @@ z-index: 999999">
                                 <a class="dropdown-item" href="{{ route('history')}}" >
                                     <i class="fa fa-archive"></i> Historial de pedidos
                                 </a>
-                                <a class="dropdown-item" href="{{ route('history')}}" >
+                                <a class="dropdown-item" href="{{ route('accountStatements')}}" >
                                     <i class="fa fa-file-text"></i> Estados de cuenta
                                 </a>
 

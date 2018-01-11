@@ -26,6 +26,7 @@ Route::group(['prefix' => 'usuarios'], function() {
     Route::get('directorio', 'UserController@directory')->name('user_directory');
     Route::get('ver_ganancias/{id?}', 'UserController@earnings')->name('earnings');
     Route::get('ver_red/{id?}', 'UserController@network')->name('network');
+    Route::get('estados_cuenta', 'UserController@accountStatements')->name('accountStatements');
     Route::get('{id}', 'UserController@show')->name('view_user');
 });
 

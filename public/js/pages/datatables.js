@@ -5,7 +5,7 @@ $(document).ready(function() {
         dom: "<'text-right'B><f>lr<'table-responsive't><'row'<'col-md-5 col-12'i><'col-md-7 col-12'p>>",
         buttons: [],
         language: {
-            url: 'DatatablesSpanish.json'
+            url: 'http://admin.agualu.com/DatatablesSpanish.json'
         }
     });
     var tableWrapper = $("#editable_table_wrapper");
