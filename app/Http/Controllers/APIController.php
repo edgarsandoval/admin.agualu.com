@@ -304,8 +304,7 @@ class APIController extends Controller {
         if(is_null($user))
             return response()->json(Response::set(false, 'El usuario no ha sidodo encontrada'));
 
-        $user->budget += $request->input('amount');
-        $user->save();
+        $user->addPayment('Abono a monedero en máquna dispensadora', $request->input('amount'));
 
         return response()->json(Response::set(true, 'Abono Completado', ['money' => $user->budget]));
     }
@@ -370,7 +369,7 @@ class APIController extends Controller {
         // After that, for each user in the network we'll deposit its earnings on its respective virtual wallets.
         $users = User::all();
         foreach ($users as $user) {
-            $user->budget += $user->current_earnings;
+            $user->addPayment('Ganancias por red multinivel - PERIODO ' . $data['period'], $user->current_earnings);
             $user->current_earnings = 0;
             $user->save();
         }

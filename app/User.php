@@ -138,9 +138,41 @@ class User extends Authenticatable
             ((is_null($this->indoor_number)) ? '' : 'Int. ' . $this->indoor_number),
             $this->suburb,
             $this->postal_code,
-            $this->city->name,
+            ((!isset($this->city->name)) ? '' : $this->city->name),
             $this->state->name
         ));
+    }
+
+    public function addCharge($description, $amount) {
+        $newBalance = floatval($this->budget) - floatval($amount);
+        $transaction = Transaction::create([
+            'description'       => $description,
+            'user_id'           => $this->id,
+            'previous_balance'  => $this->budget,
+            'charge'            => $amount,
+            'actual_balance'    => $newBalance,
+        ]);
+
+        $this->budget = $newBalance;
+        $this->save();
+
+        return $transaction;
+    }
+
+    public function addPayment($description, $amount) {
+        $newBalance = floatval($this->budget) + floatval($amount);
+        $transaction = Transaction::create([
+            'description'       => $description,
+            'user_id'           => $this->id,
+            'previous_balance'  => $this->budget,
+            'payment'           => $amount,
+            'actual_balance'    => $newBalance,
+        ]);
+
+        $this->budget = $newBalance;
+        $this->save();
+
+        return $transaction;
     }
 
     public function orders() {

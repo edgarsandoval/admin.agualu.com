@@ -35,9 +35,6 @@ class OpenpayController extends Controller {
 
         try {
             $charge = $this->openpay->charges->create($chargeData);
-            // This only will be available in the TEST stage
-            $user->budget += (float) $request->input('amount');
-            $user->save();
 
             return redirect()->route('view_user', ['id' => $user->id]);
         }
@@ -124,10 +121,10 @@ class OpenpayController extends Controller {
                 $user = User::where('email', $email)->first();
 
                 if(!is_null($user)) {
-                    $user->budget += floatval($data->transaction->amount);
+                    $user->addPayment('Abono a monedero por medio de plataforma', $data->transaction->amount);
                     $user->save();
 
-                    //TODO Send an email confirmation, thanks for your 
+                    //TODO Send an email confirmation, thanks for your
                 }
 
             	header("HTTP/1.1 200 OK");

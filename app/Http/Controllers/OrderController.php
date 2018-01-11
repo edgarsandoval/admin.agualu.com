@@ -65,12 +65,12 @@ class OrderController extends Controller
 
         if($order->status == 'Cancelado') {
             $user = $order->user;
-            $user->budget += floatval($order->amount);
-            $user->save();
+
+            $user->addPayment('Reembolso por cancelación de pedido - PEDIDO NO.' . $id, floatval($order->amount));
 
             return redirect()->route('orders')
             ->with('success_message', '¡Pedido #' . $order->id . ' editado correctamente!')
-            ->with('info_message', 'Se ha realizado la devolución correspondiente de puntos al asociado');
+            ->with('info_message', 'Se ha realizado el reembolso de puntos correspondiente al asociado');
         }
 
         return redirect()->route('orders')

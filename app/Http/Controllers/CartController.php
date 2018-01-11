@@ -67,8 +67,7 @@ class CartController extends Controller {
                 ]);
             }
 
-            $balance = $user->budget -= $subtotal;
-            $user->save();
+            $user->addCharge('Compra en tienda virtual - PEDIDO NO. ' . $order->id, $subtotal);
 
             Cart::clear();
 
