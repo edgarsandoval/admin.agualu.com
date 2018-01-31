@@ -51,6 +51,7 @@ Route::group(['prefix' => 'pedidos'], function() {
 });
 
 Route::group(['prefix' => 'maquinas'], function() {
+    Route::get('reportes', 'MachineController@reports')->name('machine_reports');
     Route::get('/', 'MachineController@index')->name('machines');
     Route::get('crear', 'MachineController@create')->name('add_machine');
     Route::post('/', 'MachineController@store')->name('store_machine');

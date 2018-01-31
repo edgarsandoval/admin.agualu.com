@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Machine;
+use App\Report;
 
 
 class MachineController extends Controller {
@@ -97,8 +98,12 @@ class MachineController extends Controller {
                 'class'     => 'error'
             ]);
         }
+    }
 
+    public function reports() {
+        $machines   = Machine::all();
+        $reports    = Report::all();
 
-
+        return view('machines.reports', compact('machines', 'reports'));
     }
 }

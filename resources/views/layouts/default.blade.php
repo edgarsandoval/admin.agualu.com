@@ -218,6 +218,12 @@ z-index: 999999">
                             &nbsp; Añadir Máquina
                         </a>
                     </li>
+                    <li {!! (Request::is('maquinas/reportes')? 'class="active"':"") !!}>
+                        <a href="{{ route('machine_reports')}} ">
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp; Reporte de máquina
+                        </a>
+                    </li>
                     @endrole
                 </ul>
             </li>
