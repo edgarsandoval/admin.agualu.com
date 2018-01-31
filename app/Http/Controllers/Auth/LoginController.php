@@ -45,4 +45,8 @@ class LoginController extends Controller
    public function username() {
        return 'id';
    }
+
+   protected function getFailedLoginMessage() {
+       return 'what you want here.';
+   }
 }

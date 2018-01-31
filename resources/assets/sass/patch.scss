@@ -3,6 +3,16 @@ $dark--primary--color: #0c909e;
 $light--primary--color: #18bfd1;
 
 @import './openpay.scss';
+@import './alert-messages.scss';
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('../fonts/Ubuntu-R.ttf');
+}
+
+*:not(.fa) {
+    font-family: 'Ubuntu' !important;
+}
 
 .login_top_bottom {
     .alert {
