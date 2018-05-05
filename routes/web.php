@@ -50,6 +50,9 @@ Route::group(['prefix' => 'pedidos'], function() {
     Route::put('{id}', 'OrderController@update')->name('update_order');
 });
 
+Route::get('reports/{id}', 'UserController@showReport');
+Route::post('reports', 'UserController@calculate');
+
 Route::group(['prefix' => 'maquinas'], function() {
     Route::get('reportes', 'MachineController@reports')->name('machine_reports');
     Route::get('/', 'MachineController@index')->name('machines');

@@ -11,6 +11,7 @@ use App\State;
 use App\Range;
 use App\Commission;
 use App\Report;
+use App\Machine;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -347,6 +348,21 @@ class UserController extends Controller {
 
     private function _parseMonth($month) {
         return $this->translatedMonths[$month];
+    }
+
+    public function showReport($id) {
+        $report = Report::findOrFail($id);
+
+        return response()->json(Response::set(true, null, compact('report')));
+    }
+
+    public function calculate(Request $request) {
+        $machine = Machine::find($request->input('machine_id'));
+        $period = Report::find($request->input('period_id'));
+
+        $amount = $machine->sales()->whereBetween('created_at', [ $period->from, $period->to])->sum('amount');
+
+        return response()->json(Response::set(true, null, compact('amount')));
     }
 
     private function _parseOrgChartNodeModel($node) {
