@@ -61,6 +61,7 @@
                                     <option disabled selected hidden>Selecciona un método de pago...</option>
                                     <option value="1">Tarjeta de débito/crédito</option>
                                     <option value="2">Tiendas de conveniencia</option>
+                                    <option value="3">Oxxo PAY</option>
                                 </select>
                             </div>
                         </div>
@@ -160,6 +161,38 @@
                                                 <div class="col-md-6"></div>
                                     			<div class="col-md-6 openpay">
                                     				<form action="{{ route('stores_payment') }}" method="POST">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="amount" class="amount-field" value="50">
+                                                            <h3>Cantidad a pagar: </h3>
+                        									<p>$ 50.00 MXN</p>
+                                                            <input type="submit" value="Crear Recibo" class="btn btn-aqua">
+                                    				</form>
+                                    			</div>
+                                    		</div>
+                                    	</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="method" data-method="3">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div id="pagos" class="container_full">
+                                    	<div class="container" style="padding-left:30px;">
+                                    		<div class="sixteen columns">
+                                    			<h2 style="font-size:28px; color:#0089AC; text-align:center; line-height:36px; margin-top:20px;">
+                                    				Podrás pagar en cualquiera de las siguientes tiendas.
+                                    			</h2>
+                                    		</div>
+                                            <div class="row brands-container">
+                                                <div class="col-md-3" style="margin-bottom: 10px;">
+                                                    <img class="img-thumbnail" src="https://upload.wikimedia.org/wikipedia/commons/6/66/Oxxo_Logo.svg" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6"></div>
+                                    			<div class="col-md-6 openpay">
+                                    				<form action="{{ route('oxxo_pay') }}" method="POST">
                                                             {{ csrf_field() }}
                                                             <input type="hidden" name="amount" class="amount-field" value="50">
                                                             <h3>Cantidad a pagar: </h3>

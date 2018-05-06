@@ -80,6 +80,11 @@ Route::group(['prefix' => 'openpay'], function() {
     Route::post('stores', 'OpenpayController@stores')->name('stores_payment');
 });
 
+Route::group(['prefix' => 'conekta'], function() {
+    Route::post('payment', 'ConektaController@payment')->name('oxxo_pay');
+    Route::get('ticket', 'ConektaController@ticket')->name('oxxo_ticket');
+});
+
 Route::group(['prefix' => 'carrito'], function() {
     Route::get('/', 'CartController@index')->name('cart');
     Route::post('add', 'CartController@add')->name('cart_add');

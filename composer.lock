@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd93837018badbd7585ec6002d427ead",
+    "content-hash": "74ca52e7e4e7e0f66dc61313796c1560",
     "packages": [
         {
             "name": "barryvdh/laravel-cors",
@@ -170,6 +170,54 @@
                 "youtube"
             ],
             "time": "2016-11-17T07:57:49+00:00"
+        },
+        {
+            "name": "conekta/conekta-php",
+            "version": "v4.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/conekta/conekta-php.git",
+                "reference": "c9597ab369b55483f39975c77c63de2a294209e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/conekta/conekta-php/zipball/c9597ab369b55483f39975c77c63de2a294209e2",
+                "reference": "c9597ab369b55483f39975c77c63de2a294209e2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "~7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/Conekta/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Conekta  and contributors",
+                    "homepage": "https://github.com/conekta/conekta-php/contributors"
+                }
+            ],
+            "description": "Conekta PHP Library",
+            "homepage": "https://www.conekta.io/",
+            "keywords": [
+                "api",
+                "conekta",
+                "payment processing"
+            ],
+            "time": "2018-04-24T20:54:41+00:00"
         },
         {
             "name": "darryldecode/cart",
